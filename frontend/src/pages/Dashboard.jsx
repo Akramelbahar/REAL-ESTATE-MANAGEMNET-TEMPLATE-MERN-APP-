@@ -44,8 +44,8 @@ function Dashboard() {
     <>
       <ToggleTheme />
       <Navbar btnLogin={"none"} isDashboard={true} btnSignup={"none"} />
-      <div className='container flex my-4 flex-row w-full content-center justify-between flex-nowrap overflow-hidden h-[80vh]'>
-        <div className='w-full mt-3 mb-1 mx-2 bg-base-200 rounded overflow-y-scroll md:w-3/4'>
+      <div className='container flex md:my-4 flex-row w-full content-center justify-between flex-nowrap overflow-hidden h-[80vh]'>
+        <div className='w-full mt-3 mb-1 md:mx-2 bg-base-200 rounded overflow-y-scroll md:w-3/4'>
           {Role === "user" ? (
             <UserDashboard auth={authToken} />
           ) : (

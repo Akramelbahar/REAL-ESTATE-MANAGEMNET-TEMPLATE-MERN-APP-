@@ -8,7 +8,7 @@ import Carousel from '../components/Carousselle';
 import axios from 'axios';
 import { UserRole } from '../components/UserRole';
 import { useLocation } from 'react-router-dom';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -29,8 +29,6 @@ function EditAd() {
     const [Pictures, setPictures] = useState([]);
     const [Html, setHtml] = useState(<Carousel items={[]} />);
     const [Post, setPost] = useState(false);
-    const [AlertState, setAlertState] = useState("hidden");
-    const [Response, setResponse] = useState(""); 
 
 
     const navigate = useNavigate();
@@ -97,25 +95,18 @@ function EditAd() {
           withCredentials: true,
         });
         if (response.status === 200) {
-          setResponse(response.data.message);
-          setAlertState("transition duration-150 ease-out alert-success");
+          toast.success(response.data.message);
   
           setTimeout(() => {
             setPost(true);
           }, 10);
         } else {
-          setResponse("Erreur en validation de vos info");
-          setAlertState("transition duration-150 ease-out alert-error");
-          setTimeout(() => {
-            setAlertState("transition duration-150 ease-out hidden");
-          }, 6000);
+          toast.success("Erreur en validation de vos info");
+         
         }
       } catch (error) {
-        setResponse("Erreur en validation de vos info");
-        setAlertState("transition duration-150 ease-out alert-error");
-        setTimeout(() => {
-          setAlertState("hidden");
-        }, 6000);
+        toast.error("Erreur en validation de vos info");
+        
       }
     };
   
@@ -170,12 +161,7 @@ function EditAd() {
       <ToggleTheme />
       <Navbar btnLogin={"none"} btnSignup={"none"} />
       <div className='relative xl:mx-12 xl:my-4 lg:mx-8 lg:my-4 md:mx-6 md:my-3 sm:mx-8 sm:my-2 my-2 mx-4 min-h-screen rounded-md shadow-xl ring p-4 bg-base-300'>
-        <div role="alert" className={"alert absolute top-2 right-2 w-4/6 z-99 " + AlertState}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <span>{Response}</span>
-        </div>
+       
         <div role="alert" className="alert m-3 space-y-2 block">
           <h3 className='block text-xl dark:text-white text-bold font-bold'>Modifier Votre Advertisement : </h3>
           <span className='block'>Grâce à ces informations les acheteurs peuvent trouver votre annonce plus facilement</span>
@@ -220,6 +206,7 @@ function EditAd() {
         <button className="btn md:w-1/4 mx-3 btn-accent w-4/10 block ms-auto" onClick={publish}>Publier l'annonce</button>
       </div>
       <Footer />
+      <Toaster />
     </>
   )
 }

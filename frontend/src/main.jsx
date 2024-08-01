@@ -42,7 +42,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </a>
           } />
         </Routes>
+        
       </BrowserRouter>
+      
     </AuthProvider>
+
 
 );

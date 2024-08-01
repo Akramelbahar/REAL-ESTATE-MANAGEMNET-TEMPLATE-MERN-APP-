@@ -6,8 +6,10 @@ import "../index.css";
 import Footer from '../components/Footer';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-
+import toast, { Toaster } from 'react-hot-toast';
 function SignUp() {
+
+
     const navigate = useNavigate();
     const {
         authToken, 
@@ -22,8 +24,7 @@ function SignUp() {
     const [Password, setPassword] = useState('');
     const [ConfirmPassword, setConfirmPassword] = useState('');
     const [Role, setRole] = useState('0');
-    const [alertType, setAlert] = useState('alert_hidden');
-    const [Response, setResponse] = useState("");
+
 
     const submitData = async (event) => {
         event.preventDefault();
@@ -41,35 +42,27 @@ function SignUp() {
             if (response.status === 201) {
                 console.log("UserCreated:", JSON.stringify(response.data));
                 const userId = response.data.user._id;
-
-                setResponse(`UserCreated: ${userId}`);
-                setAlert("alert-success alert_display");
+                toast.success(`UserCreated: ${userId}`);
                 localStorage.setItem("token", response.data.token);
                 setAuthToken(response.data.token);
                 setIsLoggedIn(true);
-                setTimeout(() => {
-                    setAlert("alert_hidden");
-                }, 6000);
+                
             } else {
-                setResponse(JSON.stringify(response.data, null, 2)); // Convert the response data to a formatted JSON string
-                setAlert("alert-warning alert_display");
-                setTimeout(() => {
-                    setAlert("alert_hidden");
-                }, 6000);
+                // Convert the response data to a formatted JSON string
+                toast.error(JSON.stringify(response.data, null, 2));
+                
             }
         })
         .catch(function (error) {
             console.error("Error:", error);
-            setAlert("alert-error alert_display");
+           
             if (error.response && error.response.data) {
-                setResponse(JSON.stringify(error.response.data, null, 2));
-                if (error.response.status === 409) setAlert("alert-warning alert_display");
+                toast.error(JSON.stringify(error.response.data, null, 2));
+
             } else {
-                setResponse("Message: We encountered some errors. Please check your inputs and try again.");
+                toast.error("Message: We encountered some errors. Please check your inputs and try again.");
             }
-            setTimeout(() => {
-                setAlert("alert_hidden");
-            }, 6000);
+            
         });
     };
 
@@ -85,23 +78,10 @@ function SignUp() {
                 <ToggleTheme />
                 <Navbar btnSignup="none" btnLogout="none" />
                 <div className='container p-2 mx-auto relative'>
-                    <div role="alert onSubmit Alert" className={`alert absolute right-0 w-2/5 overflow-hidden ${alertType}`}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 shrink-0 stroke-current"
-                            fill="none"
-                            viewBox="0 0 24 24">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span>{Response}</span>
-                    </div>
+                   
                     <form onSubmit={submitData} className='my-7'>
                         <h3 className='text-xl font-bold text-center mb-4'>Créer un compte :</h3>
-                        <div role="alert" className="alert alert-info w-1/2 mx-auto">
+                        <div role="alert" className="alert alert-info md:w-1/2 mx-auto">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -115,17 +95,17 @@ function SignUp() {
                             </svg>
                             <span>En utilisant l'authentification facile, vous pouvez remplir vos données supplémentaires ultérieurement dans les paramètres de votre compte.</span>
                         </div>
-                        <div className="px-14">
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                        <div className="px-4 md:px-14">
+                            <label className="input input-bordered flex items-center gap-2 my-3 md:w-1/2 mx-auto">
                                 <input type="text" className="grow" placeholder="Nom" onChange={(e) => setFirstName(e.target.value)} required />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 md:w-1/2 mx-auto">
                                 <input type="text" className="grow" onChange={(e) => setLastName(e.target.value)} placeholder="Prenom" required />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 md:w-1/2 mx-auto">
                                 <input type="text" className="grow" placeholder="Telephone" onChange={(e) => setPhone(e.target.value)} />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 md:w-1/2 mx-auto">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 16 16"
@@ -139,7 +119,7 @@ function SignUp() {
                                 <input type="text" className="grow" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
                             </label>
 
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 md:w-1/2 mx-auto">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 16 16"
@@ -152,7 +132,7 @@ function SignUp() {
                                 </svg>
                                 <input type="password" className="grow" placeholder="Le mot de passe" onChange={(e) => setPassword(e.target.value)} required />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 md:w-1/2 mx-auto">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 16 16"
@@ -166,16 +146,17 @@ function SignUp() {
                                 <input type="password" className="grow" placeholder="Confirmer le mot de passe" onChange={(e) => setConfirmPassword(e.target.value)} required />
                             </label>
 
-                            <select defaultValue="0" className="select select-primary w-1/2 block my-3 mx-auto" onChange={(e) => setRole(e.target.value)} required>
+                            <select defaultValue="0" className="select select-primary md:w-1/2 block my-3 mx-auto" onChange={(e) => setRole(e.target.value)} required>
                                 <option disabled value="0">Agent ou Utilisateur ?</option>
                                 <option value="agent">Agent</option>
                                 <option value="user">Utilisateur</option>
                             </select>
                         </div>
-                        <button className="btn btn-active btn-primary block my-3 mx-auto">Créer un compte</button>
+                        <button className="btn btn-active btn-primary block my-3 mx-auto" >Créer un compte</button>
                     </form>
                 </div>
                 <Footer />
+                <Toaster />
             </>
         );
     }

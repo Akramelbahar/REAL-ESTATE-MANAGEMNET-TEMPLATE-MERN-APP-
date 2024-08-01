@@ -68,10 +68,10 @@ function AdCard({ ad, edit, token }) {
         <p className="">{ad.rooms} pièces</p>
         <p className="">{ad.seen ? ad.seen.toString() + " Vues" : ""}</p>
         </a>
-        <div className={edit === "true" ? 'flex gap-2' : "hidden"}>
+        <div className={edit === "true" ? ' md:flex  gap-2 ' : "hidden"}>
           
-          <a href={`/ad/edit?id=${ad.id}`}><button className={"btn btn-success"}>Edit</button></a>
-          <button className={"btn btn-warning"} onClick={remove}>Remove</button>
+          <a href={`/ad/edit?id=${ad.id}`}><button className={"btn w-full my-2 md:w-fit md:m-0 btn-success"}>Edit</button></a>
+          <button className={"btn btn-warning w-full my-2 md:w-fit md:m-0"} onClick={remove}>Remove</button>
         </div>
         {RemoveState === 1 ? (
           <>

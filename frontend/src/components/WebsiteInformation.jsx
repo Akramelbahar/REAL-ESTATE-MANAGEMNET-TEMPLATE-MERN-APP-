@@ -40,24 +40,55 @@ function WebsiteInformation() {
       ];
       return (
         <div className="container gap-3 mx-auto sm:p-4 flex flex-col items-center">
-          <div className="stats stats-vertical sm:w-full lg:w-3/4 w-full   shadow">
-     <div className="stat sm:m-5">
+          <div className="stats block sm:w-full lg:w-3/4 w-full   shadow">
+          <div className="stat sm:m-5 block w-[90%]">
     <div className="stat-title">Nos Services</div>
-    <div className="lg:tooltip " data-tip="Accédez à une large sélection d'annonces immobilières mises à jour régulièrement."><div className="text-left stat-value md:text-xl text-base ">Consultation d'Annonces Immobilières</div></div>
-    <div className="lg:tooltip" data-tip="Utilisez notre barre de recherche multicritères pour trouver des biens selon vos besoins spécifiques (type de bien, localisation, prix, surface, nombre de pièces, etc.)."><div className="text-left stat-value md:text-xl text-base ">Recherche Avancée de Biens Immobiliers</div></div>
-    <div className="lg:tooltip" data-tip="Sauvegardez vos annonces préférées pour un accès facile et rapide."><div className="text-left stat-value md:text-xl text-base ">Gestion des Favoris</div></div>
-    <div className="lg:tooltip" data-tip="Communiquez directement avec les agents responsables des annonces via notre système de messagerie interne."><div className="text-left stat-value md:text-xl text-base ">Messagerie Sécurisée</div></div>
-    <div className="lg:tooltip" data-tip="Créez, modifiez et supprimez vos annonces immobilières via une interface intuitive."><div className="text-left stat-value md:text-xl text-base ">Publication et Gestion d'Annonces pour Agents Immobiliers</div></div>
-    <div className="lg:tooltip" data-tip="Consultez les statistiques de vos annonces pour connaître leur performance (vues, contacts, etc.)."><div className="text-left stat-value md:text-xl text-base ">Suivi des Statistiques d'Annonces</div></div>
-    <div className="lg:tooltip" data-tip="Bénéficiez d'une assistance technique pour toute question ou problème lié à l'utilisation du site."><div className="text-left stat-value md:text-xl text-base ">Support Technique et Assistance</div></div>
-    <div className="lg:tooltip" data-tip="Consultez des descriptions détaillées, des galeries de photos et vidéos, ainsi que des informations supplémentaires sur le quartier et les commodités environnantes."><div className="text-left stat-value md:text-xl text-base ">Accès à des Informations Complètes sur les Biens</div></div>
-    
-    
-  </div>
+    <div className="lg:tooltip" data-tip="Accédez à une large sélection d'annonces immobilières mises à jour régulièrement.">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+            -Consultation d'Annonces Immobilières
+        </div>
+    </div>
+    <div className="lg:tooltip" data-tip="Utilisez notre barre de recherche multicritères pour trouver des biens selon vos besoins spécifiques (type de bien, localisation, prix, surface, nombre de pièces, etc.).">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+            -Recherche Avancée de Biens Immobiliers
+        </div>
+    </div>
+    <div className="lg:tooltip" data-tip="Sauvegardez vos annonces préférées pour un accès facile et rapide.">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+            -Gestion des Favoris
+        </div>
+    </div>
+    <div className="lg:tooltip" data-tip="Communiquez directement avec les agents responsables des annonces via notre système de messagerie interne.">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+            -Messagerie Sécurisée
+        </div>
+    </div>
+    <div className="lg:tooltip" data-tip="Créez, modifiez et supprimez vos annonces immobilières via une interface intuitive.">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+           -Publication et Gestion d'Annonces pour Agents Immobiliers
+        </div>
+    </div>
+    <div className="lg:tooltip" data-tip="Consultez les statistiques de vos annonces pour connaître leur performance (vues, contacts, etc.).">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+            -Suivi des Statistiques d'Annonces
+        </div>
+    </div>
+    <div className="lg:tooltip" data-tip="Bénéficiez d'une assistance technique pour toute question ou problème lié à l'utilisation du site.">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+            -Support Technique et Assistance
+        </div>
+    </div>
+    <div className="lg:tooltip" data-tip="Consultez des descriptions détaillées, des galeries de photos et vidéos, ainsi que des informations supplémentaires sur le quartier et les commodités environnantes.">
+        <div className="text-left stat-value md:text-xl text-base break-words whitespace-normal w-full my-5 md:my-0">
+            -Accès à des Informations Complètes sur les Biens
+        </div>
+    </div>
+</div>
+
 
   <div className='sm:flex '>
   <section className="ring m-4 rounded" >
-  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+  <div className="max-w-screen-xl px-4 py-8  mx-auto text-center lg:py-16 lg:px-6">
       <figure className="max-w-screen-md mx-auto">
           <svg className="h-12 mx-auto mb-3 -400 dark:-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
@@ -77,7 +108,7 @@ function WebsiteInformation() {
 </section>
 
 <section className="ring m-4 rounded">
-  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6 break-words whitespace-normal ">
       <figure className="max-w-screen-md mx-auto">
           <svg className="h-12 mx-auto mb-3 -400 dark:-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
@@ -98,7 +129,7 @@ function WebsiteInformation() {
 </div>
 <div className='sm:flex'>
 <section className="ring m-4 sm:w-1/2 rounded">
-  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6 break-words whitespace-normal">
       <figure className="max-w-screen-md mx-auto">
           <svg className="h-12 mx-auto mb-3 -400 dark:-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
@@ -118,7 +149,7 @@ function WebsiteInformation() {
 </section>
 
 <section className="ring sm:w-1/2 m-4 rounded">
-  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6 break-words whitespace-normal">
       <figure className="max-w-screen-md mx-auto">
           <svg className="h-12 mx-auto mb-3 -400 dark:-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
@@ -138,7 +169,7 @@ function WebsiteInformation() {
 </section>
 </div>
 <section className="ring m-4 rounded sm:w-3/4 mx-auto">
-  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+  <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6 break-words whitespace-normal">
       <figure className="max-w-screen-md mx-auto">
           <svg className="h-12 mx-auto mb-3 -400 dark:-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
@@ -161,7 +192,7 @@ function WebsiteInformation() {
  
 </div>
          
-<div className="lg:grid  grid-cols-2 md:grid-cols-3 gap-4">
+<div className="md:grid flex flex-col justify-center items-center content-center grid-cols-2  md:grid-cols-3 gap-4">
         {blogPosts.map((post, index) => (
           <div key={index} className="card md:my-4 md:mx-auto bg-base-100 w-3/4 lg:w-80  shadow-xl">
             <div className="card-body">

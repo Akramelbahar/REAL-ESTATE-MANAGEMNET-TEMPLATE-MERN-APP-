@@ -7,6 +7,7 @@ import ToggleTheme from '../components/ToggleTheme';
 import Carousel from '../components/Carousselle';
 import axios from 'axios';
 import { UserRole } from '../components/UserRole';
+import toast, { Toaster } from 'react-hot-toast';
 function InsertAd() {
   const navigate = useNavigate();
   const { authToken } = useAuth();
@@ -59,25 +60,16 @@ function InsertAd() {
         withCredentials: true,
       });
       if (response.status === 201) {
-        setResponse("Votre advertisement a été publié");
-        setAlertState("transition duration-150 ease-out alert-success");
-
+        toast.success("Votre advertisement a été publié");
         setTimeout(() => {
           setPost(true);
-        }, 6000);
+        }, 150);
       } else {
-        setResponse("Erreur en validation de vos info");
-        setAlertState("transition duration-150 ease-out alert-error");
-        setTimeout(() => {
-          setAlertState("transition duration-150 ease-out hidden");
-        }, 6000);
+        toast.error("Erreur en validation de vos info");
+        
       }
     } catch (error) {
-      setResponse("Erreur en validation de vos info");
-      setAlertState("transition duration-150 ease-out alert-error");
-      setTimeout(() => {
-        setAlertState("hidden");
-      }, 6000);
+      toast.error("Erreur en validation de vos info");
     }
   };
 
@@ -181,6 +173,7 @@ function InsertAd() {
         <button className="btn md:w-1/4 mx-3 btn-accent w-4/10 block ms-auto" onClick={publish}>Publier l'annonce</button>
       </div>
       <Footer />
+      <Toaster />
     </>
   );
 }

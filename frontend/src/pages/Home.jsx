@@ -42,7 +42,7 @@ function Home() {
     return (
         <>
             {authToken ? <Navbar btnLogin="none" btnSignup="none" /> : <Navbar btnLogout="none" />}
-            <div className='m-6 bg-base-300 p-3 rounded ring'>
+            <div className=' md:m-6 bg-base-300 md:p-3 rounded ring'>
                 <SearchBar  />
                 <div className='flex flex-col items-center '>
                 <Ads ads={featuredAds} name="Annonces Vedettes" />

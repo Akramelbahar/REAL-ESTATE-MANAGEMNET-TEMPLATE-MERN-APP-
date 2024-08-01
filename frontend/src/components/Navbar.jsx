@@ -24,12 +24,17 @@ function Navbar({btnSignup ,isChat,isDashboard, btnLogin , btnLogout , profile})
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li className={btnLogin == "none" ? "hidden" : ""}><a href="/login">Se Connecter</a></li>
-        <li className={btnSignup == "none"? "hidden": ""  }  ><a href="/signup">S'Inscrire</a></li>
-        <li className={btnLogout == "none"? "hidden": ""  }  ><a href="/logout">Se Deconnecter</a></li>
-        <li className={(btnLogout == "none" ) || isDashboard ? "hidden": ""  }  ><a href="/dashboard">Dashboard</a></li>
+          <div className={profile=="none "? "hidden": "md:hidden flex self-center"  }  ><a href="/profile"><Profile></Profile></a></div>
+  
+        <li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  ><a href="/dashboard">Dashboard</a></li> 
+        <li className={btnLogin == "none" ? "hidden" : "btn ring my-2   btn-accent ml-1 mr-1"}><a href="/login">Se Connecter</a></li>
+        <li className={btnLogout == "none" || isChat  ? "hidden" : "btn ring my-2  btn-accent ml-1 mr-1"}><a href="/chat">💬</a></li>
+        <li className={btnSignup=="none" ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  ><a href="signup">S'Inscrire</a></li>
+        <a className="btn  md:hidden btn-accent ml-1 ring my-2 mr-1" href="insertAd">Publier Une Annonce</a>
         
-      </ul>
+        <li className={btnLogout == "none"? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  ><a href="/logout">Se Deconnecter</a></li>
+      
+        </ul>
     </div>
     <a className="btn btn-ghost text-xl" href="/">Biens Immobiliers</a>
   </div>
@@ -46,10 +51,10 @@ function Navbar({btnSignup ,isChat,isDashboard, btnLogin , btnLogout , profile})
       <li className={btnLogout == "none" || isChat  ? "hidden" : "btn  btn-accent ml-1 mr-1"}><a href="/chat">💬</a></li>
       <li className={btnSignup=="none" ? "hidden": "btn  btn-accent ml-1 mr-1"  }  ><a href="signup">S'Inscrire</a></li>
       <li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn  btn-accent ml-1 mr-1"  }  ><a href="/dashboard">Dashboard</a></li>
-      
-    </ul>
-    <a className="btn  btn-accent ml-1 mr-1" href="insertAd">Publier Une Annonce
+      <a className="btn hidden lg:flex btn-accent ml-1 mr-1" href="insertAd">Publier Une Annonce
     </a>
+    </ul>
+    
   </div>
 </div>
 

@@ -6,7 +6,7 @@ import "../index.css";
 import Footer from '../components/Footer';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-
+import toast, { Toaster } from 'react-hot-toast';
 function EditProfile() {
     const navigate = useNavigate();
     const { authToken, setAuthToken, isLoggedIn, setIsLoggedIn } = useAuth();
@@ -85,32 +85,17 @@ function EditProfile() {
             });
 
             if (response.status === 200) {
-                console.log("User updated:", JSON.stringify(response.data));
-                setResponse(`User updated: ${response.data._id}`);
-                setAlert("alert-success alert_display");
-
-                setTimeout(() => {
-                    setAlert("alert_hidden");
-                }, 6000);
+                toast.success(`User updated: ${response.data._id}`);
             } else {
-                setResponse(JSON.stringify(response.data, null, 2));
-                setAlert("alert-warning alert_display");
-                setTimeout(() => {
-                    setAlert("alert_hidden");
-                }, 6000);
+                toast.error(JSON.stringify(response.data, null, 2));
             }
         } catch (error) {
-            console.error("Error:", error);
-            setAlert("alert-error alert_display");
             if (error.response && error.response.data) {
-                setResponse(JSON.stringify(error.response.data, null, 2));
-                if (error.response.status === 409) setAlert("alert-warning alert_display");
+                toast.error(JSON.stringify(error.response.data, null, 2));
             } else {
-                setResponse("Message: We encountered some errors. Please check your inputs and try again.");
+                toast.error("Message: We encountered some errors. Please check your inputs and try again.");
             }
-            setTimeout(() => {
-                setAlert("alert_hidden");
-            }, 6000);
+           
         }
     };
 
@@ -126,23 +111,10 @@ function EditProfile() {
                 <ToggleTheme />
                 <Navbar btnSignup="none" btnLogin="none" />
                 <div className='container p-2 mx-auto relative'>
-                    <div role="alert" className={`alert absolute right-0 w-2/5 overflow-hidden ${alertType}`}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 shrink-0 stroke-current"
-                            fill="none"
-                            viewBox="0 0 24 24">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span>{Response}</span>
-                    </div>
+                 
                     <form onSubmit={submitData} className='my-7'>
-                        <h3 className='text-xl font-bold text-center mb-4'>Profile:</h3>
-                        <div role="alert" className="alert alert-info w-1/2 mx-auto">
+                        <h3 className='text-base md:text-xl font-bold text-center mb-4'>Profile:</h3>
+                        <div role="alert" className="alert alert-info md:w-1/2 mx-auto">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -156,18 +128,18 @@ function EditProfile() {
                             </svg>
                             <span>Changer les informations en relation avec votre compte</span>
                         </div>
-                        <div className="px-14">
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                        <div className="px-3 md:px-14">
+                            <label className="input input-bordered flex items-center gap-2 my-3 w-full md:w-1/2 mx-auto">
                                 <input
                                     type="text"
-                                    className="grow"
+                                    className="grow w-full md:w-auto "
                                     placeholder="Nom"
                                     value={FirstName}
                                     onChange={(e) => setFirstName(e.target.value)}
                                     required
                                 />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 w-full md:w-1/2 mx-auto">
                                 <input
                                     type="text"
                                     className="grow"
@@ -177,7 +149,7 @@ function EditProfile() {
                                     required
                                 />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 w-full md:w-1/2 mx-auto">
                                 <input
                                     type="text"
                                     className="grow"
@@ -186,7 +158,7 @@ function EditProfile() {
                                     onChange={(e) => setPhone(e.target.value)}
                                 />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 w-full md:w-1/2 mx-auto">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 16 16"
@@ -207,7 +179,7 @@ function EditProfile() {
                                 />
                             </label>
 
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 w-full md:w-1/2 mx-auto">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 16 16"
@@ -226,7 +198,7 @@ function EditProfile() {
                                     required
                                 />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 w-full md:w-1/2 mx-auto">
                                 <input
                                     type="password"
                                     className="grow"
@@ -235,7 +207,7 @@ function EditProfile() {
                                     onChange={(e) => setNewPassword(e.target.value)}
                                 />
                             </label>
-                            <label className="input input-bordered flex items-center gap-2 my-3 w-1/2 mx-auto">
+                            <label className="input input-bordered flex items-center gap-2 my-3 w-full md:w-1/2 mx-auto">
                                 <input
                                     type="password"
                                     className="grow"
@@ -245,8 +217,8 @@ function EditProfile() {
                                 />
                             </label>
                             <select
-                                value={Role}
-                                className="select select-primary w-1/2 block my-3 mx-auto"
+                                value={Role} 
+                                className="select text-center select-primary p-2 md:p-0 md:w-1/2 block my-3 mx-auto"
                                 onChange={(e) => setRole(e.target.value)}
                                 required
                             >
@@ -263,6 +235,7 @@ function EditProfile() {
                     </form>
                 </div>
                 <Footer />
+                <Toaster></Toaster>
             </>
         );
     }

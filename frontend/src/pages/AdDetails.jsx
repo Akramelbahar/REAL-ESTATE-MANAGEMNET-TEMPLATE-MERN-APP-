@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import Footer from '../components/Footer';
-
+import toast, { Toaster } from 'react-hot-toast';
 const timeSince = (date) => {
   const seconds = Math.floor((new Date() - new Date(date)) / 1000);
 
@@ -87,9 +87,10 @@ function AdDetails() {
           }
         });
         setAddFav(true);
+        toast.success("Ajouté a vos favoris")
       } catch (error) {
         console.error("Error adding to favorites:", error);
-        alert("Error adding to favorites");
+        toast.error("Error adding to favorites");
       }
     }
   };
@@ -132,13 +133,14 @@ function AdDetails() {
         </div>
       </div>
       <Footer />
+      <Toaster/>
     </>
   );
 }
 
 function Caroussel({ items }) {
   return (
-    <div className="carousel m-12 w-fit rounded h-[50vh]">
+    <div className="carousel p-2 m-2md:m-12 w-fit rounded h-[50vh]">
       {items.map((e, index) => (
         <div
           id={"slide" + (1 + index).toString()}

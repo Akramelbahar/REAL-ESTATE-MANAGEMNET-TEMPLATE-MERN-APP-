@@ -99,8 +99,8 @@ function Chat() {
     return (
         <div>
             <Navbar btnLogin={"none"} isChat={true} btnSignup={"none"} />
-            <div className='w-full my-2 h-[85vh] flex'>
-                <div className='w-1/4 mx-2 bg-neutral rounded'>
+            <div className='w-full my-2 h-[85vh] md:flex'>
+                <div className='h-[50%] w-full md:h-auto md:w-1/4 p-2 md:p-0 md:mx-2 bg-neutral rounded'>
                     <div className='h-[15%] flex justify-center items-center'>
                         <input type="text" onChange={(e)=>search(e.target.value)} placeholder="Type here" className="input h-[60%] input-bordered w-[95%] mx-auto block" />
                     </div>
@@ -124,12 +124,12 @@ function Chat() {
                         </div>
                 </div>
                 
-                <div className='w-3/4 mx-2 p-2 h-full bg-base-300 rounded'>
-                    {id?<ConversationCard 
+                <div className='w-full md:w-3/4 h-[50%] md:h-auto md:mx-2 p-2  bg-base-300 rounded'>
+                <div className='hidden md:block'>{id?<ConversationCard  
                         id={id}
                         profilePic={senderPicture}
                         name={senderName}
-                    />:""}
+                    />:""}</div>
                     <div ref={scrollableElementRef} className={id?'h-[70%] overflow-auto' : "h-[90%]"}>
                         {messages.length > 0 ? messages.map((message, index) => (
                             message.senderId === id ? 

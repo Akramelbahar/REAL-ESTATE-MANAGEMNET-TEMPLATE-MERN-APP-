@@ -19,19 +19,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 dotenv.config();
 
-const allowedOrigins = [/^https:\/\/.*\.onrender\.com$/]; // Regex pattern to match subdomains
-
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (allowedOrigins.some(pattern => pattern.test(origin))) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
+    origin: 'https://backend-hgsc.onrender.com/', // include the protocol
+    credentials: true, // if you need to allow cookies or other credentials
 };
-
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

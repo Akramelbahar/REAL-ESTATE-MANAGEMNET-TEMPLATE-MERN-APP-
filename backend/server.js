@@ -1,0 +1,64 @@
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import authRoutes from "./routes/auth.routes.js";
+import adminRoutes from './routes/admin.routes.js';
+import messageRoutes from "./routes/message.routes.js";
+import connectToMongoDB from "./db/connectToMongoDB.js";
+import cookieParser from "cookie-parser";
+import userRoutes from "./routes/user.routes.js"; 
+import adsRoutes from "./routes/ads.routest.js"; 
+import advertismentRoutes from "./routes/advertisment.routes.js";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+dotenv.config();
+
+const corsOptions = {
+    origin: 'http://localhost:5173', // include the protocol
+    credentials: true, // if you need to allow cookies or other credentials
+};
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); 
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+app.use(cors(corsOptions));
+app.use(cookieParser());
+app.use(express.json());
+app.use("/api/auth", authRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/user/advertisment", advertismentRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/advertisment",adsRoutes );
+app.post('/upload', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+    }
+
+    const fileUrl = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+    console.log(`File uploaded successfully: ${fileUrl}`);
+    res.json({ message: 'File uploaded successfully!', url: fileUrl });
+});
+
+app.use('/uploads', express.static(('uploads')));
+
+app.listen(PORT, () => {
+    connectToMongoDB();
+    console.log("Listening on port", PORT);
+});

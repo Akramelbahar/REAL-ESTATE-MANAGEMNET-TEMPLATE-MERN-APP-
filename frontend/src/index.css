@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    padding: 0;
+    margin : 0;
+    box-sizing: 0;
+}
+
+.alert_hidden {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.alert_display {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+
+}

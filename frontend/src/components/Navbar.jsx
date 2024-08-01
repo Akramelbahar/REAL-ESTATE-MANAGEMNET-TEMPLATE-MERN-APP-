@@ -24,7 +24,7 @@ function Navbar({btnSignup ,isChat,isDashboard, btnLogin , btnLogout , profile})
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-          <div className={profile=="none "? "hidden": "md:hidden flex self-center "  }  ><a href="/profile"><Profile></Profile></a></div>
+          <div className={profile=="none "? "hidden": "md:hidden flex self-stretch items-wrap "  }  ><a href="/profile"><Profile></Profile></a></div>
   
         <a href="/dashboard"><li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >Dashboard</li> </a>
         <a href="/login"><li className={btnLogin == "none" ? "hidden" : "btn ring my-2   btn-accent ml-1 mr-1"}>Se Connecter</li></a>

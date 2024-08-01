@@ -15,8 +15,9 @@ function Home() {
     useEffect(() => {
         const fetchAds = async () => {
             try {
+                setFeaturedAds([])
                 let formattedAds = [] ; 
-                const response = await axios.get("https://backend-hgsc.onrender.com/api/advertisment?offset="+(Pagination*16).toString());
+                const response = await axios.get("http://127.0.0.1:5000/api/advertisment?offset="+(Pagination*16).toString());
                 const ads = response.data;
 
                  formattedAds = ads.map(element => ({
@@ -45,7 +46,7 @@ function Home() {
                 <SearchBar  />
                 <div className='flex flex-col items-center '>
                 <Ads ads={featuredAds} name="Annonces Vedettes" />
-                <div className="join ">
+                <div className="join my-3">
                   {Pagination == 0 ? "" : <button className="join-item btn" onClick={()=>setPagination(Pagination - 1)}>«</button>}
                   <button className="join-item btn">Page {Pagination }</button>
                   <button className="join-item btn" onClick={()=>setPagination(Pagination + 1)}>»</button>

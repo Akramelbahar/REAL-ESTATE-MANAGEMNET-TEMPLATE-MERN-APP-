@@ -13,16 +13,14 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// Get __dirname equivalent in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const __dirname = path.resolve();
+console.log
 const app = express();
 const PORT = process.env.PORT || 5000;
 dotenv.config();
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // include the protocol
+    origin: 'http://localhost:5000', // include the protocol
     credentials: true, // if you need to allow cookies or other credentials
 };
 
@@ -57,7 +55,10 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 
 app.use('/uploads', express.static(('uploads')));
-
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 app.listen(PORT, () => {
     connectToMongoDB();
     console.log("Listening on port", PORT);

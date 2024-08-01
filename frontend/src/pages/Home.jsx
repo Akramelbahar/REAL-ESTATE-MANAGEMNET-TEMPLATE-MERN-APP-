@@ -46,7 +46,7 @@ function Home() {
                 <SearchBar  />
                 <div className='flex flex-col items-center '>
                 <Ads ads={featuredAds} name="Annonces Vedettes" />
-                <div className="join ">
+                <div className="join my-2">
                   {Pagination == 0 ? "" : <button className="join-item btn" onClick={()=>setPagination(Pagination - 1)}>«</button>}
                   <button className="join-item btn">Page {Pagination }</button>
                   <button className="join-item btn" onClick={()=>setPagination(Pagination + 1)}>»</button>

@@ -35,7 +35,7 @@ function Dashboard() {
   }, [authToken]);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/api/user/conversation', { headers: { token: authToken } })
+    axios.get('https://backend-hgsc.onrender.com/api/user/conversation', { headers: { token: authToken } })
       .then(response => setConversations(response.data))
       .catch(error => console.error(error));
   }, [authToken]);

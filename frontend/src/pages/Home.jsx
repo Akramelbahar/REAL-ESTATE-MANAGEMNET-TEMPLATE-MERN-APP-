@@ -16,7 +16,7 @@ function Home() {
         const fetchAds = async () => {
             try {
                 let formattedAds = [] ; 
-                const response = await axios.get("http://127.0.0.1:5000/api/advertisment?offset="+(Pagination*16).toString());
+                const response = await axios.get("https://backend-hgsc.onrender.com/api/advertisment?offset="+(Pagination*16).toString());
                 const ads = response.data;
 
                  formattedAds = ads.map(element => ({
@@ -27,7 +27,7 @@ function Home() {
                     rooms: element.pcs,
                     id : element._id
                 }));
-                console.log("http://127.0.0.1:5000/api/advertisment?offset="+(Pagination*16).toString())
+                console.log("https://backend-hgsc.onrender.com/api/advertisment?offset="+(Pagination*16).toString())
                 setFeaturedAds(formattedAds);
             } catch (error) {
                 console.error('Error fetching ads:', error);

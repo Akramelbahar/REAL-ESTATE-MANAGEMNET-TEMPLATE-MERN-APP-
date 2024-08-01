@@ -32,7 +32,7 @@ function AdCard({ ad, edit, token }) {
 
   const handleDelete = () => {
     console.log(ad);
-    axios.delete(`http://127.0.0.1:5000/api/user/advertisment/${ad.id}`, {
+    axios.delete(`https://backend-hgsc.onrender.com/api/user/advertisment/${ad.id}`, {
       headers: {
         token: token
       }

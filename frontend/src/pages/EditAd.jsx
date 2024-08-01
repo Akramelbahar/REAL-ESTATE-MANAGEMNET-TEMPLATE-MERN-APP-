@@ -45,7 +45,7 @@ function EditAd() {
 
    
     useEffect(() => {
-            axios.get(`http://127.0.0.1:5000/api/user/advertisment/${AdId}`, {
+            axios.get(`https://backend-hgsc.onrender.com/api/user/advertisment/${AdId}`, {
             headers: {
                 token: authToken
             }
@@ -77,7 +77,7 @@ function EditAd() {
   
     const publish = async () => {
       try {
-        const response = await axios.put('http://127.0.0.1:5000/api/user/advertisment/', {
+        const response = await axios.put('https://backend-hgsc.onrender.com/api/user/advertisment/', {
           _id : AdId ,
           title: Title,
           description: Description,

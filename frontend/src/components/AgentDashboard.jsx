@@ -9,7 +9,7 @@ function AgentDashboard({ auth }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/user/advertisment", {
+    axios.get("https://backend-hgsc.onrender.com/api/user/advertisment", {
       headers: { token: auth }
     }).then(response => {
       setAdsData(response.data.ads.map(element => ({

@@ -49,7 +49,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
         return res.status(400).json({ message: 'No file uploaded.' });
     }
 
-    const fileUrl = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+    const fileUrl = `https://backend-hgsc.onrender.com/uploads/${req.file.filename}`;
     console.log(`File uploaded successfully: ${fileUrl}`);
     res.json({ message: 'File uploaded successfully!', url: fileUrl });
 });

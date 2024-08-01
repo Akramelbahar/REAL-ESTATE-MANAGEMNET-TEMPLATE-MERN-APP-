@@ -41,7 +41,7 @@ function EditProfile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('https://backend-hgsc.onrender.com/api/user/', {
+                const response = await axios.get('http://127.0.0.1:5000/api/user/', {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': authToken,
@@ -66,7 +66,7 @@ function EditProfile() {
     const submitData = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.put("https://backend-hgsc.onrender.com/api/user", {
+            const response = await axios.put("http://127.0.0.1:5000/api/user", {
                 FirstName,
                 LastName,
                 username: Email,
@@ -76,7 +76,7 @@ function EditProfile() {
                 confirmPassword: ConfirmPassword,
                 tel: Phone,
                 role: Role,
-                profile_pic: Picture // Ensure this is correctly set
+                profile_pic: Picture
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -216,7 +216,7 @@ function EditProfile() {
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                             </label>
-                            <select
+                          {Role=="admin"? <></>:<select
                                 value={Role} 
                                 className="select text-center select-primary p-2 md:p-0 md:w-1/2 block my-3 mx-auto"
                                 onChange={(e) => setRole(e.target.value)}
@@ -225,7 +225,7 @@ function EditProfile() {
                                 <option disabled value="0">Agent ou Utilisateur ?</option>
                                 <option value="agent">Agent</option>
                                 <option value="user">Utilisateur</option>
-                            </select>
+                            </select>}  
                             <div className='flex justify-center content-center items-center gap-4 '>
                                 <span className='font-semibold'>Profile:</span>
                                 <input type="file" onChange={handleFileChange} className="file-input file-input-bordered w-full max-w-xs" />

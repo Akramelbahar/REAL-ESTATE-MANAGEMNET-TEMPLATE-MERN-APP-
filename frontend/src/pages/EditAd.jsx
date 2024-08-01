@@ -43,7 +43,7 @@ function EditAd() {
 
    
     useEffect(() => {
-            axios.get(`https://backend-hgsc.onrender.com/api/user/advertisment/${AdId}`, {
+            axios.get(`http://127.0.0.1:5000/api/user/advertisment/${AdId}`, {
             headers: {
                 token: authToken
             }
@@ -59,8 +59,7 @@ function EditAd() {
                 setDiagnostics(response.data.data.diagnostic)
                 setEquipements(response.data.data.equipment)
                 setPictures(response.data.data.pictures ? response.data.data.pictures : []) 
-                console.log(Title)
-                console.log(response.data.data)
+               
             })
             .catch(error => {
             console.error('There was an error fetching the advertisement:', error);
@@ -75,7 +74,7 @@ function EditAd() {
   
     const publish = async () => {
       try {
-        const response = await axios.put('https://backend-hgsc.onrender.com/api/user/advertisment/', {
+        const response = await axios.put('http://127.0.0.1:5000/api/user/advertisment/', {
           _id : AdId ,
           title: Title,
           description: Description,
@@ -114,7 +113,6 @@ function EditAd() {
       const fetchUserRole = async () => {
         try {
           const role = await UserRole(authToken);
-          console.log(role)
           if (role === "user") {
             
             navigate("/UserError");
@@ -126,7 +124,6 @@ function EditAd() {
   
       fetchUserRole();
     }, [authToken, navigate]);
-    console.log(TypeBien);
     const handleFileChange = async (e) => {
       const file = e.target.files[0];
       const formData = new FormData();

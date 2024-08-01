@@ -7,9 +7,8 @@ function Ads({ ads, name, edit, token }) {
   const navigate = useNavigate();
 
   if (featuredAds.length === 0) return <></>;
-  console.log(ads)
   return (
-    <div className={`container mx-auto p-4 ${name.includes("Resultat") ? "bg-gray-900" : ""}`}>
+    <div className={`container mx-auto p-4 `}>
       <div className="ring shadow-lg rounded-lg p-6 mb-6">
         <h2 className="text-2xl font-bold mb-4">{name}</h2>
         <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${name.includes("Resultat") ? "lg:grid-cols-5" : "lg:grid-cols-4"}`}>
@@ -31,29 +30,29 @@ function AdCard({ ad, edit, token }) {
   };
 
   const handleDelete = () => {
-    console.log(ad);
-    axios.delete(`https://backend-hgsc.onrender.com/api/user/advertisment/${ad.id}`, {
+    
+    axios.delete(`http://127.0.0.1:5000/api/user/advertisment/${ad.id}`, {
       headers: {
         token: token
       }
     }).then(
       (response) => {
-        console.log(response.data);
-        window.location.reload(); // Refresh the page after successful deletion
+        
+        window.location.reload();
       }
     ).catch((error) => {
-      console.log("Error during deleting this", error);
+      
     });
     setRemoveState(0);
   };
 
   useEffect(() => {
-    console.log("abc");
+    
   }, [OnDeleteValidation]);
 
   return (
-    <div className="card ring w-full bg-base-100 shadow-md">
-      <a href={"advertisement/"+ad.id}><figure><img src={ad.image} alt={ad.title} className="w-full h-48 object-cover" /></figure></a>
+    <div className="card border-bottom  border-x-2  hover:ring-1  w-full bg-base-100 shadow-md" data-theme={window.location.pathname.includes("dashboard") ? undefined : "dark"}>
+      <a className='rounded' href={"advertisement/"+ad.id}><figure className='rounded'><img src={ad.image} alt={ad.title} className="w-full m-1 rounded-lg  h-48  object-cover" /></figure></a>
       <div className="card-body">
       <a href={"advertisement/"+ad.id}>
         <h3 className="card-title text-lg font-bold">{ad.title}</h3>

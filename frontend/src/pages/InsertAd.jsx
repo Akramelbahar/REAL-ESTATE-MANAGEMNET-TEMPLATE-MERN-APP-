@@ -41,7 +41,7 @@ function InsertAd() {
 
   const publish = async () => {
     try {
-      const response = await axios.post('https://backend-hgsc.onrender.com/api/user/advertisment', {
+      const response = await axios.post('http://127.0.0.1:5000/api/user/advertisment', {
         title: Title,
         description: Description,
         price: Prix,
@@ -77,7 +77,6 @@ function InsertAd() {
     const fetchUserRole = async () => {
       try {
         const role = await UserRole(authToken);
-        console.log(role)
         if (role === "user") {
           
           navigate("/UserError");
@@ -89,7 +88,6 @@ function InsertAd() {
 
     fetchUserRole();
   }, [authToken, navigate]);
-  console.log(TypeBien);
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -123,14 +121,9 @@ function InsertAd() {
       <ToggleTheme />
       <Navbar btnLogin={"none"} btnSignup={"none"} />
       <div className='relative xl:mx-12 xl:my-4 lg:mx-8 lg:my-4 md:mx-6 md:my-3 sm:mx-8 sm:my-2 my-2 mx-4 min-h-screen rounded-md shadow-xl ring p-4 bg-base-300'>
-        <div role="alert" className={"alert absolute top-2 right-2 w-4/6 z-99 " + AlertState}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <span>{Response}</span>
-        </div>
+       
         <div role="alert" className="alert m-3 space-y-2 block">
-          <h3 className='block text-xl dark:text-white text-bold font-bold'>Qu'annoncez-vous aujourd'hui ?</h3>
+          <h3 className='block text-xl text-bold font-bold'>Qu'annoncez-vous aujourd'hui ?</h3>
           <span className='block'>Grâce à ces informations les acheteurs peuvent trouver votre annonce plus facilement</span>
         </div>
         <div className='md:w-3/5 w-full mx-auto'>

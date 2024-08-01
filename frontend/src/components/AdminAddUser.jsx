@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
 import axios from 'axios';
-import ToggleTheme from "../components/ToggleTheme";
 import "../index.css";
-import Footer from '../components/Footer';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-function SignUp() {
+function AdminAddUser() {
 
 
     const navigate = useNavigate();
     const {
         authToken, 
-        setAuthToken,
-        isLoggedIn,
-        setIsLoggedIn
-    } = useAuth();
+       } = useAuth();
     const [FirstName, setFirstName] = useState('');
     const [LastName, setLastName] = useState('');
     const [Phone, setPhone] = useState('');
@@ -28,7 +22,7 @@ function SignUp() {
 
     const submitData = async (event) => {
         event.preventDefault();
-        await axios.post("http://127.0.0.1:5000/api/auth/signup", {
+        await axios.post("http://127.0.0.1:5000/api/admin/user", {
             FirstName,
             LastName,
             username: Email,
@@ -37,14 +31,15 @@ function SignUp() {
             confirmPassword: ConfirmPassword,
             tel: Phone,
             role: Role
-        })
+        } , {
+            headers :{token : authToken}
+        } )
         .then(function (response) {
             if (response.status === 201) {
+                
                 const userId = response.data.user._id;
                 toast.success(`UserCreated: ${userId}`);
-                localStorage.setItem("token", response.data.token);
-                setAuthToken(response.data.token);
-                setIsLoggedIn(true);
+                
                 
             } else {
                 toast.error(JSON.stringify(response.data, null, 2));
@@ -64,21 +59,17 @@ function SignUp() {
         });
     };
 
-    useEffect(() => {
-        if (authToken && isLoggedIn) {
-            navigate("/dashboard");
-        }
-    }, [authToken, isLoggedIn, navigate]);
 
-    if (!authToken || !isLoggedIn) {
-        return (
-            <>
-                <ToggleTheme />
-                <Navbar btnSignup="none" btnLogout="none" />
-                <div className='container p-2 mx-auto relative'>
+
+  return (
+
+
+    <div>
+        
+        <div className='container p-2 mx-auto relative'>
                    
                     <form onSubmit={submitData} className='my-7'>
-                        <h3 className='text-xl font-bold text-center mb-4'>Créer un compte :</h3>
+                        <h3 className='text-xl font-bold text-center mb-4'>Ajouter un compte :</h3>
                         <div role="alert" className="alert alert-info md:w-1/2 mx-auto">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -145,21 +136,18 @@ function SignUp() {
                             </label>
 
                             <select defaultValue="0" className="select select-primary md:w-1/2 block my-3 mx-auto" onChange={(e) => setRole(e.target.value)} required>
-                                <option disabled value="0">Agent ou Utilisateur ?</option>
+                                <option disabled value="0">Admin , Agent ou Utilisateur ?</option>
+                                <option value="admin">Admin</option>
                                 <option value="agent">Agent</option>
                                 <option value="user">Utilisateur</option>
                             </select>
                         </div>
-                        <button className="btn btn-active btn-primary block my-3 mx-auto" >Créer un compte</button>
+                        <button className="btn btn-active btn-primary block my-3 mx-auto" >Ajouter Le compte</button>
                     </form>
                 </div>
-                <Footer />
                 <Toaster />
-            </>
-        );
-    }
-
-    return null;
+    </div>
+  )
 }
 
-export default SignUp;
+export default AdminAddUser

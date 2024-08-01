@@ -24,15 +24,15 @@ function Navbar({btnSignup ,isChat,isDashboard, btnLogin , btnLogout , profile})
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-          <div className={profile=="none "? "hidden": "md:hidden flex self-center"  }  ><a href="/profile"><Profile></Profile></a></div>
+          <div className={profile=="none "? "hidden": "md:hidden flex self-center "  }  ><a href="/profile"><Profile></Profile></a></div>
   
-        <li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  ><a href="/dashboard">Dashboard</a></li> 
-        <li className={btnLogin == "none" ? "hidden" : "btn ring my-2   btn-accent ml-1 mr-1"}><a href="/login">Se Connecter</a></li>
-        <li className={btnLogout == "none" || isChat  ? "hidden" : "btn ring my-2  btn-accent ml-1 mr-1"}><a href="/chat">💬</a></li>
-        <li className={btnSignup=="none" ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  ><a href="signup">S'Inscrire</a></li>
+        <a href="/dashboard"><li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >Dashboard</li> </a>
+        <a href="/login"><li className={btnLogin == "none" ? "hidden" : "btn ring my-2   btn-accent ml-1 mr-1"}>Se Connecter</li></a>
+        <a href="/chat"><li className={btnLogout == "none" || isChat  ? "hidden" : "btn ring my-2  btn-accent ml-1 mr-1"}>💬</li></a>
+        <a href="signup"><li className={btnSignup=="none" ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >S'Inscrire</li></a>
         <a className="btn  md:hidden btn-accent ml-1 ring my-2 mr-1" href="insertAd">Publier Une Annonce</a>
         
-        <li className={btnLogout == "none"? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  ><a href="/logout">Se Deconnecter</a></li>
+        <a href="/logout"><li className={btnLogout == "none"? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >Se Deconnecter</li></a>
       
         </ul>
     </div>

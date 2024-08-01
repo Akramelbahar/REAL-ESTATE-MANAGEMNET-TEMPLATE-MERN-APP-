@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 function Chat() {
+   
     const scrollableElementRef = useRef(null);
     const bottomRef = useRef(null);
     const { id } = useParams();
@@ -21,14 +22,14 @@ function Chat() {
     const [searchUsername , setSearchUsername] = useState("");
     const [receiverPicture, setReceiverPicture] = useState("");
     useEffect(() => {
-        axios.get('https://backend-hgsc.onrender.com/api/user/conversation', {
+        axios.get('http://127.0.0.1:5000/api/user/conversation', {
             headers: { token: authToken }
         })
         .then(response => setConversations(response.data))
         .catch(error => console.error(error));
 
         if (id) {
-            axios.get(`https://backend-hgsc.onrender.com/api/message/${id}`, {
+            axios.get(`http://127.0.0.1:5000/api/message/${id}`, {
                 headers: { token: authToken }
             })
             .then(response => {
@@ -51,7 +52,7 @@ function Chat() {
     useEffect(() => {
         const intervalId = setInterval(() => {
             if (id) {
-                axios.get(`https://backend-hgsc.onrender.com/api/message/${id}`, {
+                axios.get(`http://127.0.0.1:5000/api/message/${id}`, {
                     headers: { token: authToken }
                 })
                 .then(response => {
@@ -74,7 +75,7 @@ function Chat() {
         e.preventDefault();
 
         try {
-            await axios.post(`https://backend-hgsc.onrender.com/api/message/send/${id}`, 
+            await axios.post(`http://127.0.0.1:5000/api/message/send/${id}`, 
             { message: text }, 
             { headers: { token: authToken } });
             setText("");
@@ -84,13 +85,13 @@ function Chat() {
     }
     const search = async (searchUsername) => {
         try {
-            const response = await axios.post("https://backend-hgsc.onrender.com/api/user/searchUsername", {
+            const response = await axios.post("http://127.0.0.1:5000/api/user/searchUsername", {
                 username: searchUsername
             }, {
                 headers: { token: authToken }
             });
             
-            if (response.status == 200){console.log(response.data);setSearchUsername(response.data[0]);}
+            if (response.status == 200){}
         } catch (error) {
             console.error("An error occurred while searching for users:");
         }
@@ -100,7 +101,7 @@ function Chat() {
         <div>
             <Navbar btnLogin={"none"} isChat={true} btnSignup={"none"} />
             <div className='w-full my-2 h-[85vh] md:flex'>
-                <div className='h-[50%] w-full md:h-auto md:w-1/4 p-2 md:p-0 md:mx-2 bg-neutral rounded'>
+                <div className='h-[50%] w-full md:h-auto md:w-1/4 p-2 md:p-0 md:mx-2 bg-neutral md:bg-base-200 rounded'>
                     <div className='h-[15%] flex justify-center items-center'>
                         <input type="text" onChange={(e)=>search(e.target.value)} placeholder="Type here" className="input h-[60%] input-bordered w-[95%] mx-auto block" />
                     </div>
@@ -108,7 +109,7 @@ function Chat() {
                          { searchUsername ?<ConversationCard profilePic={searchUsername.profile_pic} name={searchUsername.username} id={searchUsername._id} key={searchUsername._id}></ConversationCard>: <></>}
                     
                         {conversations.map(conversation => (
-                            <ConversationCard 
+                            conversation.otherParticipant? <ConversationCard 
                                 key={conversation._id}
                                 profilePic={conversation.otherParticipant.profile_pic}
                                 name={conversation.otherParticipant.username}
@@ -118,7 +119,7 @@ function Chat() {
                                         ? "Received: " + conversation.lastMessage.messageBody 
                                         : "Sent: " + conversation.lastMessage.messageBody)
                                     : "No messages"} 
-                            />
+                            /> : <></>
                         ))}
 
                         </div>
@@ -197,7 +198,7 @@ function ChatBubbleSender({ message, picture, id }) {
 function ConversationCard({ profilePic, name, id, lastMessage }) {
     return (
         <a href={`/chat/${id}`}>
-            <div className="card card-side bg-base-100 shadow-md p-4 my-2 hover:bg-inherit hover:ring-1 cursor-pointer">
+            <div className="card card-side bg-base-100 shadow-md p-4 my-2  cursor-pointer">
                 <figure className="avatar">
                     <div className="w-12 h-12 rounded-xl border-primary border-2">
                         <img src={profilePic} alt="Profile" />

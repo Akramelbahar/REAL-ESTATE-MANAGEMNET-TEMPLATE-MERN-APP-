@@ -6,36 +6,36 @@ function WebsiteInformation() {
         {
           title: 'Les tendances du marché immobilier 2024',
           excerpt: 'Découvrez les dernières tendances du marché immobilier en 2024...',
-          link: '/blog/market-trends-2024',
+          link: '#',
         },
         {
             title: 'Conseils pour acheter votre première maison',
             excerpt: 'Acheter une maison pour la première fois peut être stressant, voici nos conseils...',
-            link: '/blog/first-home-buying-tips',
+            link: '#',
           },{
             title: 'Conseils pour acheter votre première maison',
             excerpt: 'Acheter une maison pour la première fois peut être stressant, voici nos conseils...',
-            link: '/blog/first-home-buying-tips',
+            link: '#',
           },{
             title: 'Conseils pour acheter votre première maison',
             excerpt: 'Acheter une maison pour la première fois peut être stressant, voici nos conseils...',
-            link: '/blog/first-home-buying-tips',
+            link: '#',
           },{
             title: 'Conseils pour acheter votre première maison',
             excerpt: 'Acheter une maison pour la première fois peut être stressant, voici nos conseils...',
-            link: '/blog/first-home-buying-tips',
+            link: '#',
           },{
             title: 'Conseils pour acheter votre première maison',
             excerpt: 'Acheter une maison pour la première fois peut être stressant, voici nos conseils...',
-            link: '/blog/first-home-buying-tips',
+            link: '#',
           },{
             title: 'Conseils pour acheter votre première maison',
             excerpt: 'Acheter une maison pour la première fois peut être stressant, voici nos conseils...',
-            link: '/blog/first-home-buying-tips',
+            link: '#',
           },{
             title: 'Conseils pour acheter votre première maison',
             excerpt: 'Acheter une maison pour la première fois peut être stressant, voici nos conseils...',
-            link: '/blog/first-home-buying-tips',
+            link: '#',
           },
       ];
       return (

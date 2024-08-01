@@ -28,7 +28,7 @@ function Login() {
         e.preventDefault();
         
         try {
-            const response = await axios.post("https://backend-hgsc.onrender.com/api/auth/login", {
+            const response = await axios.post("http://127.0.0.1:5000/api/auth/login", {
                 username: email,
                 password: password
             });

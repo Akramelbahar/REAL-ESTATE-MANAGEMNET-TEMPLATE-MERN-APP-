@@ -14,6 +14,7 @@ function Home() {
     const [Pagination , setPagination] = useState(0);
     useEffect(() => {
         const fetchAds = async () => {
+            setFeaturedAds([]);
             try {
                 let formattedAds = [] ; 
                 const response = await axios.get("https://backend-hgsc.onrender.com/api/advertisment?offset="+(Pagination*16).toString());

@@ -9,7 +9,7 @@ function AdminDashboard({ DashboardContent }) {
     const [role, setRole] = useState(null);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const [adsMenuOpen, setAdsMenuOpen] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown visibility
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     useEffect(() => {
         const checkUserRole = async () => {
@@ -36,7 +36,7 @@ function AdminDashboard({ DashboardContent }) {
 
     const handleMenuClick = (path) => {
         navigate(path);
-        setDropdownOpen(false); // Close the dropdown after navigating
+        setDropdownOpen(false);
     };
 
     if (role === null) {
@@ -124,7 +124,7 @@ function AdminDashboard({ DashboardContent }) {
                                     <li>
                                         <button className="w-full text-left" onClick={() => {
                                             setUserMenuOpen(!userMenuOpen);
-                                            setDropdownOpen(false); // Close dropdown after click
+                                            setDropdownOpen(false); 
                                         }}>
                                             Gestion des utilisateurs
                                             <span className={`ml-auto transition-transform ${userMenuOpen ? 'rotate-90' : ''}`}>
@@ -137,7 +137,7 @@ function AdminDashboard({ DashboardContent }) {
                                                     <Link 
                                                         to="/admin/user/list" 
                                                         className="hover:bg-gray-700 p-2 block rounded"
-                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                        onClick={() => setDropdownOpen(false)}
                                                     >
                                                         Liste des utilisateurs
                                                     </Link>
@@ -146,7 +146,7 @@ function AdminDashboard({ DashboardContent }) {
                                                     <Link 
                                                         to="/admin/user/addUser" 
                                                         className="hover:bg-gray-700 p-2 block rounded"
-                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                        onClick={() => setDropdownOpen(false)}
                                                     >
                                                         Ajouter un utilisateur
                                                     </Link>
@@ -157,7 +157,7 @@ function AdminDashboard({ DashboardContent }) {
                                     <li>
                                         <button className="w-full text-left" onClick={() => {
                                             setAdsMenuOpen(!adsMenuOpen);
-                                            setDropdownOpen(false); // Close dropdown after click
+                                            setDropdownOpen(false); 
                                         }}>
                                             Gestion des annonces
                                             <span className={`ml-auto transition-transform ${adsMenuOpen ? 'rotate-90' : ''}`}>
@@ -170,7 +170,7 @@ function AdminDashboard({ DashboardContent }) {
                                                     <Link 
                                                         to="/admin/ads/list" 
                                                         className="hover:bg-gray-700 p-2 block rounded"
-                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                        onClick={() => setDropdownOpen(false)} 
                                                     >
                                                         Liste des annonces
                                                     </Link>
@@ -179,7 +179,7 @@ function AdminDashboard({ DashboardContent }) {
                                                     <Link 
                                                         to="/admin/ads/add" 
                                                         className="hover:bg-gray-700 p-2 block rounded"
-                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                        onClick={() => setDropdownOpen(false)}
                                                     >
                                                         Ajouter une annonce
                                                     </Link>

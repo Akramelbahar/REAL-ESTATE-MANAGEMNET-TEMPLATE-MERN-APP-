@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../components/UserRole';
 
-function AdminDashboard({DashboardContent}) {
+function AdminDashboard({ DashboardContent }) {
     const navigate = useNavigate();
     const { authToken } = useAuth();
     const [role, setRole] = useState(null);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const [adsMenuOpen, setAdsMenuOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown visibility
 
     useEffect(() => {
         const checkUserRole = async () => {
@@ -32,6 +33,11 @@ function AdminDashboard({DashboardContent}) {
 
         checkUserRole();
     }, [authToken, navigate]);
+
+    const handleMenuClick = (path) => {
+        navigate(path);
+        setDropdownOpen(false); // Close the dropdown after navigating
+    };
 
     if (role === null) {
         return <div>Loading...</div>; 
@@ -84,7 +90,12 @@ function AdminDashboard({DashboardContent}) {
                 <div className="navbar bg-base-200 rounded-xl p-4 mb-4 shadow-md flex justify-between">
                     <div className="navbar-start lg:hidden">
                         <div className="dropdown">
-                            <button tabIndex={0} role="button" className="btn btn-ghost">
+                            <button 
+                                tabIndex={0} 
+                                role="button" 
+                                className="btn btn-ghost"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                            >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-6 w-6"
@@ -100,54 +111,84 @@ function AdminDashboard({DashboardContent}) {
                                     />
                                 </svg>
                             </button>
-                            <ul
-                                tabIndex={0}
-                                className="dropdown-content bg-base-100 flex  flex-col gap-4 rounded-box mt-3 w-64 p-2 shadow"
-                            >
-                                <li className=''>
-                                    <button className="w-full text-left" onClick={() => navigate("/admin")}>
-                                    Statistiques Globales
-                                        
-                                    </button>
-                                    
-                                </li> 
-                                <li className=''>
-                                    <button className="w-full text-left" onClick={() => setUserMenuOpen(!userMenuOpen)}>
-                                        Gestion des utilisateurs
-                                        <span className={`ml-auto transition-transform ${userMenuOpen ? 'rotate-90' : ''}`}>
-                                            ▼
-                                        </span>
-                                    </button>
-                                    {userMenuOpen && (
-                                        <ul className="pl-4 space-y-1">
-                                            <li>
-                                                <Link to="/admin/user/list" className="hover:bg-gray-700 p-2 block rounded">Liste des utilisateurs</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/admin/user/addUser" className="hover:bg-gray-700 p-2 block rounded">Ajouter un utilisateur</Link>
-                                            </li>
-                                        </ul>
-                                    )}
-                                </li>
-                                <li>
-                                    <button className="w-full text-left" onClick={() => setAdsMenuOpen(!adsMenuOpen)}>
-                                        Gestion des annonces
-                                        <span className={`ml-auto transition-transform ${adsMenuOpen ? 'rotate-90' : ''}`}>
-                                            ▼
-                                        </span>
-                                    </button>
-                                    {adsMenuOpen && (
-                                        <ul className="pl-4 space-y-1">
-                                            <li>
-                                                <Link to="/admin/ads/list" className="hover:bg-gray-700 p-2 block rounded">Liste des annonces</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/admin/ads/add" className="hover:bg-gray-700 p-2 block rounded">Ajouter une annonce</Link>
-                                            </li>
-                                        </ul>
-                                    )}
-                                </li>
-                            </ul>
+                            {dropdownOpen && (
+                                <ul
+                                    tabIndex={0}
+                                    className="dropdown-content bg-base-100 flex flex-col gap-4 rounded-box mt-3 w-64 p-2 shadow z-50"
+                                >
+                                    <li>
+                                        <button className="w-full text-left" onClick={() => handleMenuClick("/admin")}>
+                                            Statistiques Globales
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button className="w-full text-left" onClick={() => {
+                                            setUserMenuOpen(!userMenuOpen);
+                                            setDropdownOpen(false); // Close dropdown after click
+                                        }}>
+                                            Gestion des utilisateurs
+                                            <span className={`ml-auto transition-transform ${userMenuOpen ? 'rotate-90' : ''}`}>
+                                                ▼
+                                            </span>
+                                        </button>
+                                        {userMenuOpen && (
+                                            <ul className="pl-4 space-y-1">
+                                                <li>
+                                                    <Link 
+                                                        to="/admin/user/list" 
+                                                        className="hover:bg-gray-700 p-2 block rounded"
+                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                    >
+                                                        Liste des utilisateurs
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link 
+                                                        to="/admin/user/addUser" 
+                                                        className="hover:bg-gray-700 p-2 block rounded"
+                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                    >
+                                                        Ajouter un utilisateur
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                    <li>
+                                        <button className="w-full text-left" onClick={() => {
+                                            setAdsMenuOpen(!adsMenuOpen);
+                                            setDropdownOpen(false); // Close dropdown after click
+                                        }}>
+                                            Gestion des annonces
+                                            <span className={`ml-auto transition-transform ${adsMenuOpen ? 'rotate-90' : ''}`}>
+                                                ▼
+                                            </span>
+                                        </button>
+                                        {adsMenuOpen && (
+                                            <ul className="pl-4 space-y-1">
+                                                <li>
+                                                    <Link 
+                                                        to="/admin/ads/list" 
+                                                        className="hover:bg-gray-700 p-2 block rounded"
+                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                    >
+                                                        Liste des annonces
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link 
+                                                        to="/admin/ads/add" 
+                                                        className="hover:bg-gray-700 p-2 block rounded"
+                                                        onClick={() => setDropdownOpen(false)} // Close dropdown on link click
+                                                    >
+                                                        Ajouter une annonce
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                </ul>
+                            )}
                         </div>
                     </div>
                     <div className="navbar-center">

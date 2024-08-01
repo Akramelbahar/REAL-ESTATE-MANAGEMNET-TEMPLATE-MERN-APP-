@@ -41,7 +41,7 @@ function EditProfile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/api/user/', {
+                const response = await axios.get('https://backend-hgsc.onrender.com/api/user/', {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': authToken,
@@ -66,7 +66,7 @@ function EditProfile() {
     const submitData = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.put("http://127.0.0.1:5000/api/user", {
+            const response = await axios.put("https://backend-hgsc.onrender.com/api/user", {
                 FirstName,
                 LastName,
                 username: Email,

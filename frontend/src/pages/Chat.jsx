@@ -22,14 +22,14 @@ function Chat() {
     const [searchUsername , setSearchUsername] = useState("");
     const [receiverPicture, setReceiverPicture] = useState("");
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/api/user/conversation', {
+        axios.get('https://backend-hgsc.onrender.com/api/user/conversation', {
             headers: { token: authToken }
         })
         .then(response => setConversations(response.data))
         .catch(error => console.error(error));
 
         if (id) {
-            axios.get(`http://127.0.0.1:5000/api/message/${id}`, {
+            axios.get(`https://backend-hgsc.onrender.com/api/message/${id}`, {
                 headers: { token: authToken }
             })
             .then(response => {
@@ -52,7 +52,7 @@ function Chat() {
     useEffect(() => {
         const intervalId = setInterval(() => {
             if (id) {
-                axios.get(`http://127.0.0.1:5000/api/message/${id}`, {
+                axios.get(`https://backend-hgsc.onrender.com/api/message/${id}`, {
                     headers: { token: authToken }
                 })
                 .then(response => {
@@ -75,7 +75,7 @@ function Chat() {
         e.preventDefault();
 
         try {
-            await axios.post(`http://127.0.0.1:5000/api/message/send/${id}`, 
+            await axios.post(`https://backend-hgsc.onrender.com/api/message/send/${id}`, 
             { message: text }, 
             { headers: { token: authToken } });
             setText("");
@@ -85,7 +85,7 @@ function Chat() {
     }
     const search = async (searchUsername) => {
         try {
-            const response = await axios.post("http://127.0.0.1:5000/api/user/searchUsername", {
+            const response = await axios.post("https://backend-hgsc.onrender.com/api/user/searchUsername", {
                 username: searchUsername
             }, {
                 headers: { token: authToken }

@@ -8,7 +8,7 @@ function AdminUserListe() {
     const [Users ,setUsers] = useState([]);
     const [count , setCount] =useState(0)
     const deleteAd = (_id) =>{
-        axios.delete("http://127.0.0.1:5000/api/admin/user/"+_id , {
+        axios.delete("https://backend-hgsc.onrender.com/api/admin/user/"+_id , {
             headers : {
                 token : authToken,
             }
@@ -19,7 +19,7 @@ function AdminUserListe() {
     useEffect(
         ()=>{
             setUsers([])
-            axios.get("http://127.0.0.1:5000/api/admin/users?offset="+Offset,
+            axios.get("https://backend-hgsc.onrender.com/api/admin/users?offset="+Offset,
                 {headers : {
                     token : authToken
                 }}

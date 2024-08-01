@@ -8,7 +8,7 @@ function AdminAdsListe() {
     const [Ads , setAds] = useState([]);
     const [count , setCount] = useState(0)
     const deleteAd = (_id) =>{
-        axios.delete("http://127.0.0.1:5000/api/admin/advertisment/"+_id , {
+        axios.delete("https://backend-hgsc.onrender.com/api/admin/advertisment/"+_id , {
             headers : {
                 token : authToken,
             }
@@ -20,7 +20,7 @@ function AdminAdsListe() {
     useEffect(
         ()=>{
             setAds([])
-            axios.get("http://127.0.0.1:5000/api/admin/advertisments?offset="+Offset,
+            axios.get("https://backend-hgsc.onrender.com/api/admin/advertisments?offset="+Offset,
                 {headers : {
                     token : authToken
                 }}

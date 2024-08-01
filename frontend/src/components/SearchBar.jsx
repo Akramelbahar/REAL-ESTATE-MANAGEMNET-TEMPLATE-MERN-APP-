@@ -48,7 +48,7 @@ const fetchAds = async () => {
         .join('&');
   
       try {
-        const res = await axios.get(`http://127.0.0.1:5000/api/advertisment/search?${queryString}`);
+        const res = await axios.get(`https://backend-hgsc.onrender.com/api/advertisment/search?${queryString}`);
         const ads = res.data;
   
         const formattedAds = ads.map(element => ({

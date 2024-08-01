@@ -65,7 +65,7 @@ function AdminStats({token}) {
     const [Yearly , setYearly] = useState("")
     useEffect(
         ()=>{
-            axios.get("http://127.0.0.1:5000/api/admin/stats/today" , {
+            axios.get("https://backend-hgsc.onrender.com/api/admin/stats/today" , {
                 headers : {
                     token :authToken
                 }
@@ -73,7 +73,7 @@ function AdminStats({token}) {
                 setDaily(response.data)
             })
 
-            axios.get("http://127.0.0.1:5000/api/admin/stats/last-3-days" , {
+            axios.get("https://backend-hgsc.onrender.com/api/admin/stats/last-3-days" , {
                 headers : {
                     token :authToken
                 }
@@ -81,7 +81,7 @@ function AdminStats({token}) {
                 setThree(response.data)
             })
 
-            axios.get("http://127.0.0.1:5000/api/admin/stats/last-7-days" , {
+            axios.get("https://backend-hgsc.onrender.com/api/admin/stats/last-7-days" , {
                 headers : {
                     token :authToken
                 }
@@ -90,7 +90,7 @@ function AdminStats({token}) {
             })
 
 
-            axios.get("http://127.0.0.1:5000/api/admin/stats/last-30-days" , {
+            axios.get("https://backend-hgsc.onrender.com/api/admin/stats/last-30-days" , {
                 headers : {
                     token :authToken
                 }
@@ -98,7 +98,7 @@ function AdminStats({token}) {
                 setMonthly(response.data)
             })
             
-            axios.get("http://127.0.0.1:5000/api/admin/stats/last-365-days" , {
+            axios.get("https://backend-hgsc.onrender.com/api/admin/stats/last-365-days" , {
                 headers : {
                     token :authToken
                 }

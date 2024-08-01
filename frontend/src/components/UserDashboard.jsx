@@ -9,7 +9,7 @@ function UserDashboard({ auth }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/user/userfavseen", {
+    axios.get("https://backend-hgsc.onrender.com/api/user/userfavseen", {
       headers: { "token": auth }
     })
     .then((response) => {

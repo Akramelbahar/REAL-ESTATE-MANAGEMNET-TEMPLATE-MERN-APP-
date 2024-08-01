@@ -22,7 +22,7 @@ function AdminAddUser() {
 
     const submitData = async (event) => {
         event.preventDefault();
-        await axios.post("http://127.0.0.1:5000/api/admin/user", {
+        await axios.post("https://backend-hgsc.onrender.com/api/admin/user", {
             FirstName,
             LastName,
             username: Email,

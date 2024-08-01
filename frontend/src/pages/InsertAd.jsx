@@ -41,7 +41,7 @@ function InsertAd() {
 
   const publish = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/user/advertisment', {
+      const response = await axios.post('https://backend-hgsc.onrender.com/api/user/advertisment', {
         title: Title,
         description: Description,
         price: Prix,

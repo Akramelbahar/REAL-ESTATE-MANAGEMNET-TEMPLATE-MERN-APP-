@@ -28,7 +28,7 @@ function ToAgent() {
   useEffect(() => {
     const updateRole = async () => {
       try {
-        const response = await axios.put('http://127.0.0.1:5000/api/user/role', {
+        const response = await axios.put('https://backend-hgsc.onrender.com/api/user/role', {
           newRole: state ? "agent" : "user"
         }, {
           headers: {

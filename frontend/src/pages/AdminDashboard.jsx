@@ -124,7 +124,7 @@ function AdminDashboard({ DashboardContent }) {
                                     <li>
                                         <button className="w-full text-left" onClick={() => {
                                             setUserMenuOpen(!userMenuOpen);
-                                            setDropdownOpen(false); 
+                                            
                                         }}>
                                             Gestion des utilisateurs
                                             <span className={`ml-auto transition-transform ${userMenuOpen ? 'rotate-90' : ''}`}>
@@ -157,7 +157,7 @@ function AdminDashboard({ DashboardContent }) {
                                     <li>
                                         <button className="w-full text-left" onClick={() => {
                                             setAdsMenuOpen(!adsMenuOpen);
-                                            setDropdownOpen(false); 
+                                            
                                         }}>
                                             Gestion des annonces
                                             <span className={`ml-auto transition-transform ${adsMenuOpen ? 'rotate-90' : ''}`}>

@@ -2,40 +2,59 @@ import React from 'react'
 import Profile from './Profile'
 
 function Navbar({btnSignup ,isChat,isDashboard, btnLogin , btnLogout , profile}) {
-  
+
   return (
     <><div className="navbar bg-base-300 relative ">
   <div className="navbar-start">
-    <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h8m-8 6h16" />
-        </svg>
-      </div>
-      <ul data-theme="cupcake"
-        tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-          <div className={profile=="none "? "hidden": "md:hidden flex   self-center"  }  ><a href="/profile"><Profile></Profile></a></div>
-  
-        <a href="/dashboard"><li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >Dashboard</li> </a>
-        <a href="/login"><li className={btnLogin == "none" ? "hidden" : "btn ring my-2   btn-accent ml-1 mr-1"}>Se Connecter</li></a>
-        <a href="/chat"><li className={btnLogout == "none" || isChat  ? "hidden" : "btn ring my-2  btn-accent ml-1 mr-1"}>💬</li></a>
-        <a href="signup"><li className={btnSignup=="none" ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >S'Inscrire</li></a>
-        <a className="btn  md:hidden btn-accent ml-1 ring my-2 mr-1" href="insertAd">Publier Une Annonce</a>
-        
-        <a href="/logout"><li className={btnLogout == "none"? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >Se Deconnecter</li></a>
-      
-        </ul>
-    </div>
+  <div className="dropdown">
+  <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M4 6h16M4 12h8m-8 6h16" />
+    </svg>
+  </div>
+  <ul
+    tabIndex={0}
+    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow w-full space-y-2">
+    
+    <li className={profile === "none" ? "hidden" : "md:hidden"}>
+      <a href="/profile" className="btn btn-accent w-full">Profile</a>
+    </li>
+
+    <li className={(btnLogout === "none") || isDashboard ? "hidden" : "w-full"}>
+      <a href="/dashboard" className="btn btn-accent w-full">Dashboard</a>
+    </li>
+
+    <li className={btnLogin === "none" ? "hidden" : "w-full"}>
+      <a href="/login" className="btn btn-accent w-full">Se Connecter</a>
+    </li>
+
+    <li className={btnLogout === "none" || isChat ? "hidden" : "w-full"}>
+      <a href="/chat" className="btn btn-accent w-full">💬</a>
+    </li>
+
+    <li className={btnSignup === "none" ? "hidden" : "w-full"}>
+      <a href="signup" className="btn btn-accent w-full">S'Inscrire</a>
+    </li>
+
+    <li className="md:hidden w-full">
+      <a href="insertAd" className="btn btn-accent w-full">Publier Une Annonce</a>
+    </li>
+
+    <li className={btnLogout === "none" ? "hidden" : "w-full"}>
+      <a href="/logout" className="btn btn-accent w-full">Se Deconnecter</a>
+    </li>
+  </ul>
+</div>
+
     <a className="btn btn-ghost text-xl" href="/">Biens Immobiliers</a>
   </div>
   <div className="navbar-center hidden md:flex">

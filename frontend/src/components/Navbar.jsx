@@ -21,18 +21,18 @@ function Navbar({btnSignup ,isChat,isDashboard, btnLogin , btnLogout , profile})
             d="M4 6h16M4 12h8m-8 6h16" />
         </svg>
       </div>
-      <ul data-theme="bumblebee"
+      <ul 
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
           <div className={profile=="none "? "hidden": "md:hidden flex   self-center"  }  ><a href="/profile"><Profile></Profile></a></div>
   
-        <a href="/dashboard"><li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >Dashboard</li> </a>
-        <a href="/login"><li className={btnLogin == "none" ? "hidden" : "btn ring my-2   btn-accent ml-1 mr-1"}>Se Connecter</li></a>
-        <a href="/chat"><li className={btnLogout == "none" || isChat  ? "hidden" : "btn ring my-2  btn-accent ml-1 mr-1"}>💬</li></a>
-        <a href="signup"><li className={btnSignup=="none" ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >S'Inscrire</li></a>
-        <a className="btn  md:hidden btn-accent ml-1 ring my-2 mr-1" href="insertAd">Publier Une Annonce</a>
+        <a href="/dashboard"><li className={(btnLogout == "none" ) || isDashboard ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  } data-theme="bumblebee" >Dashboard</li> </a>
+        <a href="/login"><li className={btnLogin == "none" ? "hidden" : "btn ring my-2   btn-accent ml-1 mr-1"} data-theme="bumblebee">Se Connecter</li></a>
+        <a href="/chat"><li className={btnLogout == "none" || isChat  ? "hidden" : "btn ring my-2  btn-accent ml-1 mr-1"} data-theme="bumblebee">💬</li></a>
+        <a href="signup"><li className={btnSignup=="none" ? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  data-theme="bumblebee">S'Inscrire</li></a>
+        <a className="btn  md:hidden btn-accent ml-1 ring my-2 mr-1" href="insertAd" data-theme="bumblebee">Publier Une Annonce</a>
         
-        <a href="/logout"><li className={btnLogout == "none"? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  >Se Deconnecter</li></a>
+        <a href="/logout"><li className={btnLogout == "none"? "hidden": "btn ring my-2  btn-accent ml-1 mr-1"  }  data-theme="bumblebee">Se Deconnecter</li></a>
       
         </ul>
     </div>

@@ -40,7 +40,7 @@ function AdDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:5000/api/advertisment/${id}` , {headers : {
+    axios.get(`https://backend-hgsc.onrender.com/api/advertisment/${id}` , {headers : {
       token : authToken
     }})
       .then((response) => {
@@ -81,7 +81,7 @@ function AdDetails() {
       navigate("/login");
     } else {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/api/user/advertisment/favorite/${id}`, {
+        const response = await axios.get(`https://backend-hgsc.onrender.com/api/user/advertisment/favorite/${id}`, {
           headers: {
             token:authToken
           }

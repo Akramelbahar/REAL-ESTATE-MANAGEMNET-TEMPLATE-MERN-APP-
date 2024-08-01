@@ -6,7 +6,7 @@ export const getAds = async (req, res) => {
     try {
         const offset = parseInt(req.query.offset) || 0;
         const ads = await Advertisment.find()
-            .sort({ datePosted: -1 }) 
+            .sort({ createdAt : -1 })
             .skip(offset) 
             .limit(16)
             ; 
@@ -29,7 +29,6 @@ export const searchAds = async (req,res) =>{
       Pcs,
     } = req.query;
   
-    // Build the query object
     const query = {};
     console.log({
         Titre,
@@ -51,7 +50,7 @@ export const searchAds = async (req,res) =>{
     if (Pcs) query.pcs = parseInt(Pcs, 10);
     
     try {
-      const ads = await Advertisment.find(query).limit(30);
+      const ads = await Advertisment.find(query).limit(30).sort({ createdAt : 1 });
       res.json(ads);
     } catch (error) {
       res.status(500).send('Server Error');
@@ -63,7 +62,6 @@ export const searchAds = async (req,res) =>{
       const advertismentId = req.params.advertismentId;
       const token =req.cookies.jwt ? req.cookies.jwt : req.headers.token;
   
-      // Handle user token verification
       if (token) {
         const decoded = jwt.verify(token, process.env.JWT_KEY);
         const user = await User.findById(decoded.userId);
@@ -75,13 +73,12 @@ export const searchAds = async (req,res) =>{
         }
       }
   
-      // Fetch the advertisement
       const ad = await Advertisment.findById(advertismentId)
         .populate({
           path: 'createdBy',
           select: 'FirstName LastName username profile_pic tel'
         })
-        .select('-updatedAt');
+        .select('-updatedAt').sort({ createdAt : 1 });
   
       if (!ad) {
         return res.status(404).json({
@@ -89,7 +86,6 @@ export const searchAds = async (req,res) =>{
         });
       }
   
-      // Handle IP address tracking
       const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
       if (!ad.seen.includes(ip)) {
         ad.seen.push(ip);

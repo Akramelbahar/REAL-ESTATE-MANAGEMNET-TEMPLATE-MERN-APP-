@@ -5,14 +5,13 @@ export const getUserConversationsWithLastMessage = async (req, res) => {
   try {
       const loggedInUser = req.user._id;
       
-      // Find all conversations involving the logged-in user
       const conversations = await Conversation.find({ participants: loggedInUser })
-          .sort({ updatedAt: -1 }) // Sort by most recently updated conversation
+          .sort({ updatedAt: -1 }) 
           .populate({
               path: 'messages',
               options: {
                   sort: { 'createdAt': -1 },
-                  limit: 1 // Only populate the last message
+                  limit: 1 
               }
           })
           .populate({
@@ -20,7 +19,6 @@ export const getUserConversationsWithLastMessage = async (req, res) => {
               select: ' username profile_pic',
           }).limit(10);
 
-      // Extract the necessary details from each conversation
       const userConversations = conversations.map(conversation => {
           const lastMessage = conversation.messages[0];
           const otherParticipant = conversation.participants.find(participant => participant._id.toString() !== loggedInUser.toString());

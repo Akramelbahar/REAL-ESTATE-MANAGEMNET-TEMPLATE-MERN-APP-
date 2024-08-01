@@ -13,9 +13,14 @@ export const getUsersByAdmin = async (req, res) => {
 
         if (!user || user.role !== "admin") return res.status(400).json({ message: "Invalid account." });
 
-        const users = await User.find().sort({ date: 1 }).skip(20 * offset).limit(20).select("-password");
-
-        res.status(200).json(users);
+        const users = await User.find().sort({ date: 1 }).skip(20 * offset).limit(20).select("-gender -seen -favorite -createdAt -updatedAt");
+        
+        const modifiedUsers = users.map(user => {
+            let userObj = user.toObject(); 
+            userObj.ads = userObj.ads.length; 
+            return userObj;
+        });
+        res.status(200).json(modifiedUsers);
     } catch (error) {
         res.status(500).json({ message: "Error fetching users" });
     }
@@ -57,11 +62,10 @@ export const createUser = async (req, res) => {
             confirmPassword,
             role = 'user',
             tel = '',
-            gender
         } = req.body;
 
-
-        if (!FirstName || !LastName || !username || !email || !password || !confirmPassword || !gender) {
+        const gender="none"
+        if (!FirstName || !LastName || !username || !email || !password || !confirmPassword ) {
             return res.status(400).json({ message: 'Please fill in all required fields.' });
         }
 
@@ -73,8 +77,6 @@ export const createUser = async (req, res) => {
 
         const maleAvatar = 'https://avatar.iran.liara.run/public/boy?username=' + username;
         const femaleAvatar = 'https://avatar.iran.liara.run/public/girl?username=' + username;
-        const profilePic = gender === 'male' ? maleAvatar : femaleAvatar;
-
         const newUser = new User({
             FirstName,
             LastName,
@@ -84,7 +86,7 @@ export const createUser = async (req, res) => {
             tel,
             role,
             gender,
-            profile_pic: profilePic
+            profile_pic: maleAvatar
         });
 
         await newUser.save();
@@ -153,7 +155,6 @@ export const editUser = async (req, res) => {
             favorite
         } = req.body;
 
-        // Update user fields only if they are provided
         user.FirstName = FirstName ?? user.FirstName;
         user.LastName = LastName ?? user.LastName;
         user.username = username ?? user.username;
@@ -164,7 +165,6 @@ export const editUser = async (req, res) => {
         user.gender = gender ?? user.gender;
         user.profile_pic = profile_pic ?? user.profile_pic;
 
-        // Handle updates to ads and favorite arrays
         if (ads) {
             user.ads = [...user.ads, ads];
         }
@@ -186,23 +186,39 @@ export const editUser = async (req, res) => {
 };
 
 
-
 export const getAdvertismentsByAdmin = async (req, res) => {
     try {
         const adminId = req.user._id;
         const offset = req.query.offset ? parseInt(req.query.offset) : 0;
 
-        if (!adminId) return res.status(400).json({ message: "Invalid account." });
+        if (!adminId) {
+            return res.status(400).json({ message: "Invalid account." });
+        }
 
         const user = await User.findById(adminId);
 
-        if (!user || user.role !== "admin") return res.status(400).json({ message: "Invalid account." });
+        if (!user || user.role !== "admin") {
+            return res.status(400).json({ message: "Invalid account." });
+        }
 
-        const ads = await Advertisment.find().sort({ date: 1 }).skip(20 * offset).limit(20).select("-password");
+        const ads = await Advertisment.find()
+            .sort({ date: 1 })
+            .skip(20 * offset)
+            .limit(20)
+            .populate({
+                path: "createdBy",
+                select: 'username'
+            })
+            .select("description title adresse createdBy seen");
 
-        res.status(200).json(ads);
+        const adsWithSeenCount = ads.map(ad => ({
+            ...ad.toObject(),
+            seen: ad.seen.length
+        }));
+
+        res.status(200).json(adsWithSeenCount);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching users" });
+        res.status(500).json({ message: "Error fetching Ads" });
     }
 };
 
@@ -249,3 +265,31 @@ export const deleteAd = async (req,res)=>{
         res.status(500).json({ message: "Error fetching listing" });
     }
 }
+
+
+export const getStatistics = async (startDate, endDate) => {
+    const usersCount = await User.countDocuments({
+        createdAt: { $gte: startDate, $lt: endDate }
+    });
+
+    const adsCount = await Advertisment.countDocuments({
+        createdAt: { $gte: startDate, $lt: endDate }
+    });
+
+    const seenCount = await Advertisment.aggregate([
+        { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+        { $unwind: '$seen' },
+        { $count: 'seenCount' }
+    ]);
+
+    return {
+        usersCount,
+        adsCount,
+        seenCount: seenCount.length > 0 ? seenCount[0].seenCount : 0
+    };
+};
+
+export const calculateChangeRate = (current, previous) => {
+    if (previous === 0) return current === 0 ? 0 : 100;
+    return ((current - previous) / previous) * 100;
+};

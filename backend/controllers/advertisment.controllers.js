@@ -192,8 +192,12 @@ export const getUserAds = async (req, res) => {
             return res.status(400).json({ message: "Invalid User ID format" });
         }
 
-        const user = await User.findById(userId).populate("ads");
-
+        const user = await User.findById(userId).populate({
+            path: "ads",
+            options: {
+                sort: { createdAt: -1 } 
+            }
+        });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }

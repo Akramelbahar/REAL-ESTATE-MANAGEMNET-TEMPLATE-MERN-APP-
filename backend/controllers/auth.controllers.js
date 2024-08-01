@@ -62,7 +62,7 @@ export const  signup = async (req , res)=>{
             tel : tel ?tel : "",
             role,
             gender:gender? gender : 'none',
-            profile_pic:gender === "male" ? male_avatar : female_avatar
+            profile_pic:male_avatar
 
         })
         if (newUser){

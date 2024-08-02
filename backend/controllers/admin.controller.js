@@ -266,7 +266,6 @@ export const deleteAd = async (req,res)=>{
     }
 }
 
-
 export const getStatistics = async (startDate, endDate) => {
     const usersCount = await User.countDocuments({
         createdAt: { $gte: startDate, $lt: endDate }
@@ -276,16 +275,14 @@ export const getStatistics = async (startDate, endDate) => {
         createdAt: { $gte: startDate, $lt: endDate }
     });
 
-    const seenCount = await Advertisment.aggregate([
-        { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
-        { $unwind: '$seen' },
-        { $count: 'seenCount' }
-    ]);
+    const seenCount = await Seen.countDocuments({
+        createdAt: { $gte: startDate, $lt: endDate }
+    });
 
     return {
         usersCount,
         adsCount,
-        seenCount: seenCount.length > 0 ? seenCount[0].seenCount : 0
+        seenCount
     };
 };
 

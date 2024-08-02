@@ -1,4 +1,5 @@
 import Advertisment from "../models/advertisment.model.js";
+import Seen from "../models/log.model.js";
 import User from "../models/user.model.js";
 
 

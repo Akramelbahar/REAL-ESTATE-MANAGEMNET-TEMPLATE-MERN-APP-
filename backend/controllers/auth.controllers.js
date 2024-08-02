@@ -5,7 +5,7 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 export const login = async (req,res)=>{
    try {
         const {username,password} = req.body ;
-        const user = await User.findOne({username});
+        const user = await User.findOne({username.toLowerCase()});
         if(!user || (user.password != password))return res.status(400).json({message:"Invalid username or password ."});
 
         res.status(200).json({
@@ -56,8 +56,8 @@ export const  signup = async (req , res)=>{
         const newUser = new User({
             FirstName:FirstName ,
             LastName:LastName,
-            username:username,
-            email:email,
+            username:username.toLowerCase(),
+            email:email.toLowerCase(),
             password:password,
             tel : tel ?tel : "",
             role,

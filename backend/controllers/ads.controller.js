@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
 import Advertisment from '../models/advertisment.model.js';
+import Seen from '../models/log.model.js';
 
 export const getAds = async (req, res) => {
     try {
@@ -72,7 +73,7 @@ export const searchAds = async (req,res) =>{
           
         }
       }
-  
+      
       const ad = await Advertisment.findById(advertismentId)
         .populate({
           path: 'createdBy',
@@ -91,7 +92,14 @@ export const searchAds = async (req,res) =>{
         ad.seen.push(ip);
         await ad.save();
       }
-  
+      
+    const seen = new Seen({
+        ad: ad._id,
+        ip: ip || ""
+    });
+    await seen.save();
+
+
       res.status(200).json({
         data: ad
       });

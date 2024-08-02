@@ -60,7 +60,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/user/advertisment", advertismentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/advertisment", adsRoutes);
-app.use("/api/listing", advertismentRoutes);
+app.use("/api/listing", adsRoutes);
 
 
 app.post('/upload', upload.single('file'), (req, res) => {

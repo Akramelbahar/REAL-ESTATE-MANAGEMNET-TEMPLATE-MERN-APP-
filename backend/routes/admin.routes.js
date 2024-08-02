@@ -13,42 +13,42 @@ router.get("/advertisments",protectRoute,getAdvertismentsByAdmin);
 router.get("/advertisment/:idAd",protectRoute,getAdvertismentByAdmin);
 router.delete("/advertisment/:idAd",protectRoute,deleteAd)
 
-router.get('/stats/:period', protectRoute,async (req, res) => {
+router.get('/stats/:period', protectRoute, async (req, res) => {
     const period = req.params.period;
     const currentDate = new Date();
     let startDate, previousStartDate, previousEndDate;
 
     switch (period) {
         case 'today':
-            startDate = new Date();
-            startDate.setDate(currentDate.getDate());
+            startDate = new Date(currentDate);
+            startDate.setHours(0, 0, 0, 0); // Set to the start of the day
             previousStartDate = new Date(startDate);
             previousStartDate.setDate(previousStartDate.getDate() - 1);
             previousEndDate = new Date(startDate);
             break;
         case 'last-3-days':
-            startDate = new Date();
+            startDate = new Date(currentDate);
             startDate.setDate(currentDate.getDate() - 3);
             previousStartDate = new Date(startDate);
             previousStartDate.setDate(previousStartDate.getDate() - 3);
             previousEndDate = new Date(startDate);
             break;
         case 'last-7-days':
-            startDate = new Date();
+            startDate = new Date(currentDate);
             startDate.setDate(currentDate.getDate() - 7);
             previousStartDate = new Date(startDate);
             previousStartDate.setDate(previousStartDate.getDate() - 7);
             previousEndDate = new Date(startDate);
             break;
         case 'last-30-days':
-            startDate = new Date();
+            startDate = new Date(currentDate);
             startDate.setDate(currentDate.getDate() - 30);
             previousStartDate = new Date(startDate);
             previousStartDate.setDate(previousStartDate.getDate() - 30);
             previousEndDate = new Date(startDate);
             break;
         case 'last-365-days':
-            startDate = new Date();
+            startDate = new Date(currentDate);
             startDate.setDate(currentDate.getDate() - 365);
             previousStartDate = new Date(startDate);
             previousStartDate.setDate(previousStartDate.getDate() - 365);
@@ -72,4 +72,5 @@ router.get('/stats/:period', protectRoute,async (req, res) => {
         ...changeRates
     });
 });
+
 export default router ;

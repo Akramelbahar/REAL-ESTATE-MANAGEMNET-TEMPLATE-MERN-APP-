@@ -21,7 +21,7 @@ router.get('/stats/:period', protectRoute,async (req, res) => {
     switch (period) {
         case 'today':
             startDate = new Date();
-            startDate.setHours(0, 0, 0, 0);
+            startDate.setDate(currentDate.getDate());
             previousStartDate = new Date(startDate);
             previousStartDate.setDate(previousStartDate.getDate() - 1);
             previousEndDate = new Date(startDate);

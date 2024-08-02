@@ -40,7 +40,7 @@ function AdDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`https://backend-hgsc.onrender.com/api/advertisment/${id}` , {headers : {
+    axios.get(`https://backend-hgsc.onrender.com/api/listing/${id}` , {headers : {
       token : authToken
     }})
       .then((response) => {

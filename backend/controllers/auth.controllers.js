@@ -1,37 +1,40 @@
 import User from "../models/user.model.js";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
+import bcrypt from 'bcrypt';
 
-
-export const login = async (req,res)=>{
-   try {
-        const {username,password} = req.body ;
-        const user = await User.findOne({username.toLowerCase()});
-        if(!user || (user.password != password))return res.status(400).json({message:"Invalid username or password ."});
-
-        res.status(200).json({
-            user , 
-            token :generateTokenAndSetCookie(user._id,res)
-        })
-
-
-
-   } catch (error) {
-    res.status(404).json({message:error.message});
-   }
-}
-
-export const logout = (req , res)=>{
+export const login = async (req, res) => {
     try {
-        res.cookie("jwt","",{
-            maxAge:0
-        })
-        return res.status(200).send("Log out successfully");
+        const { username, password } = req.body;
+        const user = await User.findOne({ username: username.toLowerCase() });
+        
+        if (!user) return res.status(400).json({ message: "Invalid username or password." });
+        
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) return res.status(400).json({ message: "Invalid username or password." });
+
+        const token = generateTokenAndSetCookie(user._id, res);
+        res.status(200).json({
+            user,
+            token
+        });
+
     } catch (error) {
-        res.status(404).json({message:error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 
-export const  signup = async (req , res)=>{
+export const logout = (req, res) => {
+    try {
+        res.cookie("jwt", "", {
+            maxAge: 0
+        });
+        return res.status(200).send("Logged out successfully");
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export const signup = async (req, res) => {
     try {
         const {
             FirstName,
@@ -39,46 +42,46 @@ export const  signup = async (req , res)=>{
             username,
             email,
             password,
-            confirmPassword, 
+            confirmPassword,
             tel,
             role,
-            
             gender,
-            
-        }= req.body; 
-        console.log(req.body)
-        if(password!=confirmPassword)return res.status(409).send({message:"Password don't match !"});
-        const user = await User.findOne({username});
-        if (!(["agent","user"].includes(role)))return res.status(409).send({message:"Account Type Invalid"});
-        if(user)return res.send({message:"error username exist already ! "}).status(409);
-        const male_avatar = 'https://avatar.iran.liara.run/public/boy?username='+username;
-        const female_avatar = 'https://avatar.iran.liara.run/public/girl?username='+username;
-        const newUser = new User({
-            FirstName:FirstName ,
-            LastName:LastName,
-            username:username.toLowerCase(),
-            email:email.toLowerCase(),
-            password:password,
-            tel : tel ?tel : "",
-            role,
-            gender:gender? gender : 'none',
-            profile_pic:male_avatar
+        } = req.body;
 
-        })
-        if (newUser){
-            generateTokenAndSetCookie(newUser._id,res)
-            await newUser.save();
-            
-            res.status(201).json({
-            user : newUser,
-            token : generateTokenAndSetCookie(newUser._id,res)
-            });
-        }
-        else {
-            return res.status(400).json({message:"New User Error ; "});
-        }
+        if (password !== confirmPassword) return res.status(409).send({ message: "Passwords don't match!" });
+        
+        const existingUser = await User.findOne({ username: username.toLowerCase() });
+        if (existingUser) return res.status(409).json({ message: "Username already exists!" });
+
+        if (!(["agent", "user"].includes(role))) return res.status(409).json({ message: "Invalid account type" });
+
+        const profilePicUrl = gender === 'female' 
+            ? `https://avatar.iran.liara.run/public/girl?username=${username}`
+            : `https://avatar.iran.liara.run/public/boy?username=${username}`;
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = new User({
+            FirstName,
+            LastName,
+            username: username.toLowerCase(),
+            email: email.toLowerCase(),
+            password: hashedPassword,
+            tel: tel || "",
+            role,
+            gender: gender || 'none',
+            profile_pic: profilePicUrl
+        });
+
+        await newUser.save();
+
+        const token = generateTokenAndSetCookie(newUser._id, res);
+        res.status(201).json({
+            user: newUser,
+            token
+        });
 
     } catch (error) {
-        res.send({"error":error.message})
+        res.status(500).json({ message: error.message });
     }
 }

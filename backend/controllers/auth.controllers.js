@@ -1,16 +1,14 @@
 import User from "../models/user.model.js";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
-import bcrypt from 'bcrypt';
 
 export const login = async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username: username.toLowerCase() });
         
-        if (!user) return res.status(400).json({ message: "Invalid username or password." });
-        
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) return res.status(400).json({ message: "Invalid username or password." });
+        if (!user || user.password !== password) {
+            return res.status(400).json({ message: "Invalid username or password." });
+        }
 
         const token = generateTokenAndSetCookie(user._id, res);
         res.status(200).json({
@@ -48,25 +46,29 @@ export const signup = async (req, res) => {
             gender,
         } = req.body;
 
-        if (password !== confirmPassword) return res.status(409).send({ message: "Passwords don't match!" });
+        if (password !== confirmPassword) {
+            return res.status(409).send({ message: "Passwords don't match!" });
+        }
         
         const existingUser = await User.findOne({ username: username.toLowerCase() });
-        if (existingUser) return res.status(409).json({ message: "Username already exists!" });
+        if (existingUser) {
+            return res.status(409).json({ message: "Username already exists!" });
+        }
 
-        if (!(["agent", "user"].includes(role))) return res.status(409).json({ message: "Invalid account type" });
+        if (!(["agent", "user"].includes(role))) {
+            return res.status(409).json({ message: "Invalid account type" });
+        }
 
         const profilePicUrl = gender === 'female' 
             ? `https://avatar.iran.liara.run/public/girl?username=${username}`
             : `https://avatar.iran.liara.run/public/boy?username=${username}`;
         
-        const hashedPassword = await bcrypt.hash(password, 10);
-
         const newUser = new User({
             FirstName,
             LastName,
             username: username.toLowerCase(),
             email: email.toLowerCase(),
-            password: hashedPassword,
+            password,  // storing the plain text password
             tel: tel || "",
             role,
             gender: gender || 'none',

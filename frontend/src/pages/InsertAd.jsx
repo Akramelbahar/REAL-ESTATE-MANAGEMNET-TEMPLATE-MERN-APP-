@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { useHref, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import ToggleTheme from '../components/ToggleTheme';
 import Carousel from '../components/Carousselle';
 import axios from 'axios';
 import { UserRole } from '../components/UserRole';
 import toast, { Toaster } from 'react-hot-toast';
+
 function InsertAd() {
   const navigate = useNavigate();
   const { authToken } = useAuth();
 
+  // Redirect to login if no authToken is present
   useEffect(() => {
     if (!authToken) {
+      console.log('No auth token, redirecting to login');
       navigate("/login");
     }
   }, [authToken, navigate]);
@@ -30,15 +33,15 @@ function InsertAd() {
   const [Pictures, setPictures] = useState([]);
   const [Html, setHtml] = useState(<Carousel items={[]} />);
   const [Post, setPost] = useState(false);
-  const [AlertState, setAlertState] = useState("hidden");
-  const [Response, setResponse] = useState("");
 
+  // Redirect to dashboard after successful post
   useEffect(() => {
     if (Post) {
       navigate("/dashboard");
     }
   }, [Post, navigate]);
 
+  // Publish the advertisement
   const publish = async () => {
     try {
       const response = await axios.post('https://backend-hgsc.onrender.com/api/user/advertisment', {
@@ -59,26 +62,24 @@ function InsertAd() {
         },
         withCredentials: true,
       });
+
       if (response.status === 201) {
         toast.success("Votre advertisement a été publié");
-        setTimeout(() => {
-          setPost(true);
-        }, 150);
+        setPost(true);
       } else {
         toast.error("Erreur en validation de vos info");
-        
       }
     } catch (error) {
       toast.error("Erreur en validation de vos info");
     }
   };
 
+  // Check user role and redirect if not authorized
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
         const role = await UserRole(authToken);
         if (role === "user") {
-          
           navigate("/UserError");
         }
       } catch (error) {
@@ -86,8 +87,12 @@ function InsertAd() {
       }
     };
 
-    fetchUserRole();
+    if (authToken) {
+      fetchUserRole();
+    }
   }, [authToken, navigate]);
+
+  // Handle file upload
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -103,6 +108,7 @@ function InsertAd() {
     }
   };
 
+  // Remove a picture based on hash
   const removePicture = () => {
     const hash = window.location.hash.substring(1);
     const itemIndex = hash.startsWith("item") ? parseInt(hash.substring(4)) : -1;
@@ -112,6 +118,7 @@ function InsertAd() {
     }
   };
 
+  // Update Carousel with the latest pictures
   useEffect(() => {
     setHtml(<Carousel items={Pictures} />);
   }, [Pictures]);
@@ -144,7 +151,7 @@ function InsertAd() {
             <option value="Maison">Maison</option>
             <option value="Autre">Autre</option>
           </select> : 
-          <input type="text" placeholder="Entrer le type du bien" className="input    w-4/6 md:w-2/6 input-bordered" onChange={(e) => setTypeBien(e.target.value)} />}
+          <input type="text" placeholder="Entrer le type du bien" className="input w-4/6 md:w-2/6 input-bordered" onChange={(e) => setTypeBien(e.target.value)} />}
            
           
         </div>

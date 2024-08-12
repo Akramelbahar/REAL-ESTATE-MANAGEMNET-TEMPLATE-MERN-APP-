@@ -9,7 +9,7 @@ export default {
   },
   daisyui: {
     themes: [
-      "business",
+      "corporate",
       "dark"
     ]
   },

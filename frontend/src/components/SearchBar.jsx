@@ -1,73 +1,57 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Ads from './Ads';
 
 function SearchBar() {
   const [Titre, setTitre] = useState("");
   const [Location, setLocation] = useState("");
-  const [TypeBien, setTypeBien] = useState("Tout");
-  const [MinPrix, setMinPrix] = useState(0);
-  const [MaxPrix, setMaxPrix] = useState(0);
-  const [MinSurface, setMinSurface] = useState(0);
-  const [MaxSurface, setMaxSurface] = useState(0);
-  const [Pcs, setPcs] = useState(0);
+  const [LeTypeBien, setTypeBien] = useState("Tout");
+  const [MinPrix, setMinPrix] = useState("");
+  const [MaxPrix, setMaxPrix] = useState("");
+  const [MinSurface, setMinSurface] = useState("");
+  const [MaxSurface, setMaxSurface] = useState("");
+  const [Pcs, setPcs] = useState("");
   const [featuredAds, setFeaturedAds] = useState([]);
-  useEffect(()=>{
-    if(TypeBien == "autre") setTypeBien("")
-    
-  },[TypeBien])
-  useEffect(()=>{
-    if(MaxPrix == 0)setMaxPrix("")
-    
-  },[MaxPrix])
-  useEffect(()=>{
-    if(MaxSurface == 0)setMaxSurface("")
-  },[MaxSurface])
-  
-   
 
+  useEffect(() => {
+    if (LeTypeBien === "autre") setTypeBien("");
+  }, [LeTypeBien]);
 
-
-const fetchAds = async () => {
-    
-      const params = {
-        Titre,
-        Location,
-        TypeBien : TypeBien =="Tout" ? "" : TypeBien,
-        MinPrix,
-        MaxPrix,
-        MinSurface,
-        MaxSurface,
-        Pcs
-      };
-      
-      
-      const queryString = Object.keys(params)
-        .filter(key => params[key])
-        .map(key => `${key}=${encodeURIComponent(params[key])}`)
-        .join('&');
-  
-      try {
-        const res = await axios.get(`https://backend-hgsc.onrender.com/api/advertisment/search?${queryString}`);
-        const ads = res.data;
-  
-        const formattedAds = ads.map(element => ({
-          image: element.pictures[0],
-          title: element.title,
-          price: element.price,
-          location: element.adresse,
-          rooms: element.pcs,
-          id : element._id
-          
-      }));
-      setFeaturedAds(formattedAds);
-      } catch (error) {
-        console.error("Error fetching ads", error);
-      }
+  const fetchAds = useCallback(async () => {
+    const params = {
+      Titre,
+      Location,
+      TypeBien: LeTypeBien === "Tout" ? "" : LeTypeBien,
+      MinPrix,
+      MaxPrix,
+      MinSurface,
+      MaxSurface,
+      Pcs
     };
 
-    useEffect(()=>{console.log("")} , [featuredAds])
+    const queryString = Object.keys(params)
+      .filter(key => params[key])
+      .map(key => `${key}=${encodeURIComponent(params[key])}`)
+      .join('&');
 
+    try {
+      const res = await axios.get(`https://backend-hgsc.onrender.com/api/listing/search?${queryString}`);
+      const ads = res.data;
+
+      const formattedAds = ads.map(element => ({
+        image: element.pictures[0],
+        title: element.title,
+        price: element.price,
+        location: element.adresse,
+        rooms: element.pcs,
+        id: element._id
+      }));
+
+      setFeaturedAds(formattedAds);
+    } catch (error) {
+      console.error("Error fetching ads:", error);
+    }
+  }, [Titre, Location, LeTypeBien, MinPrix, MaxPrix, MinSurface, MaxSurface, Pcs]);
 
   return (
     <div className="ring-1 bg-base-100 rounded container mx-auto p-4">
@@ -85,20 +69,25 @@ const fetchAds = async () => {
           </div>
           <div>
             <label className="block text-sm md:text-base">Type de bien</label>
-            {TypeBien === "appartement" || TypeBien === "maison" || TypeBien === "terrain" ? (
-                <select defaultChecked={"Tout"} onChange={(e)=>setTypeBien(e.target.value)} className="select select-bordered w-full">
-                  <option value="Tout">Tout</option>
-                  <option value="appartement">Appartement</option>
-                  <option value="maison">Maison</option>
-                  <option value="terrain">Terrain</option>
-                  <option value="autre">Autre</option>
-                </select>
-              ) : (
-                <div>
-                  
-                  <input type="text" className="input input-bordered w-full" onChange={(e)=>setTypeBien(e.target.value)} placeholder="Entrer Le Type du Bien" />
-                </div>
-              )}
+            <select
+              value={LeTypeBien}
+              onChange={(e) => setTypeBien(e.target.value)}
+              className="select select-bordered w-full"
+            >
+              <option value="Tout">Tout</option>
+              <option value="appartement">Appartement</option>
+              <option value="maison">Maison</option>
+              <option value="terrain">Terrain</option>
+              <option value="autre">Autre</option>
+            </select>
+            {LeTypeBien === "autre" && (
+              <input
+                type="text"
+                className="input input-bordered w-full mt-2"
+                onChange={(e) => setTypeBien(e.target.value)}
+                placeholder="Entrer Le Type du Bien"
+              />
+            )}
           </div>
           <div>
             <label className="block text-sm md:text-base">Localisation</label>
@@ -113,7 +102,7 @@ const fetchAds = async () => {
             <label className="block text-sm md:text-base">Prix minimum</label>
             <input
               type="number"
-              onChange={(e) => setMinPrix(e.target.value)}
+              onChange={(e) => setMinPrix(e.target.value || "")}
               className="input input-bordered w-full"
               placeholder="MAD"
             />
@@ -122,7 +111,7 @@ const fetchAds = async () => {
             <label className="block text-sm md:text-base">Prix maximum</label>
             <input
               type="number"
-              onChange={(e) => setMaxPrix(e.target.value)}
+              onChange={(e) => setMaxPrix(e.target.value || "")}
               className="input input-bordered w-full"
               placeholder="MAD"
             />
@@ -131,7 +120,7 @@ const fetchAds = async () => {
             <label className="block text-sm md:text-base">Surface minimum (m²)</label>
             <input
               type="number"
-              onChange={(e) => setMinSurface(e.target.value)}
+              onChange={(e) => setMinSurface(e.target.value || "")}
               className="input input-bordered w-full"
               placeholder="m²"
             />
@@ -140,7 +129,7 @@ const fetchAds = async () => {
             <label className="block text-sm md:text-base">Surface maximum (m²)</label>
             <input
               type="number"
-              onChange={(e) => setMaxSurface(e.target.value)}
+              onChange={(e) => setMaxSurface(e.target.value || "")}
               className="input input-bordered w-full"
               placeholder="m²"
             />
@@ -149,7 +138,7 @@ const fetchAds = async () => {
             <label className="block text-sm md:text-base">Nombre de pièces</label>
             <input
               type="number"
-              onChange={(e) => setPcs(e.target.value)}
+              onChange={(e) => setPcs(e.target.value || "")}
               className="input input-bordered w-full"
             />
           </div>
@@ -160,7 +149,7 @@ const fetchAds = async () => {
           </div>
         </div>
       </div>
-      <Ads  name="Resultat de votre recherche:" ads={featuredAds}/>
+      <Ads name="Résultat de votre recherche:" ads={featuredAds} />
     </div>
   );
 }

@@ -98,8 +98,9 @@ function AdDetails() {
   return (
     <>
       <Navbar
-        btnSignup={authToken ? "none" : ""}
-        btnLogin={authToken ? "none" : ""}
+        btnSignup="none"
+        btnLogin="none"
+        MonCompte="display"
         btnLogout={authToken ? "" : "none"}
         profile={authToken ? "" : "none"}
       />

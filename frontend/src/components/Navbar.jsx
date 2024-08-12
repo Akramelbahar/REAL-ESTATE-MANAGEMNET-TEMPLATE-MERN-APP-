@@ -1,7 +1,7 @@
 import React from 'react'
 import Profile from './Profile'
 
-function Navbar({ btnSignup, isChat, isDashboard, btnLogin, btnLogout, profile }) {
+function Navbar({ btnSignup,MonCompte , isChat, isDashboard, btnLogin, btnLogout, profile }) {
   return (
     <div className="navbar bg-base-300 relative">
       <div className="navbar-start">
@@ -81,6 +81,9 @@ function Navbar({ btnSignup, isChat, isDashboard, btnLogin, btnLogout, profile }
           <li className={btnLogout === "none" ? "hidden" : ""}>
             <a href="/logout" className="btn btn-accent">Se Deconnecter</a>
           </li>
+           <li className={MonCompte === "display" ? "" : "hidden"}>
+              <a href="/login" className="btn btn-accent w-full text-center">Mon Compte</a>
+            </li>
           <li className={btnLogin === "none" ? "hidden" : ""}>
             <a href="/login" className="btn btn-accent">Se Connecter</a>
           </li>

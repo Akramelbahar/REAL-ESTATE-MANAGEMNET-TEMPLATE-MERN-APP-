@@ -86,7 +86,7 @@ const fetchAds = async () => {
           <div>
             <label className="block text-sm md:text-base">Type de bien</label>
             {TypeBien === "appartement" || TypeBien === "maison" || TypeBien === "terrain" ? (
-                <select defaultChecked={TypeBien} onChange={(e)=>setTypeBien(e.target.value)} className="select select-bordered w-full">
+                <select defaultChecked={"Tout"} onChange={(e)=>setTypeBien(e.target.value)} className="select select-bordered w-full">
                   <option value="Tout">Tout</option>
                   <option value="appartement">Appartement</option>
                   <option value="maison">Maison</option>

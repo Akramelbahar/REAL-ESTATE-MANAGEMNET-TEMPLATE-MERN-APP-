@@ -35,7 +35,9 @@ function Navbar({ btnSignup, isChat, isDashboard, btnLogin, btnLogout, profile }
             <li className={(btnLogout === "none") || isDashboard ? "hidden" : ""}>
               <a href="/dashboard" className="btn btn-accent w-full text-center">Dashboard</a>
             </li>
-
+            <li className={MonCompte === "display" ? "" : "hidden"}>
+              <a href="/login" className="btn btn-accent w-full text-center">Mon Compte</a>
+            </li>
             {/* Login */}
             <li className={btnLogin === "none" ? "hidden" : ""}>
               <a href="/login" className="btn btn-accent w-full text-center">Se Connecter</a>

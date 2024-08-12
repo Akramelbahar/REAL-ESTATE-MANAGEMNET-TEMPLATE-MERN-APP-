@@ -51,7 +51,7 @@ function AdCard({ ad, edit, token }) {
   }, [OnDeleteValidation]);
 
   return (
-    <div className="card border-bottom  border-x-2  hover:ring-1  w-full bg-base-100 shadow-md" data-theme={window.location.pathname.includes("dashboard") ? undefined : "dark"}>
+    <div className="card border-bottom  border-x-2  hover:ring-1  w-full bg-base-100 shadow-md" data-theme={window.location.pathname.includes("dashboard") ? undefined : ""}>
       <a className='rounded' href={"advertisement/"+ad.id}><figure className='rounded'><img src={ad.image} alt={ad.title} className="w-full m-1 rounded-lg  h-48  object-cover" /></figure></a>
       <div className="card-body">
       <a href={"advertisement/"+ad.id}>

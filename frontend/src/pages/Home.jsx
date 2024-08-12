@@ -41,7 +41,7 @@ function Home() {
 
     return (
         <>
-            {authToken ? <Navbar btnLogin="none" btnSignup="none" /> : <Navbar btnLogout="none" />}
+            {authToken ? <Navbar btnLogin="none" btnSignup="none" /> : <Navbar MonCompte="display" btnLogin="none" btnSignup="none"  btnLogout="none" />}
             <div className=' md:m-6 bg-base-300 md:p-3 rounded ring'>
                 <SearchBar  />
                 <div className='flex flex-col items-center '>

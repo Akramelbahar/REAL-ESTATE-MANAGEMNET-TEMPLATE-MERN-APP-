@@ -5,7 +5,7 @@ import Ads from './Ads';
 function SearchBar() {
   const [Titre, setTitre] = useState("");
   const [Location, setLocation] = useState("");
-  const [TypeBien, setTypeBien] = useState("appartement");
+  const [TypeBien, setTypeBien] = useState("Tout");
   const [MinPrix, setMinPrix] = useState(0);
   const [MaxPrix, setMaxPrix] = useState(0);
   const [MinSurface, setMinSurface] = useState(0);
@@ -33,7 +33,7 @@ const fetchAds = async () => {
       const params = {
         Titre,
         Location,
-        TypeBien,
+        TypeBien : TypeBien =="Tout" ? "" : TypeBien,
         MinPrix,
         MaxPrix,
         MinSurface,
@@ -87,6 +87,7 @@ const fetchAds = async () => {
             <label className="block text-sm md:text-base">Type de bien</label>
             {TypeBien === "appartement" || TypeBien === "maison" || TypeBien === "terrain" ? (
                 <select defaultChecked={TypeBien} onChange={(e)=>setTypeBien(e.target.value)} className="select select-bordered w-full">
+                  <option value="Tout">Tout</option>
                   <option value="appartement">Appartement</option>
                   <option value="maison">Maison</option>
                   <option value="terrain">Terrain</option>

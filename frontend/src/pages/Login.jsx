@@ -86,6 +86,9 @@ function Login() {
                                 <input type="password" className="grow" placeholder="Le mot de passe" onChange={(e) => setPassword(e.target.value)} required />
                             </label>
                         </div>
+                         <div className="flex justify-end md:w-1/2 mx-auto">
+                             <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-link ">S'inscrire</button>
+                        </div>
                         <button className="btn btn-active btn-primary block my-3 w-3/4 md:w-auto mx-auto">Se connecter</button>
                     </form>
                 </div>

@@ -87,7 +87,7 @@ function Login() {
                             </label>
                         </div>
                          <div className="flex justify-end md:w-1/2 mx-auto">
-                            <a className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-link" href="/signup"}>S'inscrire</a>
+                            <a className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-link" href="/signup">S'inscrire</a>
                          </div>
                         <button className="btn btn-active btn-primary block my-3 w-3/4 md:w-auto mx-auto">Se connecter</button>
                     </form>

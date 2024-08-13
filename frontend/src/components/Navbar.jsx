@@ -50,7 +50,7 @@ function Navbar({ btnSignup,MonCompte , isChat, isDashboard, btnLogin, btnLogout
 
             {/* Signup */}
             <li className={btnSignup === "none" ? "hidden" : ""}>
-              <a href="signup" className="btn btn-accent w-full text-center">S'Inscrire</a>
+              <a href="/signup" className="btn btn-accent w-full text-center">S'Inscrire</a>
             </li>
 
             {/* Insert Ad */}
@@ -91,7 +91,7 @@ function Navbar({ btnSignup,MonCompte , isChat, isDashboard, btnLogin, btnLogout
             <a href="/chat" className="btn btn-accent">💬</a>
           </li>
           <li className={btnSignup === "none" ? "hidden" : ""}>
-            <a href="signup" className="btn btn-accent">S'Inscrire</a>
+            <a href="/signup" className="btn btn-accent">S'Inscrire</a>
           </li>
           <li className={(btnLogout === "none") || isDashboard ? "hidden" : ""}>
             <a href="/dashboard" className="btn btn-accent">Dashboard</a>

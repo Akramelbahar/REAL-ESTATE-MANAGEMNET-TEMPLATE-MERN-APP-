@@ -55,7 +55,7 @@ function Navbar({ btnSignup,MonCompte , isChat, isDashboard, btnLogin, btnLogout
 
             {/* Insert Ad */}
             <li className="md:hidden">
-              <a href="insertAd" className="btn btn-accent w-full text-center">Publier Une Annonce</a>
+              <a href="/insertAd" className="btn btn-accent w-full text-center">Publier Une Annonce</a>
             </li>
 
             {/* Logout */}
@@ -97,7 +97,7 @@ function Navbar({ btnSignup,MonCompte , isChat, isDashboard, btnLogin, btnLogout
             <a href="/dashboard" className="btn btn-accent">Dashboard</a>
           </li>
           <li className="hidden lg:flex">
-            <a href="insertAd" className="btn btn-accent">Publier Une Annonce</a>
+            <a href="/insertAd" className="btn btn-accent">Publier Une Annonce</a>
           </li>
         </ul>
       </div>

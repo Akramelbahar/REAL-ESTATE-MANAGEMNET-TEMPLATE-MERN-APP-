@@ -151,7 +151,7 @@ function SignUp() {
                             </select>
                         </div>
                         <div className="flex justify-end md:w-1/2 mx-auto">
-                            <a className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-link" href="/login"}>Se connecter</a>
+                            <a className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-link" href="/login">Se connecter</a>
                          </div>
                         <button className="btn btn-active btn-primary block my-3 mx-auto" >Créer un compte</button>
                     </form>

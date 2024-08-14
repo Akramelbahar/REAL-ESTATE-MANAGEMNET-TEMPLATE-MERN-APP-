@@ -5,7 +5,7 @@ import { getAdById, getAds, totalPages , searchAds } from "../controllers/ads.co
 const router = express.Router();
 
 router.get("", getAds);
-router.get("/search" ,searchAds)
-router.get("/:advertismentId" ,getAdById);
+router.get("/search" ,searchAds);
 router.get("/pageCount" , totalPages);
+router.get("/:advertismentId" ,getAdById);
 export default router;

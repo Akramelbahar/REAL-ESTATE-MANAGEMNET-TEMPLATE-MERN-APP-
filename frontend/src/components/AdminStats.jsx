@@ -32,7 +32,7 @@ function Stats({ seenCount, adsCount, usersCount, seenChangeRate, adsChangeRate,
                 </div>
                 <div className="stat-desc break-words ">Total des Annonces :</div>
                 <div className="stat-value text-primary">{adsCount}</div>
-                <div className="stat-desc whitespace-normal w-full break-words">Évolution proportionnelle du nombre d'annonces créées:</div>
+                <div className="stat-desc whitespace-normal w-full break-words">Évolution proportionnelle sur la période du nombre d'annonces créées:</div>
                 <div className="stat-change text-secondary">
                     {adsChangeRate >= 0 ? '⬆️' : '⬇️'} {Math.abs(adsChangeRate).toFixed(2)}%
                 </div>
@@ -47,7 +47,7 @@ function Stats({ seenCount, adsCount, usersCount, seenChangeRate, adsChangeRate,
                 </div>
                 <div className="stat-title">Total des utilisateurs</div>
                 <div className="stat-value">{usersCount}</div>
-                <div className="stat-desc whitespace-normal w-full break-words">Évolution proportionnelle du nombre d'utilisateurs créées:</div>
+                <div className="stat-desc whitespace-normal w-full break-words">Évolution proportionnelle sur la période du nombre d'utilisateurs créées:</div>
                 <div className="stat-change text-secondary">
                     {usersChangeRate >= 0 ? '⬆️' : '⬇️'} {Math.abs(usersChangeRate).toFixed(2)}%
                 </div>

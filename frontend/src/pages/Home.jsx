@@ -18,7 +18,7 @@ function Home() {
         const fetchPageCount = async () => {
             try {
                 const response = await axios.get("https://backend-hgsc.onrender.com/api/listing/pageCount");
-                setPageNumber(response.data.countPages + 1);
+                setPageNumber(response.data.countPages + 2);
             } catch (error) {
                 setPageNumber(-1);
             }

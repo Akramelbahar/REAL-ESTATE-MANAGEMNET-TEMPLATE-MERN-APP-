@@ -109,4 +109,15 @@ export const searchAds = async (req,res) =>{
       });
     }
   };
+
+export const totalPages = async (req, res) => {
+    try {
+        const AdCount = await Advertisment.countDocuments({});
+        const pages = Math.ceil(AdCount / 16);  // Use Math.ceil to round up
+        return res.status(200).json({ countPages: pages });
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        return res.status(500).json({ message: 'Server Error' }); // Return an error response
+    }
+};
   

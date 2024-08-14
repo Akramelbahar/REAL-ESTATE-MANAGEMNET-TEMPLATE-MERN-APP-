@@ -17,7 +17,7 @@ function Home() {
     useEffect(() => {
         const fetchPageCount = async () => {
             try {
-                const response = await axios.get("https://backend-hgsc.onrender.com/api/advertisment/pageCount");
+                const response = await axios.get("https://backend-hgsc.onrender.com/api/listing/pageCount");
                 setPageNumber(response.data.countPages);
             } catch (error) {
                 setPageNumber(-1);
@@ -53,33 +53,35 @@ function Home() {
 
     const { authToken } = useAuth();
 
-    const renderPaginationButtons = () => {
-        let buttons = [];
+   const renderPaginationButtons = () => {
+    let buttons = [];
+    const maxBlocks = 6; // Maximum number of blocks (including "Previous" and "Next")
+    const startPage = Math.max(0, Pagination - Math.floor(maxBlocks / 2));
+    const endPage = Math.min(PageNumber - 1, startPage + maxBlocks - 1);
 
-        if (PageNumber > 1) {
-            if (Pagination > 0) {
-                buttons.push(
-                    <button key="prev" className="join-item btn" onClick={() => setPagination(Pagination - 1)}>«</button>
-                );
-            }
+    if (Pagination > 0) {
+        buttons.push(
+            <button key="prev" className="join-item btn" onClick={() => setPagination(Pagination - 1)}>«</button>
+        );
+    }
 
-            for (let i = 0; i < PageNumber; i++) {
-                buttons.push(
-                    <button key={i} className={`join-item btn ${i === Pagination ? 'btn-active' : ''}`} onClick={() => setPagination(i)}>
-                        {i + 1}
-                    </button>
-                );
-            }
+    for (let i = startPage; i <= endPage; i++) {
+        buttons.push(
+            <button key={i} className={`join-item btn ${i === Pagination ? 'btn-active' : ''}`} onClick={() => setPagination(i)}>
+                {i + 1}
+            </button>
+        );
+    }
 
-            if (Pagination < PageNumber - 1) {
-                buttons.push(
-                    <button key="next" className="join-item btn" onClick={() => setPagination(Pagination + 1)}>»</button>
-                );
-            }
-        }
+    if (Pagination < PageNumber - 1) {
+        buttons.push(
+            <button key="next" className="join-item btn" onClick={() => setPagination(Pagination + 1)}>»</button>
+        );
+    }
 
-        return buttons;
-    };
+    return buttons;
+};
+
 
     return (
         <>

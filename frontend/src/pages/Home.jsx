@@ -17,7 +17,7 @@ function Home() {
             setFeaturedAds([]);
             try {
                 let formattedAds = [] ; 
-                const response = await axios.get("https://backend-hgsc.onrender.com/api/advertisment?offset="+(Pagination*16).toString());
+                const response = await axios.get("https://backend-hgsc.onrender.com/api/listing?offset="+(Pagination*16).toString());
                 const ads = response.data;
 
                  formattedAds = ads.map(element => ({

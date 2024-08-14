@@ -11,22 +11,36 @@ import WebsiteInformation from '../components/WebsiteInformation';
 
 function Home() {
     const [featuredAds, setFeaturedAds] = useState([]);
-    const [Pagination , setPagination] = useState(0);
+    const [Pagination, setPagination] = useState(0);
+    const [PageNumber, setPageNumber] = useState(0);
+
+    useEffect(() => {
+        const fetchPageCount = async () => {
+            try {
+                const response = await axios.get("https://backend-hgsc.onrender.com/api/advertisment/pageCount");
+                setPageNumber(response.data.countPages);
+            } catch (error) {
+                setPageNumber(-1);
+            }
+        };
+
+        fetchPageCount();
+    }, []);
+
     useEffect(() => {
         const fetchAds = async () => {
             setFeaturedAds([]);
             try {
-                let formattedAds = [] ; 
-                const response = await axios.get("https://backend-hgsc.onrender.com/api/listing?offset="+(Pagination*16).toString());
+                const response = await axios.get(`https://backend-hgsc.onrender.com/api/listing?offset=${Pagination * 16}`);
                 const ads = response.data;
 
-                 formattedAds = ads.map(element => ({
+                const formattedAds = ads.map(element => ({
                     image: element.pictures[0],
                     title: element.title,
                     price: element.price,
                     location: element.adresse,
                     rooms: element.pcs,
-                    id : element._id
+                    id: element._id
                 }));
                 setFeaturedAds(formattedAds);
             } catch (error) {
@@ -39,33 +53,45 @@ function Home() {
 
     const { authToken } = useAuth();
 
+    const renderPaginationButtons = () => {
+        let buttons = [];
+
+        if (PageNumber > 1) {
+            if (Pagination > 0) {
+                buttons.push(
+                    <button key="prev" className="join-item btn" onClick={() => setPagination(Pagination - 1)}>«</button>
+                );
+            }
+
+            for (let i = 0; i < PageNumber; i++) {
+                buttons.push(
+                    <button key={i} className={`join-item btn ${i === Pagination ? 'btn-active' : ''}`} onClick={() => setPagination(i)}>
+                        {i + 1}
+                    </button>
+                );
+            }
+
+            if (Pagination < PageNumber - 1) {
+                buttons.push(
+                    <button key="next" className="join-item btn" onClick={() => setPagination(Pagination + 1)}>»</button>
+                );
+            }
+        }
+
+        return buttons;
+    };
+
     return (
         <>
-            {authToken ? <Navbar btnLogin="none" btnSignup="none" /> : <Navbar MonCompte="display" btnLogin="none" btnSignup="none"  btnLogout="none" />}
-            <div className=' md:m-6 bg-base-300 md:p-3 rounded ring'>
-                <SearchBar  />
-                <div className='flex flex-col items-center '>
-                <Ads ads={featuredAds} name="Annonces Vedettes" />
-                <div className="join my-2">
-
-
-
-                    {<div className="join">
-                      <button className="join-item btn">1</button>
-                      <button className="join-item btn">2</button>
-                      <button className="join-item btn btn-disabled">...</button>
-                      <button className="join-item btn">99</button>
-                      <button className="join-item btn">100</button>
-                    </div>}
-
-                    
-
-
-                    
-                  {Pagination == 0 ? "" : <button className="join-item btn" onClick={()=>setPagination(Pagination - 1)}>«</button>}
-                  <button className="join-item btn">Page {Pagination }</button>
-                  <button className="join-item btn" onClick={()=>setPagination(Pagination + 1)}>»</button>
-                </div></div>
+            {authToken ? <Navbar btnLogin="none" btnSignup="none" /> : <Navbar MonCompte="display" btnLogin="none" btnSignup="none" btnLogout="none" />}
+            <div className='md:m-6 bg-base-300 md:p-3 rounded ring'>
+                <SearchBar />
+                <div className='flex flex-col items-center'>
+                    <Ads ads={featuredAds} name="Annonces Vedettes" />
+                    <div className="join my-2">
+                        {PageNumber > 0 ? renderPaginationButtons() : <></>}
+                    </div>
+                </div>
                 <WebsiteInformation />
             </div>
             <Footer />

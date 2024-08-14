@@ -47,6 +47,21 @@ function Home() {
                 <div className='flex flex-col items-center '>
                 <Ads ads={featuredAds} name="Annonces Vedettes" />
                 <div className="join my-2">
+
+
+
+                    {<div className="join">
+                      <button className="join-item btn">1</button>
+                      <button className="join-item btn">2</button>
+                      <button className="join-item btn btn-disabled">...</button>
+                      <button className="join-item btn">99</button>
+                      <button className="join-item btn">100</button>
+                    </div>}
+
+                    
+
+
+                    
                   {Pagination == 0 ? "" : <button className="join-item btn" onClick={()=>setPagination(Pagination - 1)}>«</button>}
                   <button className="join-item btn">Page {Pagination }</button>
                   <button className="join-item btn" onClick={()=>setPagination(Pagination + 1)}>»</button>

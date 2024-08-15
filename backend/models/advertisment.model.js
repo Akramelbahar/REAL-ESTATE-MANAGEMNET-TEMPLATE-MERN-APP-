@@ -9,6 +9,12 @@ const advertismentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    enabled : {
+        type : Boolean , 
+        required : true , 
+        default : false
+    }
+    ,
     price: {
         type: Number,
         required: true,
@@ -38,10 +44,10 @@ const advertismentSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    equipment: [{
+    equipment: {
         type: String,
         required: false,
-    }],
+    },
     seen: [{
         type: String,
         required: true,

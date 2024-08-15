@@ -64,7 +64,7 @@ function InsertAd() {
     }
 
     try {
-      const response = await axios.post('http://backend-hgsc.onrender.com/api/user/advertisment', {
+      const response = await axios.post('https://backend-hgsc.onrender.com/api/user/advertisment', {
         title: Title,
         description: Description,
         price: Prix,
@@ -116,7 +116,7 @@ function InsertAd() {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:5000/upload', formData);
+      const response = await axios.post('https://backend-hgsc.onrender.com/upload', formData);
       const fileUrl = response.data.url;
       setPictures((prevPictures) => [...prevPictures, fileUrl]);
       e.target.value = null;

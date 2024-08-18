@@ -184,23 +184,30 @@ export const editUser = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
-export const getAdvertismentsByAdmin = async (req, res) => {
+};export const getAdvertismentsByAdmin = async (req, res) => {
     try {
         const adminId = req.user._id;
         const offset = req.query.offset ? parseInt(req.query.offset) : 0;
-        const { sort} = req.query;
+
+        // Create a sort object based on query parameters
+        let sort = {};
+        const sortFields = ['title', 'enabled', 'price', 'surface', 'type', 'adresse', 'createdBy', 'createdAt', 'seen'];
+
+        sortFields.forEach(field => {
+            if (req.query[field] && (req.query[field] === '1' || req.query[field] === '-1')) {
+                sort[field] = parseInt(req.query[field]);  // Convert to number (1 or -1)
+            }
+        });
 
         if (!adminId) return res.status(400).json({ message: "Invalid account." });
 
         const user = await User.findById(adminId);
         if (!user || user.role !== "admin") return res.status(400).json({ message: "Invalid account." });
 
-
         const ads = await Advertisment.find()
             .sort(sort)
-            .skip(20 * offset)
-            .limit(20)
+            .skip(16 * offset)
+            .limit(16)
             .populate({ path: "createdBy", select: 'username' })
             .select("-equipment -diagnostic -pictures -description");
 

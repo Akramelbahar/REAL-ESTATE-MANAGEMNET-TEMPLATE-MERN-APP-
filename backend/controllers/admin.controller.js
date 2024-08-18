@@ -210,7 +210,7 @@ export const getAdvertismentsByAdmin = async (req, res) => {
                 path: "createdBy",
                 select: 'username'
             })
-            .select("description title adresse createdBy seen");
+            .select("-equipment -diagnostic -pictures -description");
 
         const adsWithSeenCount = ads.map(ad => ({
             ...ad.toObject(),

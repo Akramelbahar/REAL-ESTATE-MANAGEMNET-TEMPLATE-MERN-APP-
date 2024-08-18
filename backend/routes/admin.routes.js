@@ -1,6 +1,6 @@
 import express from "express";
 import protectRoute from "../utils/middleware/protectroute.js";
-import { getUsersByAdmin ,getUserInfo, createUser, DeleteUser, editUser, getAdvertismentsByAdmin, getAdvertismentByAdmin, deleteAd, getStatistics, calculateChangeRate } from "../controllers/admin.controller.js";
+import { getUsersByAdmin ,getUserInfo, createUser, DeleteUser, editUser, getAdvertismentsByAdmin, getAdvertismentByAdmin, deleteAd, getStatistics, calculateChangeRate, activateAd } from "../controllers/admin.controller.js";
 
 const router = express.Router();
 router.get("/users",protectRoute,getUsersByAdmin ); 
@@ -12,7 +12,7 @@ router.put("/user/:userId",protectRoute,editUser);
 router.get("/advertisments",protectRoute,getAdvertismentsByAdmin);
 router.get("/advertisment/:idAd",protectRoute,getAdvertismentByAdmin);
 router.delete("/advertisment/:idAd",protectRoute,deleteAd)
-
+router.post("/activateAd/:idAd", protectRoute, activateAd);
 router.get('/stats/:period', protectRoute, async (req, res) => {
     const period = req.params.period;
     const currentDate = new Date();

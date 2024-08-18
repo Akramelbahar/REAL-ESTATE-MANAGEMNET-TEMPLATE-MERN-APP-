@@ -245,6 +245,43 @@ export const getAdvertismentByAdmin = async (req, res) => {
         res.status(500).json({ message: "Error fetching listing" });
     }
 };
+export const activateAd = async (req, res) => {
+    try {
+        const adminId = req.user._id;
+        const { enabled } = req.body;
+
+        if (!adminId) {
+            return res.status(400).json({ message: "Invalid account." });
+        }
+
+        const user = await User.findById(adminId);
+        if (!user || user.role !== "admin") {
+            return res.status(400).json({ message: "Invalid account." });
+        }
+
+        if (!req.params.idAd) {
+            return res.status(400).json({ error: "Invalid Ad ID." });
+        }
+
+        const ad = await Advertisment.findById(req.params.idAd);
+        if (!ad) {
+            return res.status(400).json({ error: "Invalid Ad ID." });
+        }
+
+        // Ensure AdStatus is a boolean
+        if (typeof AdStatus !== "boolean") {
+            return res.status(400).json({ error: "Invalid status value. Must be a boolean." });
+        }
+
+        ad.enabled = enabled;
+        await ad.save();
+
+        res.status(200).json({ message: "Ad status updated successfully.", ad });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating ad status.", error: error.message });
+    }
+};
+
 export const deleteAd = async (req,res)=>{
     try {
         const adminId = req.user._id;

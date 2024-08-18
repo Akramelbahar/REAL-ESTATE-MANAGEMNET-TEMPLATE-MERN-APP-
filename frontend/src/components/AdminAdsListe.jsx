@@ -65,8 +65,8 @@ function AdminAdsListe() {
                         <tr>
                             <th></th>
                             <th>Titre</th>
-                            <th>Address</th>
-                            <th>Price</th>
+                            <th>Addresse</th>
+                            <th>Prix</th>
                             <th>Surface</th>
                             <th>Type</th>
                             <th>Date De Publication</th>
@@ -108,8 +108,8 @@ function AdminAdsListe() {
                         <tr>
                         <th></th>
                             <th>Titre</th>
-                            <th>Address</th>
-                            <th>Price</th>
+                            <th>Addresse</th>
+                            <th>Prix</th>
                             <th>Surface</th>
                             <th>Type</th>
                             <th>Date De Publication</th>
@@ -123,15 +123,15 @@ function AdminAdsListe() {
                 <div className="join grid grid-cols-2">
                     {offset ? (
                         <button className="join-item btn btn-outline" onClick={() => setOffset(offset - 1)}>
-                            Previous page
+                            Page Precedente 
                         </button>
                     ) : (
                         <button className="join-item btn btn-outline" disabled>
-                            Previous page
+                            Page Precedente
                         </button>
                     )}
                     <button className="join-item btn btn-outline" onClick={() => setOffset(offset + 1)}>
-                        Next
+                        Page Suivante
                     </button>
                 </div>
             </div>

@@ -195,8 +195,11 @@ export const editUser = async (req, res) => {
 
         sortFields.forEach(field => {
             if (req.query[field] && (req.query[field] === '1' || req.query[field] === '-1')) {
-                sort[field] = parseInt(req.query[field]);  // Convert to number (1 or -1)
+                if (field != "type") sort[field] = parseInt(req.query[field]);  // Convert to number (1 or -1)
+                else sort[field] = (req.query[field]).toString().toLowerCase();
+                
             }
+            
         });
 
         if (!adminId) return res.status(400).json({ message: "Invalid account." });

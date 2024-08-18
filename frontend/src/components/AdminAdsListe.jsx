@@ -136,7 +136,7 @@ function AdminAdsListe() {
                                 Surface {filters.surface === 1 ? '▲' : filters.surface === -1 ? '▼' : ''}
                             </th>
                             <th onClick={handleTypeChange}>
-                                Type {postTypes[postCounter]}
+                                Type <span className="font-bold">{postTypes[postCounter]}</span>
                             </th>
                             <th onClick={() => handleSortChange('createdAt')}>
                                 Date De Publication {filters.createdAt === 1 ? '▲' : filters.createdAt === -1 ? '▼' : ''}

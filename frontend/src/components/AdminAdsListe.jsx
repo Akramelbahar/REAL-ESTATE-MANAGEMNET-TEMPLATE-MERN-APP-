@@ -40,10 +40,14 @@ function AdminAdsListe() {
         <th></th>
         <th >Titre</th>
         <th>Address</th>
-        <th>Description</th>
+        <th>Price</th>
+        <th>Surface</th>
+        <th>Type</th>
+        <th>Date De Publication</th>
         <th>Createur</th>
         <th>Vues</th>
         {/*<th></th>*/}
+        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -52,15 +56,23 @@ function AdminAdsListe() {
     {
         Ads.map((ad,index)=>{
             return (
-            <tr className=''>
+            <tr className=''><a href={"/advertisement/"+ad._id}>
                 <th>{(index)+(Offset*20)+1}</th>
                 <th >{ad.title}</th>
                 <th>{ad.adresse}</th>
-                <th>{ad.description}</th>
+                <th>{ad.price}</th>
+                <th>{ad.surface}</th>
+                <th>{ad.type}</th>
+                <th>{ad.createdAt}</th>
                 <th>{ad.createdBy.username}</th>
-                <th>{ad.seen}</th>
+                <th>{ad.seen}</th></a>
                  {/*<th><button class={"btn"}>Modifier</button></th>*/}
-                <th><button className={"btn"} key={index} onClick={()=>{const truth = confirm("Est ce que vous etes sur de cette operation  ?"); if(truth)deleteAd(ad._id)}}>Supprimer</button></th>
+                 {ad.enabled ? 
+                 <th><button className={"btn"} key={index} onClick={()=>{}}>Desactiver</button></th>
+                :
+                <th><button className={"btn"} key={index} onClick={()=>{}}>Activer</button></th>
+                }
+                 <th><button className={"btn"} key={index} onClick={()=>{const truth = confirm("Est ce que vous etes sur de cette operation  ?"); if(truth)deleteAd(ad._id)}}>Supprimer</button></th>
             </tr>
             )
         })

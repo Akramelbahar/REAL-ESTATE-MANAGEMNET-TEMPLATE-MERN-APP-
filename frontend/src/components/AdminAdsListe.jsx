@@ -18,21 +18,24 @@ function AdminAdsListe() {
         adresse: '',
         createdBy: '',
         createdAt: '',
+        seen: '',
     });
 
     const handleSortChange = (field) => {
-        setFilters((prevFilters) => {
-            const newFilters = { ...prevFilters };
-            if (newFilters[field] === 1) {
-                newFilters[field] = -1;  // Toggle to descending
-            } else {
-                newFilters[field] = 1;  // Toggle to ascending
-            }
-            Object.keys(newFilters).forEach((key) => {
-                if (key !== field) newFilters[key] = '';  // Reset other fields
-            });
-            return newFilters;
-        });
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [field]: prevFilters[field] === 1 ? -1 : 1,
+            offset: 0,  // Reset offset when changing sorting
+        }));
+    };
+
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
+        }));
+        setOffset(0);  // Reset to the first page on filter change
     };
 
     const deleteAd = async (_id) => {
@@ -93,14 +96,73 @@ function AdminAdsListe() {
             adresse: '',
             createdBy: '',
             createdAt: '',
+            seen: '',
         });
+        setOffset(0);  // Reset offset on clear filters
     };
 
     return (
         <div>
-            <div className="mb-4">
-               
+            <div className="mb-4 flex space-x-4">
+                <input
+                    type="text"
+                    placeholder="Titre"
+                    name="title"
+                    value={filters.title}
+                    onChange={handleFilterChange}
+                    className="input input-bordered"
+                />
+                <input
+                    type="text"
+                    placeholder="Addresse"
+                    name="adresse"
+                    value={filters.adresse}
+                    onChange={handleFilterChange}
+                    className="input input-bordered"
+                />
+                <input
+                    type="number"
+                    placeholder="Prix"
+                    name="price"
+                    value={filters.price}
+                    onChange={handleFilterChange}
+                    className="input input-bordered"
+                />
+                <input
+                    type="number"
+                    placeholder="Surface"
+                    name="surface"
+                    value={filters.surface}
+                    onChange={handleFilterChange}
+                    className="input input-bordered"
+                />
+                <input
+                    type="text"
+                    placeholder="Type"
+                    name="type"
+                    value={filters.type}
+                    onChange={handleFilterChange}
+                    className="input input-bordered"
+                />
+                <input
+                    type="text"
+                    placeholder="Createur"
+                    name="createdBy"
+                    value={filters.createdBy}
+                    onChange={handleFilterChange}
+                    className="input input-bordered"
+                />
+                <input
+                    type="number"
+                    placeholder="Vues"
+                    name="seen"
+                    value={filters.seen}
+                    onChange={handleFilterChange}
+                    className="input input-bordered"
+                />
+                <button className="btn btn-outline btn-error" onClick={clearFilters}>Supprimer Les Filtres</button>
             </div>
+
             <div className="overflow-x-auto">
                 <table className="table table-xs">
                     <thead>
@@ -124,10 +186,16 @@ function AdminAdsListe() {
                             <th onClick={() => handleSortChange('createdAt')}>
                                 Date De Publication {filters.createdAt === 1 ? '▲' : filters.createdAt === -1 ? '▼' : ''}
                             </th>
-                            <th>Createur</th>
-                            <th>Vues</th>
-                            <th>Status</th>
-                            <th> <button className="btn" onClick={clearFilters}>Supprimer Les Filtres</button></th>
+                            <th onClick={() => handleSortChange('createdBy')}>
+                                Createur {filters.createdBy === 1 ? '▲' : filters.createdBy === -1 ? '▼' : ''}
+                            </th>
+                            <th onClick={() => handleSortChange('seen')}>
+                                Vues {filters.seen === 1 ? '▲' : filters.seen === -1 ? '▼' : ''}
+                            </th>
+                            <th onClick={() => handleSortChange('enabled')}>
+                                Status {filters.enabled === 1 ? '▲' : filters.enabled === -1 ? '▼' : ''}
+                            </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,6 +203,13 @@ function AdminAdsListe() {
                             <tr>
                                 <td colSpan="11" className="text-center">
                                     Chargement ...
+                                </td>
+                            </tr>
+                        )}
+                        {!loading && ads.length === 0 && (
+                            <tr>
+                                <td colSpan="11" className="text-center">
+                                    Aucun resultat trouve.
                                 </td>
                             </tr>
                         )}
@@ -173,32 +248,4 @@ function AdminAdsListe() {
                             <th>Surface</th>
                             <th>Type</th>
                             <th>Date De Publication</th>
-                            <th>Createur</th>
-                            <th>Vues</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
-                <div className="join grid grid-cols-2">
-                    {offset ? (
-                        <button className="join-item btn btn-outline" onClick={() => setOffset(offset - 1)}>
-                            Page Precedente 
-                        </button>
-                    ) : (
-                        <button className="join-item btn btn-outline" disabled>
-                            Page Precedente
-                        </button>
-                    )}
-                    <button className="join-item btn btn-outline" onClick={() => setOffset(offset + 1)}>
-                        Page Suivante
-                    </button>
-                </div>
-            </div>
-            
-            <Toaster />
-        </div>
-    );
-}
-
-export default AdminAdsListe;
+                            <th>Createur</th

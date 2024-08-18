@@ -99,9 +99,7 @@ function AdminAdsListe() {
     return (
         <div>
             <div className="mb-4">
-                <button className="btn btn-secondary" onClick={clearFilters}>
-                    Clear Filters
-                </button>
+               
             </div>
             <div className="overflow-x-auto">
                 <table className="table table-xs">
@@ -129,14 +127,14 @@ function AdminAdsListe() {
                             <th>Createur</th>
                             <th>Vues</th>
                             <th>Status</th>
-                            <th></th>
+                            <th> <button className="btn" onClick={clearFilters}>Supprimer Les Filtres</button></th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading && (
                             <tr>
                                 <td colSpan="11" className="text-center">
-                                    Loading...
+                                    Chargement ...
                                 </td>
                             </tr>
                         )}

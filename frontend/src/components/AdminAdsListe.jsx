@@ -4,7 +4,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 function AdminAdsListe() {
-    const postTypes = ["achat", "vente", "location", "autre"];
+    const postTypes = ["achat", "vente", "location", "Autre"];
     const [postCounter, setPostCounter] = useState(0);
     const { authToken } = useAuth();
     const [offset, setOffset] = useState(0);
@@ -22,7 +22,10 @@ function AdminAdsListe() {
         createdAt: '',
         seen: '',
     });
-
+    const [PageCount , setPageCount] = useState(0); 
+    useEffect(()=>{
+        axios.get("https://backend-hgsc.onrender.com/api/listing/pageCount")
+    }, [])
     const handleSortChange = (field) => {
         setFilters((prevFilters) => {
             const newFilters = { ...prevFilters };
@@ -138,9 +141,9 @@ function AdminAdsListe() {
                             <th onClick={() => handleSortChange('createdAt')}>
                                 Date De Publication {filters.createdAt === 1 ? '▲' : filters.createdAt === -1 ? '▼' : ''}
                             </th>
-                            <th onClick={() => handleSortChange('createdBy')}>Createur</th>
-                            <th onClick={() => handleSortChange('seen')}>Vues</th>
-                            <th onClick={() => handleSortChange('enabled')}>Status</th>
+                            <th onClick={() => handleSortChange('createdBy')}>Createur {filters.createdBy === 1 ? '▲' : filters.createdBy === -1 ? '▼' : ''}</th>
+                            <th onClick={() => handleSortChange('seen')}>Vues {filters.seen === 1 ? '▲' : filters.seen === -1 ? '▼' : ''}</th>
+                            <th onClick={() => handleSortChange('enabled')}>Status {filters.enabled === 1 ? '▲' : filters.enabled === -1 ? '▼' : ''}</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -154,7 +157,7 @@ function AdminAdsListe() {
                         ) : (
                             ads.map((ad, index) => (
                                 <tr key={ad._id}>
-                                    <td>{index + 1 + (offset * 20)}</td>
+                                    <td>{index + 1 + (offset * 16)}</td>
                                     <td><a href={`/advertisement/${ad._id}`}>{ad.title}</a></td>
                                     <td>{ad.adresse}</td>
                                     <td>{ad.price}</td>

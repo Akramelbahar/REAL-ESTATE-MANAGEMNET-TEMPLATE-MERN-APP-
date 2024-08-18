@@ -4,6 +4,8 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 function AdminAdsListe() {
+    const postTypes = ["achat", "vente", "location", "Autre"];
+    const [postCounter, setPostCounter] = useState(0);
     const { authToken } = useAuth();
     const [offset, setOffset] = useState(0);
     const [ads, setAds] = useState([]);
@@ -22,20 +24,26 @@ function AdminAdsListe() {
     });
 
     const handleSortChange = (field) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [field]: prevFilters[field] === 1 ? -1 : 1,
-            offset: 0,  // Reset offset when changing sorting
-        }));
+        setFilters((prevFilters) => {
+            const newFilters = { ...prevFilters };
+            if (newFilters[field] === 1) {
+                newFilters[field] = -1;  // Toggle to descending
+            } else {
+                newFilters[field] = 1;  // Toggle to ascending
+            }
+            Object.keys(newFilters).forEach((key) => {
+                if (key !== field) newFilters[key] = '';  // Reset other fields
+            });
+            return newFilters;
+        });
     };
 
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
+    const handleTypeChange = () => {
+        setPostCounter((prevCounter) => (prevCounter + 1) % postTypes.length);
         setFilters((prevFilters) => ({
             ...prevFilters,
-            [name]: value,
+            type: postTypes[(postCounter + 1) % postTypes.length],
         }));
-        setOffset(0);  // Reset to the first page on filter change
     };
 
     const deleteAd = async (_id) => {
@@ -98,76 +106,20 @@ function AdminAdsListe() {
             createdAt: '',
             seen: '',
         });
-        setOffset(0);  // Reset offset on clear filters
     };
 
     return (
         <div>
-            <div className="mb-4 flex space-x-4">
-                <input
-                    type="text"
-                    placeholder="Titre"
-                    name="title"
-                    value={filters.title}
-                    onChange={handleFilterChange}
-                    className="input input-bordered"
-                />
-                <input
-                    type="text"
-                    placeholder="Addresse"
-                    name="adresse"
-                    value={filters.adresse}
-                    onChange={handleFilterChange}
-                    className="input input-bordered"
-                />
-                <input
-                    type="number"
-                    placeholder="Prix"
-                    name="price"
-                    value={filters.price}
-                    onChange={handleFilterChange}
-                    className="input input-bordered"
-                />
-                <input
-                    type="number"
-                    placeholder="Surface"
-                    name="surface"
-                    value={filters.surface}
-                    onChange={handleFilterChange}
-                    className="input input-bordered"
-                />
-                <input
-                    type="text"
-                    placeholder="Type"
-                    name="type"
-                    value={filters.type}
-                    onChange={handleFilterChange}
-                    className="input input-bordered"
-                />
-                <input
-                    type="text"
-                    placeholder="Createur"
-                    name="createdBy"
-                    value={filters.createdBy}
-                    onChange={handleFilterChange}
-                    className="input input-bordered"
-                />
-                <input
-                    type="number"
-                    placeholder="Vues"
-                    name="seen"
-                    value={filters.seen}
-                    onChange={handleFilterChange}
-                    className="input input-bordered"
-                />
-                <button className="btn btn-outline btn-error" onClick={clearFilters}>Supprimer Les Filtres</button>
+            <div className="mb-4 flex justify-between">
+                <button className="btn btn-outline btn-error" onClick={clearFilters}>
+                    Supprimer Les Filtres
+                </button>
             </div>
-
             <div className="overflow-x-auto">
                 <table className="table table-xs">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th onClick={() => handleSortChange('title')}>
                                 Titre {filters.title === 1 ? '▲' : filters.title === -1 ? '▼' : ''}
                             </th>
@@ -180,72 +132,86 @@ function AdminAdsListe() {
                             <th onClick={() => handleSortChange('surface')}>
                                 Surface {filters.surface === 1 ? '▲' : filters.surface === -1 ? '▼' : ''}
                             </th>
-                            <th onClick={() => handleSortChange('type')}>
-                                Type {filters.type === 1 ? '▲' : filters.type === -1 ? '▼' : ''}
+                            <th onClick={handleTypeChange}>
+                                Type {postTypes[postCounter]}
                             </th>
                             <th onClick={() => handleSortChange('createdAt')}>
                                 Date De Publication {filters.createdAt === 1 ? '▲' : filters.createdAt === -1 ? '▼' : ''}
                             </th>
-                            <th onClick={() => handleSortChange('createdBy')}>
-                                Createur {filters.createdBy === 1 ? '▲' : filters.createdBy === -1 ? '▼' : ''}
-                            </th>
-                            <th onClick={() => handleSortChange('seen')}>
-                                Vues {filters.seen === 1 ? '▲' : filters.seen === -1 ? '▼' : ''}
-                            </th>
-                            <th onClick={() => handleSortChange('enabled')}>
-                                Status {filters.enabled === 1 ? '▲' : filters.enabled === -1 ? '▼' : ''}
-                            </th>
-                            <th></th>
+                            <th onClick={() => handleSortChange('createdBy')}>Createur</th>
+                            <th onClick={() => handleSortChange('seen')}>Vues</th>
+                            <th onClick={() => handleSortChange('enabled')}>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {loading && (
+                        {loading ? (
                             <tr>
                                 <td colSpan="11" className="text-center">
                                     Chargement ...
                                 </td>
                             </tr>
+                        ) : (
+                            ads.map((ad, index) => (
+                                <tr key={ad._id}>
+                                    <td>{index + 1 + (offset * 20)}</td>
+                                    <td><a href={`/advertisement/${ad._id}`}>{ad.title}</a></td>
+                                    <td>{ad.adresse}</td>
+                                    <td>{ad.price}</td>
+                                    <td>{ad.surface}</td>
+                                    <td>{ad.type}</td>
+                                    <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
+                                    <td>{ad.createdBy.username}</td>
+                                    <td>{ad.seen}</td>
+                                    <td>
+                                        <button className="btn" onClick={() => toggleAdStatus(ad._id, ad.enabled)}>
+                                            {ad.enabled ? 'Désactiver' : 'Activer'}
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-outline btn-danger" onClick={() => {
+                                            if (confirm("Est-ce que vous êtes sûr de cette opération ?")) deleteAd(ad._id);
+                                        }}>
+                                            Supprimer
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
                         )}
-                        {!loading && ads.length === 0 && (
-                            <tr>
-                                <td colSpan="11" className="text-center">
-                                    Aucun resultat trouve.
-                                </td>
-                            </tr>
-                        )}
-                        {!loading && ads.map((ad, index) => (
-                            <tr key={ad._id}>
-                                <th>{index + 1 + (offset * 20)}</th>
-                                <th><a href={`/advertisement/${ad._id}`}>{ad.title}</a></th>
-                                <th>{ad.adresse}</th>
-                                <th>{ad.price}</th>
-                                <th>{ad.surface}</th>
-                                <th>{ad.type}</th>
-                                <th>{new Date(ad.createdAt).toLocaleDateString()}</th>
-                                <th>{ad.createdBy.username}</th>
-                                <th>{ad.seen}</th>
-                                <th>
-                                    <button className="btn" onClick={() => toggleAdStatus(ad._id, ad.enabled)}>
-                                        {ad.enabled ? 'Désactiver' : 'Activer'}
-                                    </button>
-                                </th>
-                                <th>
-                                    <button className="btn" onClick={() => { 
-                                        if (confirm("Est-ce que vous êtes sûr de cette opération ?")) deleteAd(ad._id);
-                                    }}>
-                                        Supprimer
-                                    </button>
-                                </th>
-                            </tr>
-                        ))}
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>Titre</th>
                             <th>Addresse</th>
                             <th>Prix</th>
                             <th>Surface</th>
                             <th>Type</th>
                             <th>Date De Publication</th>
-                            <th>Createur</th
+                            <th>Createur</th>
+                            <th>Vues</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div className="flex justify-between mt-4">
+                    <button
+                        className="btn btn-outline"
+                        onClick={() => setOffset((prev) => Math.max(prev - 1, 0))}
+                        disabled={offset === 0}
+                    >
+                        Page Precedente
+                    </button>
+                    <button className="btn btn-outline" onClick={() => setOffset((prev) => prev + 1)}>
+                        Page Suivante
+                    </button>
+                </div>
+            </div>
+
+            <Toaster />
+        </div>
+    );
+}
+
+export default AdminAdsListe;

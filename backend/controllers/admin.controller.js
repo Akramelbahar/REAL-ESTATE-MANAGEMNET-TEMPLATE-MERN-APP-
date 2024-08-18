@@ -268,7 +268,7 @@ export const activateAd = async (req, res) => {
             return res.status(400).json({ error: "Invalid Ad ID." });
         }
 
-        ad.enabled = enabled;
+        ad.enabled = enabled ? enabled == true :false ;
         await ad.save();
 
         res.status(200).json({ message: "Ad status updated successfully.", ad });

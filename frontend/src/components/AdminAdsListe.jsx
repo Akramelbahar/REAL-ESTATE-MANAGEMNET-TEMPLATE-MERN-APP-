@@ -28,7 +28,7 @@ function AdminAdsListe() {
     const toggleAdStatus = async (_id, enabled) => {
         try {
             await axios.post(`https://backend-hgsc.onrender.com/api/admin/activateAd/${_id}`, 
-            { enabled: !enabled }, {
+            { enabled: (!enabled).toString() }, {
                 headers: { token: authToken }
             });
             toast.success(`L'Advertisment a été ${enabled ? 'désactivé' : 'activé'}.`);
@@ -41,6 +41,7 @@ function AdminAdsListe() {
     useEffect(() => {
         const fetchAds = async () => {
             setLoading(true);
+            setAds([])
             try {
                 const response = await axios.get(`https://backend-hgsc.onrender.com/api/admin/advertisments?offset=${offset}`, {
                     headers: { token: authToken }
@@ -76,6 +77,7 @@ function AdminAdsListe() {
                         </tr>
                     </thead>
                     <tbody>
+                    {loading && <div className="loading">Loading...</div>}
                         {ads.map((ad, index) => (
                             <tr key={ad._id}>
                                 <th>{index + 1 + (offset * 20)}</th>
@@ -133,7 +135,7 @@ function AdminAdsListe() {
                     </button>
                 </div>
             </div>
-            {loading && <div className="loading">Loading...</div>}
+            
             <Toaster />
         </div>
     );

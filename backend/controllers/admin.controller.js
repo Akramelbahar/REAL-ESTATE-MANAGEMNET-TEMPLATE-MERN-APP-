@@ -185,45 +185,29 @@ export const editUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
-
 export const getAdvertismentsByAdmin = async (req, res) => {
     try {
         const adminId = req.user._id;
         const offset = req.query.offset ? parseInt(req.query.offset) : 0;
         const { sort, asc, desc } = req.query;
 
-        if (!adminId) {
-            return res.status(400).json({ message: "Invalid account." });
-        }
+        if (!adminId) return res.status(400).json({ message: "Invalid account." });
 
         const user = await User.findById(adminId);
+        if (!user || user.role !== "admin") return res.status(400).json({ message: "Invalid account." });
 
-        if (!user || user.role !== "admin") {
-            return res.status(400).json({ message: "Invalid account." });
-        }
-
-        // Build sorting object dynamically
         let sortOrder = {};
         if (sort) {
-            if (asc) {
-                sortOrder[sort] = 1; // Ascending order
-            } else if (desc) {
-                sortOrder[sort] = -1; // Descending order
-            } else {
-                sortOrder[sort] = 1; // Default to ascending if no order specified
-            }
+            sortOrder[sort] = asc ? 1 : desc ? -1 : 1;
         } else {
-            sortOrder = { date: 1 }; // Default sort by date ascending
+            sortOrder = { date: 1 };
         }
 
         const ads = await Advertisment.find()
             .sort(sortOrder)
             .skip(20 * offset)
             .limit(20)
-            .populate({
-                path: "createdBy",
-                select: 'username'
-            })
+            .populate({ path: "createdBy", select: 'username' })
             .select("-equipment -diagnostic -pictures -description");
 
         const adsWithSeenCount = ads.map(ad => ({
@@ -233,10 +217,9 @@ export const getAdvertismentsByAdmin = async (req, res) => {
 
         res.status(200).json(adsWithSeenCount);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching Ads: " + error.message });
+        res.status(500).json({ message: "Error fetching ads: " + error.message });
     }
 };
-
 
 
 export const getAdvertismentByAdmin = async (req, res) => {

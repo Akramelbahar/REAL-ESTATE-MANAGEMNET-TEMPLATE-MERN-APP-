@@ -259,16 +259,17 @@ export const activateAd = async (req, res) => {
             return res.status(400).json({ message: "Invalid account." });
         }
 
-        if (!req.params.idAd) {
+        const adId = req.params.idAd;
+        if (!adId) {
             return res.status(400).json({ error: "Invalid Ad ID." });
         }
 
-        const ad = await Advertisment.findById(req.params.idAd);
+        const ad = await Advertisment.findById(adId);
         if (!ad) {
             return res.status(400).json({ error: "Invalid Ad ID." });
         }
 
-        ad.enabled = enabled ? enabled == true :false ;
+        ad.enabled = enabled === "true"; 
         await ad.save();
 
         res.status(200).json({ message: "Ad status updated successfully.", ad });
@@ -276,6 +277,7 @@ export const activateAd = async (req, res) => {
         res.status(500).json({ message: "Error updating ad status.", error: error.message });
     }
 };
+
 
 export const deleteAd = async (req,res)=>{
     try {

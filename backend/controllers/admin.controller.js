@@ -268,11 +268,6 @@ export const activateAd = async (req, res) => {
             return res.status(400).json({ error: "Invalid Ad ID." });
         }
 
-        // Ensure AdStatus is a boolean
-        if (typeof AdStatus !== "boolean") {
-            return res.status(400).json({ error: "Invalid status value. Must be a boolean." });
-        }
-
         ad.enabled = enabled;
         await ad.save();
 

@@ -189,22 +189,16 @@ export const getAdvertismentsByAdmin = async (req, res) => {
     try {
         const adminId = req.user._id;
         const offset = req.query.offset ? parseInt(req.query.offset) : 0;
-        const { sort, asc, desc } = req.query;
+        const { sort} = req.query;
 
         if (!adminId) return res.status(400).json({ message: "Invalid account." });
 
         const user = await User.findById(adminId);
         if (!user || user.role !== "admin") return res.status(400).json({ message: "Invalid account." });
 
-        let sortOrder = {};
-        if (sort) {
-            sortOrder[sort] = asc ? 1 : desc ? -1 : 1;
-        } else {
-            sortOrder = { date: 1 };
-        }
 
         const ads = await Advertisment.find()
-            .sort(sortOrder)
+            .sort(sort)
             .skip(20 * offset)
             .limit(20)
             .populate({ path: "createdBy", select: 'username' })

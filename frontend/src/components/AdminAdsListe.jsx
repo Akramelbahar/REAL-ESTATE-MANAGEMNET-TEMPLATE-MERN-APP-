@@ -4,7 +4,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 function AdminAdsListe() {
-    const postTypes = ["achat", "vente", "location", "Autre"];
+    const postTypes = ["achat", "vente", "location", "autre"];
     const [postCounter, setPostCounter] = useState(0);
     const { authToken } = useAuth();
     const [offset, setOffset] = useState(0);

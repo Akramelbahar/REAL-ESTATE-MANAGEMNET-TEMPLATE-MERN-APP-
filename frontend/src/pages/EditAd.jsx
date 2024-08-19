@@ -46,7 +46,7 @@ function EditAd() {
   useEffect(() => {
     const fetchAdDetails = async () => {
       try {
-        const response = await axios.get(`https://backend-hgsc.onrender.com/api/user/listing/${AdId}`, {
+        const response = await axios.get(`https://backend-hgsc.onrender.com/api/user/list/${AdId}`, {
           headers: { token: authToken },
         });
         const adData = response.data.data;

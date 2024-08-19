@@ -85,6 +85,7 @@ export const createAd = async (req, res) => {
     }
 };
 
+
 export const editPost = async (req, res) => {
     const handleRequest = async () => {
         const {
@@ -129,7 +130,7 @@ export const editPost = async (req, res) => {
         ad.pictures = pictures || ad.pictures;
         ad.diagnostic = diagnostic || ad.diagnostic;
         ad.equipment = equipment || ad.equipment;
-        ad.published = (typeof Publish !== 'undefined') ? Publish : ad.published;
+        ad.published =  Publish || ad.published;
 
         await ad.save();
 
@@ -146,6 +147,7 @@ export const editPost = async (req, res) => {
         res.status(500).json({ error: error.message || "An error occurred" });
     }
 };
+
 
 export const deletePost = async (req, res) => {
     try {

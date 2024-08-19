@@ -46,7 +46,8 @@ export const createAd = async (req, res) => {
             adresse,
             pictures,
             diagnostic,
-            equipment
+            equipment,
+            Publish
         } = req.body;
 
         if (price < 0) {
@@ -74,7 +75,8 @@ export const createAd = async (req, res) => {
             pictures,
             diagnostic,
             equipment,
-            createdBy
+            createdBy,
+            published : Publish
         });
 
         await newAd.save();

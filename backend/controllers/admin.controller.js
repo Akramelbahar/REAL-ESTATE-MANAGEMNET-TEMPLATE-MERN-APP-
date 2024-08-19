@@ -191,23 +191,20 @@ export const getAdvertismentsByAdmin = async (req, res) => {
         const adminId = req.user._id;
         const offset = req.query.offset ? parseInt(req.query.offset) : 0;
 
-        // Create a sort object based on query parameters
         let sort = {};
         const sortFields = ['title', 'enabled', 'price', 'surface', 'type', 'adresse', 'createdBy', 'createdAt', 'seen'];
 
-        // Handle sorting and filtering based on query parameters
         sortFields.forEach(field => {
             if (req.query[field]) {
                 if (field !== "type" && (req.query[field] === '1' || req.query[field] === '-1')) {
-                    sort[field] = parseInt(req.query[field]);  // Convert to number (1 or -1)
+                    sort[field] = parseInt(req.query[field]); 
                 }
             }
         });
 
-        // Filter based on the 'type' field (string matching)
         let filter = {};
         if (req.query.type) {
-            filter.type = req.query.type.toString().toLowerCase(); // Ensure the type is lowercase for consistency
+            filter.type = req.query.type.toString().toLowerCase();
         }
 
         if (!adminId) return res.status(400).json({ message: "Invalid account." });
@@ -215,8 +212,8 @@ export const getAdvertismentsByAdmin = async (req, res) => {
         const user = await User.findById(adminId);
         if (!user || user.role !== "admin") return res.status(400).json({ message: "Invalid account." });
 
-        const ads = await Advertisment.find(filter)  // Apply the filter here
-            .sort(sort)  // Apply the sorting here
+        const ads = await Advertisment.find(filter) 
+            .sort(sort) 
             .skip(16 * offset)
             .limit(16)
             .populate({ path: "createdBy", select: 'username' })

@@ -31,7 +31,7 @@ function InsertAd() {
   const [Pictures, setPictures] = useState([]);
   const [Html, setHtml] = useState(<Carousel items={[]} />);
   const [Post, setPost] = useState(false);
-
+  const [Publish , setPublish] =useState("draft") ; 
   // Validation errors
   const [errors, setErrors] = useState({});
 
@@ -74,7 +74,8 @@ function InsertAd() {
         adresse: Adresse,
         pictures: Pictures,
         diagnostic: Diagnostics,
-        equipment: Equipements
+        equipment: Equipements,
+         Publish
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -183,7 +184,11 @@ function InsertAd() {
           {errors.Prix && <p className="text-red-500">{errors.Prix}</p>}
           </div>
         </div>
-
+        <select required defaultValue="0" onChange={(e) => setPublish(e.target.value)} className="input p-3 my-3 block w-full input-bordered">
+            <option disabled value="0">Status de publication</option>
+            <option value="draft">Brouillon</option>
+            <option value="published">Publiée</option>
+        </select>
         <div className='flex content-center justify-center md:flex-nowrap flex-wrap'>
           <textarea className="textarea textarea-ghost my-3 md:w-2/6 w-5/6" onChange={(e) => setDiagnostics(e.target.value)} placeholder="Diagnostics"></textarea>
           <textarea className="textarea textarea-ghost my-3 md:w-2/6 w-5/6" onChange={(e) => setEquipements(e.target.value)} placeholder="Équipements"></textarea>

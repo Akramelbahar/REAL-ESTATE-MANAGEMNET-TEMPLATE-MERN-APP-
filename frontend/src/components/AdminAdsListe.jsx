@@ -22,30 +22,26 @@ function AdminAdsListe() {
         createdAt: '',
         seen: '',
     });
-    const [pageCount, setPageCount] = useState(0); 
-    const [pageNumbers, setPageNumbers] = useState([]);
-
-    useEffect(() => {
+    const [PageCount , setPageCount] = useState(0); 
+    useEffect(()=>{
         axios.get("https://backend-hgsc.onrender.com/api/listing/pageCount")
-            .then((response) => {
-                const countPages = response.data.countPages;
-                setPageCount(countPages);
-                const array = [];
-                for (let i = 1; i <= countPages; i++) {
+        .then((response)=>{
+                setPageCount(response.data.countPages)
+                const array = [] ;
+                for (i=1 ; i<PageCount ; i++)
                     array.push(i);
-                }
-                setPageNumbers(array);
-            })
-            .catch((error) => {
-                console.log("Error in getting pages");
-                setPageCount(-1);
-            });
-    }, []);
-
+                setPageCount(array);
+        })
+        .catch((error)=>{console.log("error in getting pages") ; setPageCount(-1)})
+    }, [])
     const handleSortChange = (field) => {
         setFilters((prevFilters) => {
             const newFilters = { ...prevFilters };
-            newFilters[field] = newFilters[field] === 1 ? -1 : 1;
+            if (newFilters[field] === 1) {
+                newFilters[field] = -1;  
+            } else {
+                newFilters[field] = 1;  
+            }
             Object.keys(newFilters).forEach((key) => {
                 if (key !== field) newFilters[key] = ''; 
             });
@@ -211,40 +207,29 @@ function AdminAdsListe() {
                     </tfoot>
                 </table>
                 
-                {pageCount === -1 ? (
+                    {PageCount == -1 ? 
                     <div className="flex justify-between mt-4">
-                        <button
-                            className="btn btn-outline"
-                            onClick={() => setOffset((prev) => Math.max(prev - 1, 0))}
-                            disabled={offset === 0}
-                        >
-                            Page Précédente
-                        </button>
-                        <button className="btn btn-outline" onClick={() => setOffset((prev) => prev + 1)}>
-                            Page Suivante
-                        </button>
-                    </div>
-                ) : (
+                    <button
+                        className="btn btn-outline"
+                        onClick={() => setOffset((prev) => Math.max(prev - 1, 0))}
+                        disabled={offset === 0}
+                    >
+                        Page Precedente
+                    </button>
+                    <button className="btn btn-outline" onClick={() => setOffset((prev) => prev + 1)}>
+                        Page Suivante
+                    </button> </div> :
+                    
+                    
+
                     <div className="join">
-                        {offset > 1 && (
-                            <>
-                                <button className="join-item btn" onClick={() => setOffset(0)}>1</button>
-                                {offset > 2 && <button className="join-item btn btn-disabled">...</button>}
-                            </>
-                        )}
-                        {pageNumbers.slice(Math.max(offset - 1, 0), Math.min(offset + 2, pageCount)).map((number) => (
-                            <button key={number} className={`join-item btn ${offset + 1 === number ? 'btn-active' : ''}`} onClick={() => setOffset(number - 1)}>
-                                {number}
-                            </button>
-                        ))}
-                        {offset < pageCount - 3 && (
-                            <>
-                                {offset < pageCount - 4 && <button className="join-item btn btn-disabled">...</button>}
-                                <button className="join-item btn" onClick={() => setOffset(pageCount - 1)}>{pageCount}</button>
-                            </>
-                        )}
-                    </div>
-                )}
+                        <button className="join-item btn">1</button>
+                        <button className="join-item btn">2</button>
+                        <button className="join-item btn btn-disabled">...</button>
+                        <button className="join-item btn">99</button>
+                        <button className="join-item btn">100</button>
+                    </div>}
+                    
                 
             </div>
 

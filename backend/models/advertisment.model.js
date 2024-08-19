@@ -13,6 +13,13 @@ const advertismentSchema = new mongoose.Schema({
         type : Boolean , 
         required : true , 
         default : false
+    } , 
+    published : {
+        type : String ,
+        required : true , 
+        enum : ["published","draft"],
+        default : "draft"
+
     }
     ,
     price: {

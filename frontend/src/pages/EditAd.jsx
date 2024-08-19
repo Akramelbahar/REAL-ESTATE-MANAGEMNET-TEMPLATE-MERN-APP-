@@ -211,4 +211,43 @@ function EditAd() {
           </div>
           <div className='flex flex-col w-full md:w-1/6'>
             <input type="number" placeholder="Surface" min={0} value={Surface} onChange={(e) => setSurface(e.target.value)} className="input" />
-            {errors.Surface && <p className="text-red-500">{errors.Surface
+            {errors.Surface && <p className="text-red-500">{errors.Surface}</p>}
+          </div>
+          <div className='flex flex-col w-full md:w-1/6'>
+            <input type="number" placeholder="Prix" min={0} value={Prix} onChange={(e) => setPrix(e.target.value)} className="input" />
+            {errors.Prix && <p className="text-red-500">{errors.Prix}</p>}
+          </div>
+        </div>
+
+        <select required value={Publish} onChange={(e) => setPublish(e.target.value)} className="input p-3 my-3 block w-full input-bordered">
+          <option disabled value="0">Status de publication</option>
+          <option value="draft">Brouillon</option>
+          <option value="published">Publiée</option>
+        </select>
+
+        <div className='flex content-center justify-center md:flex-nowrap flex-wrap'>
+          <textarea className="textarea textarea-ghost my-3 md:w-2/6 w-5/6" value={Diagnostics} onChange={(e) => setDiagnostics(e.target.value)} placeholder="Diagnostics"></textarea>
+          <textarea className="textarea textarea-ghost my-3 md:w-2/6 w-5/6" value={Equipements} onChange={(e) => setEquipements(e.target.value)} placeholder="Équipements"></textarea>
+        </div>
+
+        <div className="flex w-full flex-col lg:flex-row items-center flex-wrap my-4">
+          <div className={"card bg-base-100 rounded-box flex flex-grow place-items-center h-96 justify-center w-3/4 relative" + (Pictures.length === 0 ? " after:content-[attr(after)] lg:after:content-[attr(aftermd)] " : "")} after="Inserer une image du dessous" aftermd="Inserer une image du droite">
+            <span className='block absolute top-10 right-10 text-3xl hover:text-4xl hover:bg-base-300 p-2 ease-in duration-100 hover:rounded-full hover:p-4' onClick={removePicture}>❌</span>
+            {Html}
+          </div>
+          <div className="divider lg:divider-horizontal"></div>
+          <div className="card bg-base-100 rounded-box grid h-20 flex-grow place-items-center">
+            <button className="btn btn-active btn-ghost ring-2" onClick={() => document.getElementById("file-upload").click()}>Ajouter une photo</button>
+            <input accept="image/*" type="file" id="file-upload" className='hidden' onChange={handleFileChange}></input>
+          </div>
+        </div>
+
+        <button className="btn md:w-1/4 mx-3 btn-accent w-4/10 block ms-auto" onClick={publish}>Mettre à jour l'annonce</button>
+      </div>
+      <Footer />
+      <Toaster />
+    </>
+  );
+}
+
+export default EditAd;

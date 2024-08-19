@@ -166,7 +166,7 @@ function AdminAdsListe() {
                             ads.map((ad, index) => (
                                 <tr key={ad._id}>
                                     <td>{index + 1 + (offset * 16)}</td>
-                                    <td><a href={`/advertisement/${ad._id}`}>{ad.title}</a></td>
+                                    <td><a href={`https://backend-hgsc.onrender.com/ad/edit?id=${ad._id}`}>{ad.title}</a></td>
                                     <td>{ad.adresse}</td>
                                     <td>{ad.price}</td>
                                     <td>{ad.surface}</td>

@@ -206,29 +206,41 @@ function AdminAdsListe() {
                         </tr>
                     </tfoot>
                 </table>
-                
-                    {PageCount == -1 ? 
+                 {pageCount === -1 ? (
                     <div className="flex justify-between mt-4">
-                    <button
-                        className="btn btn-outline"
-                        onClick={() => setOffset((prev) => Math.max(prev - 1, 0))}
-                        disabled={offset === 0}
-                    >
-                        Page Precedente
-                    </button>
-                    <button className="btn btn-outline" onClick={() => setOffset((prev) => prev + 1)}>
-                        Page Suivante
-                    </button> </div> :
-                    
-                    
-
+                        <button
+                            className="btn btn-outline"
+                            onClick={() => setOffset((prev) => Math.max(prev - 1, 0))}
+                            disabled={offset === 0}
+                        >
+                            Page Précédente
+                        </button>
+                        <button className="btn btn-outline" onClick={() => setOffset((prev) => prev + 1)}>
+                            Page Suivante
+                        </button>
+                    </div>
+                ) : (
                     <div className="join">
-                        <button className="join-item btn">1</button>
-                        <button className="join-item btn">2</button>
-                        <button className="join-item btn btn-disabled">...</button>
-                        <button className="join-item btn">99</button>
-                        <button className="join-item btn">100</button>
-                    </div>}
+                        {offset > 1 && (
+                            <>
+                                <button className="join-item btn" onClick={() => setOffset(0)}>1</button>
+                                {offset > 2 && <button className="join-item btn btn-disabled">...</button>}
+                            </>
+                        )}
+                        {pageNumbers.slice(Math.max(offset - 1, 0), Math.min(offset + 2, pageCount)).map((number) => (
+                            <button key={number} className={`join-item btn ${offset + 1 === number ? 'btn-active' : ''}`} onClick={() => setOffset(number - 1)}>
+                                {number}
+                            </button>
+                        ))}
+                        {offset < pageCount - 3 && (
+                            <>
+                                {offset < pageCount - 4 && <button className="join-item btn btn-disabled">...</button>}
+                                <button className="join-item btn" onClick={() => setOffset(pageCount - 1)}>{pageCount}</button>
+                            </>
+                        )}
+                    </div>
+                )}
+                
                     
                 
             </div>

@@ -18,7 +18,7 @@ export const getAdInfo = async (req, res) => {
                 error: "User not found. Please relogin."
             });
         }
-        if (!user.ads.includes(advertismentId)) {
+        if (!user.ads.includes(advertismentId) && user.role != "admin") {
             return res.status(403).json({
                 error: "This advertisment doesn't belong to you."
             });
@@ -101,7 +101,6 @@ export const editPost = async (req, res) => {
             diagnostic, 
             equipment, 
             Publish
-            
         } = req.body;
 
         if (!_id) throw new Error("Invalid objectId");
@@ -111,8 +110,10 @@ export const editPost = async (req, res) => {
         });
 
         const createdBy = ad.createdBy;
-        if (req.user._id.toString() !== createdBy.toString()) {
-            throw new Error("Invalid userId");
+        const isAdmin = req.user.role === 'admin'; // Assuming `req.user.role` exists and contains the user's role
+
+        if (!(req.user._id.toString() === createdBy.toString() || isAdmin)) {
+            throw new Error("Unauthorized: You do not have permission to edit this post.");
         }
 
         if (price < 0) throw new Error("Price should be greater than 0.");
@@ -131,8 +132,8 @@ export const editPost = async (req, res) => {
         ad.pictures = pictures || ad.pictures;
         ad.diagnostic = diagnostic || ad.diagnostic;
         ad.equipment = equipment || ad.equipment;
-        ad.published =  Publish || ad.published;
-        ad.enabled = false ; 
+        ad.published = (typeof Publish !== 'undefined') ? Publish : ad.published;
+
         await ad.save();
 
         return ad;

@@ -185,7 +185,6 @@ export const editUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
-
 export const getAdvertismentsByAdmin = async (req, res) => {
     try {
         const adminId = req.user._id;
@@ -202,7 +201,7 @@ export const getAdvertismentsByAdmin = async (req, res) => {
             }
         });
 
-        let filter = {};
+        let filter = { published: true }; // Add filter for published ads
         if (req.query.type) {
             filter.type = req.query.type.toString().toLowerCase();
         }
@@ -229,6 +228,7 @@ export const getAdvertismentsByAdmin = async (req, res) => {
         res.status(500).json({ message: "Error fetching ads: " + error.message });
     }
 };
+
 
 
 export const getAdvertismentByAdmin = async (req, res) => {

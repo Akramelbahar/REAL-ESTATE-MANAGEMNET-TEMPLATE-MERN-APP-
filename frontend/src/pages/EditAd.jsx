@@ -60,6 +60,7 @@ function EditAd() {
         setDiagnostics(adData.diagnostic);
         setEquipements(adData.equipment);
         setPictures(adData.pictures || []);
+        setPublish(adData.published || "draft");
       } catch (error) {
         console.error('There was an error fetching the advertisement:', error);
       }

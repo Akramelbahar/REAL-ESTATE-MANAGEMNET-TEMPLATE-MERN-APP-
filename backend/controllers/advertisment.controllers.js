@@ -132,7 +132,7 @@ export const editPost = async (req, res) => {
         ad.pictures = pictures || ad.pictures;
         ad.diagnostic = diagnostic || ad.diagnostic;
         ad.equipment = equipment || ad.equipment;
-        ad.published = (typeof Publish !== 'undefined') ? Publish : ad.published;
+        ad.published =  Publish || ad.published;
 
         await ad.save();
 

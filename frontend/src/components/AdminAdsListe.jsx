@@ -22,26 +22,28 @@ function AdminAdsListe() {
         createdAt: '',
         seen: '',
     });
-    const [PageCount , setPageCount] = useState(0); 
-    useEffect(()=>{
-        axios.get("https://backend-hgsc.onrender.com/api/listing/pageCount")
-        .then((response)=>{
-                setPageCount(response.data.countPages)
-                const array = [] ;
-                for (i=1 ; i<PageCount ; i++)
-                    array.push(i);
-                setPageCount(array);
-        })
-        .catch((error)=>{console.log("error in getting pages") ; setPageCount(-1)})
-    }, [])
+    const [pageNumbers, setPageNumbers] = useState([]);
+
+    useEffect(() => {
+        const fetchPageCount = async () => {
+            try {
+                const response = await axios.get("https://backend-hgsc.onrender.com/api/listing/pageCount");
+                const totalPageCount = response.data.countPages;
+                const pages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
+                setPageNumbers(pages);
+            } catch (error) {
+                console.log("Error in getting page count");
+                setPageNumbers([-1]);
+            }
+        };
+
+        fetchPageCount();
+    }, []);
+
     const handleSortChange = (field) => {
         setFilters((prevFilters) => {
             const newFilters = { ...prevFilters };
-            if (newFilters[field] === 1) {
-                newFilters[field] = -1;  
-            } else {
-                newFilters[field] = 1;  
-            }
+            newFilters[field] = newFilters[field] === 1 ? -1 : 1;
             Object.keys(newFilters).forEach((key) => {
                 if (key !== field) newFilters[key] = ''; 
             });
@@ -103,7 +105,7 @@ function AdminAdsListe() {
         };
 
         fetchAds();
-    }, [offset, count, filters]);
+    }, [offset, count, filters, authToken]);
 
     const clearFilters = () => {
         setFilters({
@@ -206,7 +208,7 @@ function AdminAdsListe() {
                         </tr>
                     </tfoot>
                 </table>
-                 {pageCount === -1 ? (
+                 {pageNumbers.length === 0 ? (
                     <div className="flex justify-between mt-4">
                         <button
                             className="btn btn-outline"
@@ -227,22 +229,19 @@ function AdminAdsListe() {
                                 {offset > 2 && <button className="join-item btn btn-disabled">...</button>}
                             </>
                         )}
-                        {pageNumbers.slice(Math.max(offset - 1, 0), Math.min(offset + 2, pageCount)).map((number) => (
+                        {pageNumbers.slice(Math.max(offset - 1, 0), Math.min(offset + 2, pageNumbers.length)).map((number) => (
                             <button key={number} className={`join-item btn ${offset + 1 === number ? 'btn-active' : ''}`} onClick={() => setOffset(number - 1)}>
                                 {number}
                             </button>
                         ))}
-                        {offset < pageCount - 3 && (
+                        {offset < pageNumbers.length - 3 && (
                             <>
-                                {offset < pageCount - 4 && <button className="join-item btn btn-disabled">...</button>}
-                                <button className="join-item btn" onClick={() => setOffset(pageCount - 1)}>{pageCount}</button>
+                                {offset < pageNumbers.length - 4 && <button className="join-item btn btn-disabled">...</button>}
+                                <button className="join-item btn" onClick={() => setOffset(pageNumbers.length - 1)}>{pageNumbers.length}</button>
                             </>
                         )}
                     </div>
                 )}
-                
-                    
-                
             </div>
 
             <Toaster />

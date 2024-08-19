@@ -201,7 +201,7 @@ export const getAdvertismentsByAdmin = async (req, res) => {
             }
         });
 
-        let filter = { published: true }; // Add filter for published ads
+        let filter = { published: "published" }; 
         if (req.query.type) {
             filter.type = req.query.type.toString().toLowerCase();
         }

@@ -68,6 +68,7 @@ export const createAd = async (req, res) => {
             equipment, 
             createdBy, 
             published: Publish
+            
         });
 
         await newAd.save();
@@ -85,7 +86,6 @@ export const createAd = async (req, res) => {
     }
 };
 
-
 export const editPost = async (req, res) => {
     const handleRequest = async () => {
         const {
@@ -101,6 +101,7 @@ export const editPost = async (req, res) => {
             diagnostic, 
             equipment, 
             Publish
+            
         } = req.body;
 
         if (!_id) throw new Error("Invalid objectId");
@@ -131,7 +132,7 @@ export const editPost = async (req, res) => {
         ad.diagnostic = diagnostic || ad.diagnostic;
         ad.equipment = equipment || ad.equipment;
         ad.published =  Publish || ad.published;
-
+        ad.enabled = false ; 
         await ad.save();
 
         return ad;
@@ -147,7 +148,6 @@ export const editPost = async (req, res) => {
         res.status(500).json({ error: error.message || "An error occurred" });
     }
 };
-
 
 export const deletePost = async (req, res) => {
     try {

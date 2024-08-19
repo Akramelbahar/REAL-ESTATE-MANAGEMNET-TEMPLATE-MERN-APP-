@@ -32,101 +32,92 @@ export const getAdInfo = async (req, res) => {
         });
     }
 };
-
 export const createAd = async (req, res) => {
-    try {
+    const handleRequest = async () => {
         const createdBy = req.user._id;
-        const {
-            title,
-            description,
-            price,
-            surface,
-            pcs,
-            type,
-            adresse,
-            pictures,
-            diagnostic,
-            equipment,
-            Publish
+        const { 
+            title, 
+            description, 
+            price, 
+            surface, 
+            pcs, 
+            type, 
+            adresse, 
+            pictures, 
+            diagnostic, 
+            equipment, 
+            Publish 
         } = req.body;
 
-        if (price < 0) {
-            return res.status(400).json({
-                error: "Price should be greater than 0."
-            });
-        }
+        if (price < 0) throw new Error("Price should be greater than 0.");
 
-        const user = await User.findById(createdBy);
-
-        if (!user) {
-            return res.status(404).json({
-                error: "Creator Id wasn't found."
-            });
-        }
+        const user = await User.findById(createdBy).orFail(() => {
+            throw new Error("Creator Id wasn't found.");
+        });
 
         const newAd = new Advertisment({
-            title,
-            description,
-            price,
-            surface,
-            pcs,
-            type,
-            adresse,
-            pictures,
-            diagnostic,
-            equipment,
-            createdBy,
-            published : Publish
+            title, 
+            description, 
+            price, 
+            surface, 
+            pcs, 
+            type, 
+            adresse, 
+            pictures, 
+            diagnostic, 
+            equipment, 
+            createdBy, 
+            published: Publish
         });
 
         await newAd.save();
         user.ads.push(newAd._id);
         await user.save();
 
+        return newAd;
+    };
+
+    try {
+        const newAd = await handleRequest();
         res.status(201).json(newAd);
     } catch (error) {
-        res.status(500).json({
-            error: error.message || "An error occurred"
-        });
+        res.status(500).json({ error: error.message || "An error occurred" });
     }
 };
 
 export const editPost = async (req, res) => {
-    try {
-
+    const handleRequest = async () => {
         const {
-            _id,
-            title,
-            description,
-            price,
-            surface,
-            pcs,
-            type,
-            adresse,
-            pictures,
-            diagnostic,
-            equipment
+            _id, 
+            title, 
+            description, 
+            price, 
+            surface, 
+            pcs, 
+            type, 
+            adresse, 
+            pictures, 
+            diagnostic, 
+            equipment, 
+            Publish
         } = req.body;
-        if (!_id)return res.status(400).json({ message: "Invalid objectId" });
-        const ad = await Advertisment.findById(_id);
-        const createdBy = ad.createdBy ; 
-        if (!(req.user._id.toString() === createdBy.toString())) {
-            return res.status(400).json({ message: "Invalid userId" });
+
+        if (!_id) throw new Error("Invalid objectId");
+
+        const ad = await Advertisment.findById(_id).orFail(() => {
+            throw new Error("Advertisement not found.");
+        });
+
+        const createdBy = ad.createdBy;
+        if (req.user._id.toString() !== createdBy.toString()) {
+            throw new Error("Invalid userId");
         }
 
-        if (price < 0) {
-            return res.status(400).json({ error: "Price should be greater than 0." });
-        }
+        if (price < 0) throw new Error("Price should be greater than 0.");
 
-        const user = await User.findById(createdBy);
-        if (!user) {
-            return res.status(404).json({ error: "Creator Id wasn't found." });
-        }
-
-        
-        if (!ad) {
-            return res.status(404).json({ error: "Advertisement not found." });
-        }
+        const user = await User.findById(createdBy).orFail(() => {
+            throw new Error("Creator Id wasn't found.");
+        });
 
         ad.title = title || ad.title;
         ad.description = description || ad.description;
@@ -138,18 +129,23 @@ export const editPost = async (req, res) => {
         ad.pictures = pictures || ad.pictures;
         ad.diagnostic = diagnostic || ad.diagnostic;
         ad.equipment = equipment || ad.equipment;
+        ad.published = (typeof Publish !== 'undefined') ? Publish : ad.published;
 
         await ad.save();
 
+        return ad;
+    };
+
+    try {
+        const updatedAd = await handleRequest();
         res.status(200).json({
             message: "Advertisement updated successfully",
-            ad
+            ad: updatedAd
         });
     } catch (error) {
         res.status(500).json({ error: error.message || "An error occurred" });
     }
 };
-
 
 export const deletePost = async (req, res) => {
     try {

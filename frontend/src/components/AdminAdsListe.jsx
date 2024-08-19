@@ -226,19 +226,23 @@ function AdminAdsListe() {
                     </div>
                 ) : (
                     <div className="join">
-                        {pageNumbers.slice(0, 2).map((number) => (
-                            <button key={number} className="join-item btn" onClick={() => setOffset(number - 1)}>
-                                {number}
-                            </button>
-                        ))}
-                        {pageNumbers.length > 4 && (
-                            <button className="join-item btn btn-disabled">...</button>
+                        {offset > 1 && (
+                            <>
+                                <button className="join-item btn" onClick={() => setOffset(0)}>1</button>
+                                {offset > 2 && <button className="join-item btn btn-disabled">...</button>}
+                            </>
                         )}
-                        {pageNumbers.slice(-2).map((number) => (
-                            <button key={number} className="join-item btn" onClick={() => setOffset(number - 1)}>
+                        {pageNumbers.slice(Math.max(offset - 1, 0), Math.min(offset + 2, pageCount)).map((number) => (
+                            <button key={number} className={`join-item btn ${offset + 1 === number ? 'btn-active' : ''}`} onClick={() => setOffset(number - 1)}>
                                 {number}
                             </button>
                         ))}
+                        {offset < pageCount - 3 && (
+                            <>
+                                {offset < pageCount - 4 && <button className="join-item btn btn-disabled">...</button>}
+                                <button className="join-item btn" onClick={() => setOffset(pageCount - 1)}>{pageCount}</button>
+                            </>
+                        )}
                     </div>
                 )}
                 

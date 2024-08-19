@@ -6,7 +6,7 @@ import Seen from '../models/log.model.js';
 export const getAds = async (req, res) => {
     try {
         const offset = parseInt(req.query.offset) || 0;
-        const ads = await Advertisment.find({ published: "published"})
+        const ads = await Advertisment.find({ published: "published" , enabled : true})
             .sort({ createdAt : -1  })
             .skip(offset) 
             .limit(16)
@@ -112,7 +112,7 @@ export const searchAds = async (req,res) =>{
 
 export const totalPages = async (req, res) => {
     try {
-        const AdCount = await Advertisment.countDocuments({published: "published"}});
+        const AdCount = await Advertisment.countDocuments({published: "published" , enabled : true}});
         const pages = Math.ceil(AdCount / 16);  // Use Math.ceil to round up
         return res.status(200).json({ countPages: pages });
     } catch (error) {

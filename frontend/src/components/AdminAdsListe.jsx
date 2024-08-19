@@ -22,20 +22,32 @@ function AdminAdsListe() {
         createdAt: '',
         seen: '',
     });
-    const [PageCount , setPageCount] = useState(0); 
-    useEffect(()=>{
+    const [pageCount, setPageCount] = useState(0); 
+    const [pageNumbers, setPageNumbers] = useState([]);
+
+    useEffect(() => {
         axios.get("https://backend-hgsc.onrender.com/api/listing/pageCount")
-    }, [])
+            .then((response) => {
+                const countPages = response.data.countPages;
+                setPageCount(countPages);
+                const array = [];
+                for (let i = 1; i <= countPages; i++) {
+                    array.push(i);
+                }
+                setPageNumbers(array);
+            })
+            .catch((error) => {
+                console.log("Error in getting pages");
+                setPageCount(-1);
+            });
+    }, []);
+
     const handleSortChange = (field) => {
         setFilters((prevFilters) => {
             const newFilters = { ...prevFilters };
-            if (newFilters[field] === 1) {
-                newFilters[field] = -1;  // Toggle to descending
-            } else {
-                newFilters[field] = 1;  // Toggle to ascending
-            }
+            newFilters[field] = newFilters[field] === 1 ? -1 : 1;
             Object.keys(newFilters).forEach((key) => {
-                if (key !== field) newFilters[key] = '';  // Reset other fields
+                if (key !== field) newFilters[key] = ''; 
             });
             return newFilters;
         });
@@ -136,7 +148,7 @@ function AdminAdsListe() {
                                 Surface {filters.surface === 1 ? '▲' : filters.surface === -1 ? '▼' : ''}
                             </th>
                             <th onClick={handleTypeChange}>
-                                Type <span className="font-bold">{postTypes[postCounter]}</span>
+                                Type {postTypes[postCounter]}
                             </th>
                             <th onClick={() => handleSortChange('createdAt')}>
                                 Date De Publication {filters.createdAt === 1 ? '▲' : filters.createdAt === -1 ? '▼' : ''}
@@ -198,18 +210,38 @@ function AdminAdsListe() {
                         </tr>
                     </tfoot>
                 </table>
-                <div className="flex justify-between mt-4">
-                    <button
-                        className="btn btn-outline"
-                        onClick={() => setOffset((prev) => Math.max(prev - 1, 0))}
-                        disabled={offset === 0}
-                    >
-                        Page Precedente
-                    </button>
-                    <button className="btn btn-outline" onClick={() => setOffset((prev) => prev + 1)}>
-                        Page Suivante
-                    </button>
-                </div>
+                
+                {pageCount === -1 ? (
+                    <div className="flex justify-between mt-4">
+                        <button
+                            className="btn btn-outline"
+                            onClick={() => setOffset((prev) => Math.max(prev - 1, 0))}
+                            disabled={offset === 0}
+                        >
+                            Page Précédente
+                        </button>
+                        <button className="btn btn-outline" onClick={() => setOffset((prev) => prev + 1)}>
+                            Page Suivante
+                        </button>
+                    </div>
+                ) : (
+                    <div className="join">
+                        {pageNumbers.slice(0, 2).map((number) => (
+                            <button key={number} className="join-item btn" onClick={() => setOffset(number - 1)}>
+                                {number}
+                            </button>
+                        ))}
+                        {pageNumbers.length > 4 && (
+                            <button className="join-item btn btn-disabled">...</button>
+                        )}
+                        {pageNumbers.slice(-2).map((number) => (
+                            <button key={number} className="join-item btn" onClick={() => setOffset(number - 1)}>
+                                {number}
+                            </button>
+                        ))}
+                    </div>
+                )}
+                
             </div>
 
             <Toaster />

@@ -63,7 +63,7 @@ function SearchBar() {
       <div className="shadow-lg rounded-lg p-4 md:p-6">
         <h2 className="text-xl md:text-2xl font-bold mb-4">Recherche de biens immobiliers</h2>
         <div className="mb-4">
-          <button className="btn btn-primary w-full" onClick={toggleFormVisibility}>
+          <button className="btn btn-accent w-full" onClick={toggleFormVisibility}>
             {isFormVisible ? "Réduire le filtre" : "Rechercher"}
           </button>
         </div>
@@ -86,9 +86,9 @@ function SearchBar() {
                 className="select select-bordered w-full"
               >
                 <option value="Tout">Tout</option>
-                <option value="appartement">Appartement</option>
-                <option value="maison">Maison</option>
-                <option value="terrain">Terrain</option>
+                <option value="achat">Achat</option>
+                <option value="vente">Vente</option>
+                <option value="location">Location</option>
                 <option value="autre">Autre</option>
               </select>
               {LeTypeBien === "autre" && (
@@ -154,7 +154,7 @@ function SearchBar() {
               />
             </div>
             <div className="col-span-full">
-              <button className="btn btn-primary w-full" onClick={fetchAds}>
+              <button className="btn btn-accent w-full" onClick={fetchAds}>
                 Rechercher
               </button>
             </div>

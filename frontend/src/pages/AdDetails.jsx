@@ -115,7 +115,7 @@ function AdDetails() {
               <p className='text-lg font-semibold'>{creatorName}</p>
               <p className='text-sm text-gray-400 font-semibold'>{tel}</p>
               <p className='text-sm text-gray-600'>@{creatorUsername}</p>
-              <button className="btn block btn-info my-4 w-fit mx-auto"  onClick={sendMessage}>Envoyez Message au vendeur</button>
+              <button className="btn block bg-secondary my-4 w-fit mx-auto"  onClick={sendMessage}>Envoyez Message au vendeur</button>
               <button className="btn block btn-warning my-4 mx-auto w-fit" disabled={addFav} onClick={addToFav}>Ajouter Au Favoris</button>
             </div>
           </div>

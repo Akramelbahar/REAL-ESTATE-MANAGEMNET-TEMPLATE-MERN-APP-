@@ -142,7 +142,7 @@ function AdminAddUser() {
                                 <option value="user">Utilisateur</option>
                             </select>
                         </div>
-                        <button className="btn btn-active btn-primary block my-3 mx-auto" >Ajouter Le compte</button>
+                        <button className="btn btn-active btn-accent block my-3 mx-auto" >Ajouter Le compte</button>
                     </form>
                 </div>
                 <Toaster />

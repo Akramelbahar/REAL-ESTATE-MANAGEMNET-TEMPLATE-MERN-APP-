@@ -9,7 +9,7 @@ export const getAds = async (req, res) => {
         const offset = parseInt(req.query.offset) || 0;
         const ads = await Advertisment.find({ published: "published", enabled: true }) // Corrected filter for published ads
             .sort({ createdAt: -1 }) // Sort by creation date, descending
-            .skip(offset * 16) // Ensure proper pagination
+            .skip(offset) // Ensure proper pagination
             .limit(16);
 
         res.status(200).json(ads);
@@ -105,7 +105,7 @@ export const getAdById = async (req, res) => {
 // Get Total Pages
 export const totalPages = async (req, res) => {
     try {
-        const AdCount = await Advertisment.countDocuments({ published: true, enabled: true });
+        const AdCount = await Advertisment.countDocuments({ published: "published", enabled: true });
         const pages = Math.ceil(AdCount / 16); // Use Math.ceil to round up
 
         res.status(200).json({ countPages: pages });

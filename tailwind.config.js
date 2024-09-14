@@ -5,16 +5,34 @@ export default {
     themes: [
       {
         mytheme: {
-  "primary": "#2C3E50",
-  "secondary": "#18BC9C",
-  "accent": "#E74C3C",
-  "neutral": "#0f1a06",
-  "base-100": "#25222d",
-  "info": "#00a2c6",
-  "success": "#86cb00",
-  "warning": "#b92f00",
-  "error": "#ff7776"
-},
+          
+
+"primary": "#7335ff",
+          
+
+"secondary": "#006daf",
+          
+
+"accent": "#00c649",
+          
+
+"neutral": "#0f1a06",
+          
+
+"base-100": "#25222d",
+          
+
+"info": "#00a2c6",
+          
+
+"success": "#86cb00",
+          
+
+"warning": "#b92f00",
+          
+
+"error": "#ff7776",
+          },
         },
       ],
     },

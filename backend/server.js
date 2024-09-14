@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 dotenv.config();
 
 const corsOptions = {
-    origin: 'http://localhost:5000',
+    origin: 'https://backend-hgsc.onrender.com',
     credentials: true, 
 };
 const storage = multer.diskStorage({

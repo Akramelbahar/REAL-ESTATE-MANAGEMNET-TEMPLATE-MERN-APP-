@@ -199,7 +199,7 @@ function WebsiteInformation() {
               <h2 className="card-title">{post.title}</h2>
               <p>{post.excerpt}</p>
               <div className="card-actions justify-end">
-                <a href={post.link} className="btn btn-primary">Read More</a>
+                <a href={post.link} className="btn btn-accent">Read More</a>
               </div>
             </div>
           </div>

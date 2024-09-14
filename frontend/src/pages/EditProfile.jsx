@@ -29,7 +29,7 @@ function EditProfile() {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://localhost:5000/upload', formData);
+            const response = await axios.post('https://backend-hgsc.onrender.com/upload', formData);
             const fileUrl = response.data.url;
             setPicture(fileUrl);
             console.log('File uploaded:', fileUrl);
@@ -231,7 +231,7 @@ function EditProfile() {
                                 <input type="file" onChange={handleFileChange} className="file-input file-input-bordered w-full max-w-xs" />
                             </div>
                         </div>
-                        <button className="btn btn-active btn-primary block my-3 mx-auto">Sauvegarder</button>
+                        <button className="btn btn-active btn-accent block my-3 mx-auto">Sauvegarder</button>
                     </form>
                 </div>
                 <Footer />
